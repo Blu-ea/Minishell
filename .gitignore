@@ -1,0 +1,8 @@
+/.objs
+/.vscode
+
+minishell
+en.subject.pdf
+
+*.o
+*.a
