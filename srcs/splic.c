@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   splic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/06/15 06:17:16 by jcollon          ###   ########lyon.fr   */
+/*   Created: 2022/06/15 06:12:49 by jcollon           #+#    #+#             */
+/*   Updated: 2022/06/15 06:30:06 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include "../libft/includes/libft.h"
+/**
+ * @brief ft_split('|')
+ * 
+ * @param line 
+ * @return char** 
+ */
+char	**split_pipe(char *line)
+{
+	return (ft_split(line, '|'));
+}
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-void	init_shell(char **env);
-char	**split_pipe(char *line);
-char	**split_cmd(char *line);
-
-#endif
+/**
+ * @brief ft_split(' ')
+ * 
+ * @param line 
+ * @return char** 
+ */
+char	**split_cmd(char *line)
+{
+	return (ft_split(line, ' '));
+}

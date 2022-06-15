@@ -3,16 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/07 09:17:51 by amiguez           #+#    #+#              #
-#    Updated: 2022/06/10 17:12:29 by amiguez          ###   ########.fr        #
+#    Updated: 2022/06/15 06:26:53 by jcollon          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minishell
 # ############################################################################ #
-LST_SRCS	:= main.c
+LST_SRCS	:= main.c \
+			init.c \
+			spit.c
 LST_OBJS	:= $(LST_SRCS:.c=.o)
 LST_INCS	:= minishell.h
 LST_LIBFT	:= libft.a
@@ -28,7 +30,7 @@ INCS		:= $(addprefix $(DIR_INCS)/,$(LST_INCS))
 LIBFT		:= $(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
 # ############################################################################ #
 CC			:= gcc
-CFLAGS		:= #-Wall -Werror -Wextra
+CFLAGS		:= -Wall -Wextra #-Werror
 # ############################################################################ #
 NORMITEST	= 
 NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error')
@@ -47,18 +49,18 @@ $(DIR_OBJS) :
 $(LIBFT) :
 	git submodule update --remote --rebase $(DIR_LIBFT)
 	printf "$(YELLOW)LIBFT IS UP TO DATE!\n$(END)$(RED)"
-	make -C $(DIR_LIBFT)
+	make -sC $(DIR_LIBFT)
 
 clean :
 	rm -f $(DIR_OBJS)
-	make -C $(DIR_LIBFT) clean
+	make -sC $(DIR_LIBFT) clean
 
 fclean :
 	rm -rf $(NAME)
 	rm -rf $(DIR_OBJS)
-	make -C $(DIR_LIBFT) fclean
+	make -sC $(DIR_LIBFT) fclean
 
 re : fclean all
 
 .PHONY : all clean fclean re $(LIBFT) $(DIR_OBJS)
-# .SILENT :
+.SILENT :
