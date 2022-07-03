@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 05:38:29 by jcollon           #+#    #+#             */
-/*   Updated: 2022/06/29 17:06:33 by amiguez          ###   ########.fr       */
+/*   Created: 2022/07/03 10:08:04 by amiguez           #+#    #+#             */
+/*   Updated: 2022/07/03 10:12:01 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief initialise the shell (set shlvl+1)
- * \TODO init shell struct
+ * @brief is there to cleat data between two call
  * 
- * @param env
+ * @param data 
  */
-void	init_shell(char **env)
+void	ft_clear_data(t_shel *data)
 {
-	char	*shlvl;
+	int	i;
 
-	shlvl = NULL;
-	while (*env)
+	i = 0;
+	while (i < data->nb_cmd)
 	{
-		if (ft_strncmp(*env, "SHLVL=", 5) == 0)
-			shlvl = *env + 6;
-		env++;
+		free(data->cmd[i].cmd);
+		ft_free_2d_array(data->cmd[i].args);
+		i++;
 	}
-	// faire un execve avec (export (SHLVL=ft_atoi(shlvl) + 1))
-	//if (shlvl == NULL) export "SHLVL=1"
+	free(data->cmd);
+	data->nb_cmd = 0;
 }
