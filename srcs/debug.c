@@ -6,7 +6,20 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 04:00:44 by amiguez           #+#    #+#             */
-/*   Updated: 2022/06/30 04:01:00 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/05 11:21:25 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+void	print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf ("%s\n", env[i]);
+		i++;
+	}
+}

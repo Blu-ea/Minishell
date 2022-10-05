@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/07/03 10:09:56 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/05 11:18:29 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,49 +25,37 @@
 # include <term.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 
 # define PROMT "$minishell>"
+# define PROMT_E "minishell:"
 
-# define EMPTY_LINE -1
+/********************************/
+/*				BUILTIN			*/
+/********************************/
 
-typedef struct s_cmd	t_cmd;
+int		bin_cd(char *path, char **env);		//in progress
+int		bin_echo(char **args);				//Done
+int		bin_env(char **args, char **env);
+int		bin_exp(char **args, char **env);
+int		bin_pwd(char **args, char **env);
+int		bin_unset(char **args, char **env);
+void	bin_exit(char **args);				// base there
 
-typedef struct s_shel
-{
-	int		nb_cmd;
-	t_cmd	*cmd;
-	char	**env;
-}		t_shel;
+/********************************/
+/*				Main			*/
+/********************************/
 
-typedef struct s_cmd
-{
-	char	*infile;
-	char	*cmd;
-	char	**args;
-	char	*outfile;
-}		t_cmd;
-void	init_shell(char **env);
-int		split_mini(char *line, t_shel *data);
-int		ft_pars(char **env, t_shel *data);
+char	*ft_read_line(void);
+void	ft_clear_line(void);
+void	init_env(char **env);
 
-int		split_mini(char *line, t_shel *data);
-int		ft_count_pipe(char *line);
-void	ft_clear_data(t_shel *data);
+/********************************/
+/* 				Pars			*/
+/********************************/
 
-/********************************
- * 			BuiltIn				*
- ********************************/
+/*  Debug  */
 
-void	ft_cd(t_shel *data);
-void	ft_echo(t_shel *data);
-void	ft_env(t_shel *data);
-void	ft_exit(t_shel *data);
-void	ft_export(t_shel *data);
-void	ft_pwd(t_shel *data);
-void	ft_unset(t_shel *data);
-
-/********************************
- * 				Pars			*
- ********************************/
+void	print_env(char **env);
 
 #endif

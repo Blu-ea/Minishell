@@ -18,57 +18,57 @@ DIR_INCS	:= includes
 DIR_LIBFT	:= libft
 # ############################################################################ #
 LST_SRCS	:=	main.c\
-				init.c\
-				pars.c\
-				split.c\
-				free_data.c
-LST_OBJS	:= $(LST_SRCS:.c=.o)
-LST_INCS	:= minishell.h
-LST_LIBFT	:= libft.a
+				read_line.c\
+				debug.c
+LST_OBJS	:=	$(LST_SRCS:.c=.o)
+LST_INCS	:=	minishell.h
+LST_LIBFT	:=	libft.a
 
 BUILTIN		:=	cd.c\
 				env.c\
 				echo.c\
 				exit.c\
-				cd.c\
 				export.c\
-				unset.c
+				unset.c\
+				pwd.c
 DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
 OBJ_BUILTIN	:=	$(addprefix $(DIR_OBJS)/,$(LST_BUILTIN:.c=.o))
 # ############################################################################ #
-SRCS		:= $(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN)
-OBJS		:= $(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN)
-INCS		:= $(addprefix $(DIR_INCS)/,$(LST_INCS))
-LIBFT		:= $(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
+SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN)
+OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN)
+INCS		:=	$(addprefix $(DIR_INCS)/,$(LST_INCS))
+LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
+DEPH		:=	$(OBJS:=.o=.d)
+# -include $(DEPH)
 # ############################################################################ #
-CC			:= gcc
-CFLAGS		:= -Wall -Wextra #-Werror
-SANITYZE	:= -fsanitize=address -g
+CC			:=	gcc
+CFLAGS		:=	-Wall -Wextra -Werror
+SANITYZE	:=	-fsanitize=address -g
 # ############################################################################ #
 # **************************************************************************** #
-ERASE	=	\033[2K\r
-GREY	=	\033[30m
-RED		=	\033[31m
-GREEN	=	\033[32m
-YELLOW	=	\033[33m
-BLUE	=	\033[34m
-PINK	=	\033[35m
-CYAN	=	\033[36m
-WHITE	=	\033[37m
-BOLD	=	\033[1m
-UNDER	=	\033[4m
-SUR		=	\033[7m
-END		=	\033[0m
+ERASE	:=	\033[2K\r
+GREY	:=	\033[30m
+RED		:=	\033[31m
+GREEN	:=	\033[32m
+YELLOW	:=	\033[33m
+BLUE	:=	\033[34m
+PINK	:=	\033[35m
+CYAN	:=	\033[36m
+WHITE	:=	\033[37m
+BOLD	:=	\033[1m
+UNDER	:=	\033[4m
+SUR		:=	\033[7m
+END		:=	\033[0m
 # **************************************************************************** #
-NORMITEST = 
-NORMINETTE = $(shell norminette $(SRCS) | grep -i 'Error!')
+NORMITEST	=
+NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
 # **************************************************************************** #
 # ############################################################################ #
 all : $(NAME)
 
-$(NAME) : $(OBJS) Makefile $(INCS) $(LIBFT)
+$(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -lreadline -o $@ 
 
 ifeq ($(NORMINETTE),$(NORMITEST))
@@ -78,7 +78,7 @@ else
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS)
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -MMD
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)
@@ -90,15 +90,15 @@ $(LIBFT) :
 	make -C $(DIR_LIBFT)
 
 clean :
-	rm -f $(DIR_OBJS)
+	rm -rf $(DIR_OBJS)
 	make -C $(DIR_LIBFT) clean
 
 fclean :
-	rm -rf $(NAME)
+	rm -f $(NAME)
 	rm -rf $(DIR_OBJS)
 	make -C $(DIR_LIBFT) fclean
 
 re : fclean all
 
-.PHONY : all clean fclean re libft
+.PHONY : all clean fclean re $(LIBFT)
 # .SILENT :

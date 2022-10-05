@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 05:38:29 by jcollon           #+#    #+#             */
-/*   Updated: 2022/06/29 17:06:33 by amiguez          ###   ########.fr       */
+/*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
+/*   Updated: 2022/10/03 18:56:40 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+	// readline
+	// rl_clear_history
+	rl_on_new_line
+	rl_replace_line
+	rl_redisplay
+	add_history
+*/
+
 #include "minishell.h"
 
-/**
- * @brief initialise the shell (set shlvl+1)
- * \TODO init shell struct
- * 
- * @param env
- */
-void	init_shell(char **env)
+char	*ft_read_line(void)
 {
-	char	*shlvl;
+	char	*line;
 
-	shlvl = NULL;
-	while (*env)
-	{
-		if (ft_strncmp(*env, "SHLVL=", 5) == 0)
-			shlvl = *env + 6;
-		env++;
-	}
-	// faire un execve avec (export (SHLVL=ft_atoi(shlvl) + 1))
-	//if (shlvl == NULL) export "SHLVL=1"
+	line = readline(PROMT);
+	if (line && *line)
+		add_history(line);
+	else if (!line)
+		return (NULL);
+	return (line);
+}
+
+void	ft_clear_line(void)
+{
+	// rl_clear_history();
 }
