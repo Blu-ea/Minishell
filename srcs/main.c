@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 06:28:47 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 09:16:05 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	built_in(char *line, char **env)
 {
 	char	**args;
 
-	(void)env;
 	args = ft_split(line, ' ');
 	if (!ft_strncmp(args[0], "echo", 4) && args[0][4] == 0)
 		return (bin_echo(args + 1));
@@ -51,8 +50,8 @@ int	built_in(char *line, char **env)
 		return (bin_pwd());
 	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
 	// 	return (bin_cd(args + 1));
-	// if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
-	// 	return (bin_env(args + 1));
+	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
+		return (bin_env(env));
 	// if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	// 	return (bin_exp(args + 1));
 	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)

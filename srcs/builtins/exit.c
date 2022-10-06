@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 06:57:09 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 09:11:44 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,31 @@
 	exit if none arg		$? 0
 	print "exit" if exit
 */
-int		bin_exit(char **args)
+int	bin_exit(char **arg)
 {
-	int		i;
 	int		ret;
-	char	*cmp;
+	char	*temp;
 
-	i = 0;
-	if (!*args)
+	if (!*arg)
 	{
 		printf("exit\n");
 		exit(0);
 	}
-	ret = 0;
-	ret = ft_atoi(args[i]);
-	cmp = ft_itoa(ret);
-	if (ft_strncmp(cmp, args[0], ft_strlen(args[0])) != 0 )
+	ret = ft_atoi(*arg);
+	temp = ft_itoa(ret);
+	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
 	{
-		printf("exit\n%s exit: %s: Numeric argument required\n", PROMT_E, args[0]);
+		printf("exit\n%s exit: %s: Numeric argument required\n", PROMT_E, *arg);
 		exit(255);
 	}
-	while (args[i])
-		i++;
-	if (i >= 2)
-	{
+	free(temp);
+	temp = *arg;
+	while (*arg)
+		arg++;
+	if (temp - *arg > 1)
 		printf("%s exit: too many arguments\n", PROMT_E);
+	if (temp - *arg > 1)
 		return (1);
-	}
 	printf("exit\n");
 	exit(ret % 256);
 }

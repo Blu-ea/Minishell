@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 06:57:40 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 09:53:19 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # define PROMT "$minishell>"
 # define PROMT_E "minishell:"
 
-# define ENV_NOTSET 0
-# define ENV_UNSET 1
-# define ENV_SET 2
+# define ENV_NOTSET 0	//Don t exist in env
+# define ENV_UNSET 1	//Is in env but don t have a variable(No '=' next to it)
+# define ENV_SET 2		//Is set in env with a variable (maybe empty)
 
 /********************************/
 /*				BUILTIN			*/
@@ -41,7 +41,7 @@
 int		bin_cd(char *path, char **env);		//in progress
 int		bin_pwd(void);						//Done
 int		bin_echo(char **args);				//Done
-int		bin_env(char **args, char **env);
+int		bin_env(char **env);				//Done
 int		bin_exp(char **args, char **env);
 int		bin_unset(char **args, char **env);
 int		bin_exit(char **args);				//Done
