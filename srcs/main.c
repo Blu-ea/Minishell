@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/05 11:14:01 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 05:25:46 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		line = ft_read_line();
 	//	Parcing
+		built_in(line, env);
 		if (line != NULL)
 			free(line);
 	}
@@ -38,6 +39,21 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
+int	built_in(char *line, char **env)
+{
+	char	**args;
+
+	(void)env;
+	(void)line;
+	args = ft_split(line, ' ');
+	if (!ft_strncmp(args[0], "echo", 4))
+		return (bin_echo(args + 1));
+	if (!ft_strncmp(args[0], "pwd", 3))
+		return (bin_pwd());
+	// if (!ft_strncmp(args[0], "exit", 4))
+	// 	return (bin_exit(args + 1));
+	return (1);
+}
 
 void	init_env(char **env)
 {

@@ -6,13 +6,13 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:44:49 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/05 10:58:49 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 02:20:14 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_flag(char *arg);
+int		is_flag(char *arg);
 void	print_tab(char **env);
 
 /*
@@ -40,7 +40,7 @@ int	bin_echo(char **args)
 	}
 	if (flag == 0)
 		printf("\n");
-	return(0);
+	return (0);
 }
 
 int	is_flag(char *arg)
