@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/05 11:19:37 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:47:30 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	cd_error(void);
 /*
 	if Path empty -> go to $HOME
 		Si $HOME not set -> minishell: cd: $HOME not set
-	update PWD with new location /!\ Do not create PWD if unset /!\
-	update\create OLDPWD at the end of the exec if succesfull
+	
+	update PWD with new location /!\ Do not create PWD if un_defined /!\
+	update OLDPWD with old PWD /!\ Do not create OLDPWD if un_defined /!\
 	take only 1 arg (ignore the other)
 */
 

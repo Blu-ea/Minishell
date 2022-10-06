@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/05 11:18:29 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 06:57:40 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,21 @@
 # define PROMT "$minishell>"
 # define PROMT_E "minishell:"
 
+# define ENV_NOTSET 0
+# define ENV_UNSET 1
+# define ENV_SET 2
+
 /********************************/
 /*				BUILTIN			*/
 /********************************/
 
 int		bin_cd(char *path, char **env);		//in progress
+int		bin_pwd(void);						//Done
 int		bin_echo(char **args);				//Done
 int		bin_env(char **args, char **env);
 int		bin_exp(char **args, char **env);
-int		bin_pwd(char **args, char **env);
 int		bin_unset(char **args, char **env);
-void	bin_exit(char **args);				// base there
+int		bin_exit(char **args);				//Done
 
 /********************************/
 /*				Main			*/
@@ -49,10 +53,21 @@ void	bin_exit(char **args);				// base there
 char	*ft_read_line(void);
 void	ft_clear_line(void);
 void	init_env(char **env);
+int		built_in(char *line, char **env);
+
 
 /********************************/
 /* 				Pars			*/
 /********************************/
+
+
+/********************************/
+/* 				Env				*/
+/********************************/
+
+char	**env_init(char **env);
+char	**env_add(char **env, char *name, char *desc);
+char	**env_sub(char **env, char *name);
 
 /*  Debug  */
 
