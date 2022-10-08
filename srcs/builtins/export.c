@@ -6,11 +6,17 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/08 07:28:23 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/08 10:15:18 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		env_error(char **new_env, int i);
+char	**env_add(char **env, char *args);
+char	**env_update(char **env, char *args);
+int		ft_exp_print(char **env);
+
 
 /*
 	If no args, show every variable in env (even non set one)
@@ -26,17 +32,21 @@
 
 	Can not update "_"
 */
-int	ft_exp_print(char **env);
 
-int	bin_export(char **args, char **env)
+char	**bin_export(char **args, char **env)
 {
-	// int		i;
-	// char	**new_env;
+	int		i;
+	char	**new_env;
 
-	if (*args == NULL)
-		return (ft_exp_print(env));
-	// while (*args)
-	return (0);
+	//split with '=' to get name
+	//look if correct name 
+	i = env_is_set();
+	new_env = NULL;
+	if (i == ENV_NOTSET)
+		new_env = env_add(env, args);
+	else
+		new_env = env_update(env, args);
+	return (new_env);
 }
 
 int	ft_exp_print(char **env)
@@ -63,4 +73,37 @@ int	ft_exp_print(char **env)
 			env++;
 	}
 	return (0);
+}
+
+char	**env_update(char **env, char *args)
+{
+}
+
+char	**env_add(char **env, char *args)
+{
+	char	**new_env;
+	int		i;
+
+	i = -1;
+	new_env = malloc(sizeof(char *) * ft_tablen(env) + 2);
+	if (!new_env)
+		return (NULL);
+	while (env[++i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		if (!new_env[i])
+			env_error(new_env, i);
+	}
+	new_env[ft_tablen(env) + 1] = ft_strdup(args);
+	if (new_env[i])
+		env_error(new_env, i);
+	new_env[ft_tablen(env) + 2] = 0;
+}
+
+int	env_error(char **new_env, int i)
+{
+	while (i--)
+		free(new_env[i]);
+	free(new_env);
+	return (EXIT_FAILURE);
 }

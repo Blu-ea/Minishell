@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/08 07:13:15 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/08 09:58:14 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@
 /*				BUILTIN			*/
 /********************************/
 
-int		bin_cd(char *path, char **env);		//in progress
-int		bin_pwd(void);						//Done
-int		bin_echo(char **args);				//Done
-int		bin_env(char **env);				//Done
-int		bin_export(char **args, char **env);
-int		bin_unset(char **args, char **env);
-int		bin_exit(char **args);				//Done
+char	**bin_cd(char *path, char **env);		//in progress
+int		bin_pwd(void);							//Done
+int		bin_echo(char **args);					//Done
+int		bin_env(char **env);					//Done
+char	**bin_export(char **args, char **env);	//in progress
+char	**bin_unset(char **args, char **env);
+int		bin_exit(char **args);					//Done
 
 /********************************/
 /*				Main			*/
@@ -53,7 +53,7 @@ int		bin_exit(char **args);				//Done
 
 char	*ft_read_line(void);
 void	ft_clear_line(void);
-void	init_env(char **env);
+char	**init_env(char **env);
 int		built_in(char *line, char **env);
 
 /********************************/
@@ -65,9 +65,8 @@ int		built_in(char *line, char **env);
 /* 				Env				*/
 /********************************/
 
+int		env_is_set(char **env, char *name);
 char	**env_init(char **env);
-char	**env_add(char **env, char *name, char *desc);
-char	**env_sub(char **env, char *name);
 
 /*  Debug  */
 

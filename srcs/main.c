@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/08 07:03:36 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/08 09:57:04 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	init_env(env);
+	env = init_env(env);
 	while (1)
 	{
 		line = ft_read_line();
@@ -51,9 +51,19 @@ int	built_in(char *line, char **env)
 	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
 	// 	return (bin_cd(args + 1));
 	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
-		return (bin_env(env));
+	{
+		env = bin_unset(args + 1, env);
+		if (env)
+			return (0);
+		return (1);
+	}
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
-		return (bin_export(args + 1, env));
+	{
+		env = bin_export(args + 1, env);
+		if (env)
+			return (0);
+		return (1);
+	}
 	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
 	// 	return (bin_unset(args + 1));
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
@@ -61,8 +71,8 @@ int	built_in(char *line, char **env)
 	return (1);
 }
 
-void	init_env(char **env)
+char	**init_env(char **env)
 {
-	(void)env;
-	// getenv(env)
+	env = ft_tabdup(env);
+	return (env);
 }
