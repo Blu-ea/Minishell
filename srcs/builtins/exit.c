@@ -6,14 +6,14 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 09:11:44 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/06 10:05:30 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	Do Nothing if on a pipe
+	/!\ Do Nothing if on a pipe /!\
 
 	don t exit if arg[0] ->int && more that 1 arg
 
@@ -27,14 +27,14 @@ int	bin_exit(char **arg)
 	char	*temp;
 
 	if (!*arg)
-	{
 		printf("exit\n");
+	if (!*arg)
 		exit(0);
-	}
 	ret = ft_atoi(*arg);
 	temp = ft_itoa(ret);
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
 	{
+		free(temp);
 		printf("exit\n%s exit: %s: Numeric argument required\n", PROMT_E, *arg);
 		exit(255);
 	}

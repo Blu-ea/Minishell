@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 09:53:19 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/08 07:13:15 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <unistd.h>
 
 # define PROMT "$minishell>"
 # define PROMT_E "minishell:"
@@ -42,7 +43,7 @@ int		bin_cd(char *path, char **env);		//in progress
 int		bin_pwd(void);						//Done
 int		bin_echo(char **args);				//Done
 int		bin_env(char **env);				//Done
-int		bin_exp(char **args, char **env);
+int		bin_export(char **args, char **env);
 int		bin_unset(char **args, char **env);
 int		bin_exit(char **args);				//Done
 
@@ -54,7 +55,6 @@ char	*ft_read_line(void);
 void	ft_clear_line(void);
 void	init_env(char **env);
 int		built_in(char *line, char **env);
-
 
 /********************************/
 /* 				Pars			*/
