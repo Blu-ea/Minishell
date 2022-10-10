@@ -20,10 +20,8 @@
  */
 int	env_is_set(char **env, char *name)
 {
-	int		i;
 	char	*name_;
 
-	i = 0;
 	name_ = ft_strjoin(name, "=");
 	while (env)
 	{
@@ -37,5 +35,5 @@ int	env_is_set(char **env, char *name)
 	return (ENV_NOTSET);
 }
 
-char	**env_init(char **env)
-{}
+// char	**env_init(char **env)
+// {}

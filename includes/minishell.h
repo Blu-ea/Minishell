@@ -70,6 +70,8 @@ char	**env_init(char **env);
 
 /*  Debug  */
 
+int		test_export(char **env);
+
 void	print_env(char **env);
 
 #endif

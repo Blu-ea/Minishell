@@ -21,17 +21,22 @@ int	bin_env(char **env)
 {
 	int	i;
 	int	print;
+	int	j;
 
-	while (*env)
+	i = 0;
+	while (env[i])
 	{
-		i = 0;
+		j = 0;
 		print = 0;
-		while (*env[i])
-			if (*env[i] == '=')
+		while (env[i][j])
+		{
+			if (env[i][j] == '=')
 				print = 1;
+			j++;
+		}
 		if (print == 1)
-			printf("%s\n",*env);
-		env++;
+			printf("%s\n", env[i]);
+		i++;
 	}
 	return (0);
 }

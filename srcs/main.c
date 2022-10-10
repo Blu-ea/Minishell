@@ -51,12 +51,7 @@ int	built_in(char *line, char **env)
 	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
 	// 	return (bin_cd(args + 1));
 	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
-	{
-		env = bin_unset(args + 1, env);
-		if (env)
-			return (0);
-		return (1);
-	}
+		return (bin_env(env));
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	{
 		env = bin_export(args + 1, env);
@@ -68,6 +63,8 @@ int	built_in(char *line, char **env)
 	// 	return (bin_unset(args + 1));
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
 		return (bin_exit(args + 1));
+	if (!ft_strncmp(args[0], "test_export", 11) && args[0][11] == 0)
+		return (test_export(env));
 	return (1);
 }
 

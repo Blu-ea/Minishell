@@ -10,18 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 /*
 	cannot unset _
 */
 
-char	**bin_unset(char **env, char *arg)
+char	**bin_unset(char **args, char **env)
 {
 	(void)env;
-	(void)arg;
+	(void)args;
+	return (NULL);
 }
 
 char	**env_del(char **env, char *name)
 {
 	(void)env;
 	(void)name;
+	return (NULL);
 }

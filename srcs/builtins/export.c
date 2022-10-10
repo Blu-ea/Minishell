@@ -40,12 +40,14 @@ char	**bin_export(char **args, char **env)
 
 	//split with '=' to get name
 	//look if correct name 
-	i = env_is_set();
-	new_env = NULL;
-	if (i == ENV_NOTSET)
-		new_env = env_add(env, args);
-	else
-		new_env = env_update(env, args);
+	while (args[i])
+	{
+		if (env_is_set(env, args[i]) == ENV_UNSET)
+			new_env = env_add(env, args[i]);
+		else
+			new_env = env_update(env, args[i]);
+		i++;
+	}
 	return (new_env);
 }
 
@@ -77,6 +79,9 @@ int	ft_exp_print(char **env)
 
 char	**env_update(char **env, char *args)
 {
+	(void)env;
+	(void)args;
+	return (NULL);
 }
 
 char	**env_add(char **env, char *args)
@@ -98,6 +103,7 @@ char	**env_add(char **env, char *args)
 	if (new_env[i])
 		env_error(new_env, i);
 	new_env[ft_tablen(env) + 2] = 0;
+	return (new_env);
 }
 
 int	env_error(char **new_env, int i)
