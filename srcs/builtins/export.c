@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/08 10:15:18 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:20:36 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int		env_error(char **new_env, int i);
 char	**env_add(char **env, char *args);
 char	**env_update(char **env, char *args);
-int		ft_exp_print(char **env);
 
 
 /*
@@ -31,6 +30,9 @@ int		ft_exp_print(char **env);
 		Dont update
 
 	Can not update "_"
+
+	if expot PATH+="qqc" add "qqc" at the end of $PATH
+	/!\ Do not work fot PATH=+qqc -> will update $PATH to "+qqc" /!\
 */
 
 char	**bin_export(char **args, char **env)
@@ -38,14 +40,19 @@ char	**bin_export(char **args, char **env)
 	int		i;
 	char	**new_env;
 
-	//split with '=' to get name
-	//look if correct name 
+	new_env = NULL;
+	i = 0;
+	if (!*args)
+		print_t_export(env);
 	while (args[i])
 	{
-		if (env_is_set(env, args[i]) == ENV_UNSET)
-			new_env = env_add(env, args[i]);
+		printf("%d", env_is_set(env, args[i]));
+		if (env_is_set(env, args[i]) == ENV_NOTSET)
+			printf("yep ca marche pas\n");
+			// new_env = env_add(env, args[i]);
 		else
-			new_env = env_update(env, args[i]);
+			printf("Nope ca update\n");
+	// 		new_env = env_update(env, args[i]);
 		i++;
 	}
 	return (new_env);
@@ -55,17 +62,19 @@ int	ft_exp_print(char **env)
 {
 	int		i;
 	char	*temp;
+	int		open_colon;
 
 	while (*env)
 	{
+		open_colon = 0;
 		i = 0;
 		temp = *env;
 		write(1, "declare -x ", 11);
 		while (temp[i])
 		{
 			write(1, &temp[i], 1);
-			if (temp[i] == '=')
-				write(1, "\"", 1);
+			if (temp[i] == '=' && open_colon == 0)
+				open_colon = write(1, "\"", 1);
 			i++;
 		}
 		write(1, "\"", 1);
@@ -103,6 +112,7 @@ char	**env_add(char **env, char *args)
 	if (new_env[i])
 		env_error(new_env, i);
 	new_env[ft_tablen(env) + 2] = 0;
+	printf("test\njesusisla\n");
 	return (new_env);
 }
 

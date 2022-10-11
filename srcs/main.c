@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/08 09:57:04 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/11 16:29:47 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	built_in(char *line, char **env)
 	// 	return (bin_unset(args + 1));
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
 		return (bin_exit(args + 1));
-	if (!ft_strncmp(args[0], "test_export", 11) && args[0][11] == 0)
-		return (test_export(env));
 	return (1);
 }
 

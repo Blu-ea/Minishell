@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   print_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:20:52 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/10 21:35:11 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/11 18:21:59 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,7 @@
 // a recreation of the export function in bash
 
 void	sorttab(char **test);
-void	print_t_export(char **env);
 int		cmp_export(char *str1, char *str2);
-
-int	test_export(char **env)
-{
-	print_t_export(env);
-	return (0);
-}
 
 void	print_t_export(char **env)
 {
@@ -40,13 +33,7 @@ void	print_t_export(char **env)
 		i++;
 	}
 	sorttab(temp);
-	i = 0;
-	while (temp[i])
-	{
-		printf("%s\n", temp[i]);
-		i++;
-	}
-	
+	ft_exp_print(temp);
 }
 
 void	sorttab(char **test)
@@ -78,7 +65,15 @@ int	cmp_export(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	while (str1[i] && str2[i] && str1[i] == str2[i] && str1[i] != '=' && str2[i] != '=')
+	while (str1[i] && str2[i] && \
+			str1[i] == str2[i] && \
+			str1[i] != '=' && str2[i] != '=')
 		i++;
+	if (str1[i] == '=' && str2[i] == '=')
+		return (0);
+	if (str2[i] == '=')
+		return (1);
+	if (str1[i] == '=')
+		return (-1);
 	return (str1[i] - str2[i]);
 }

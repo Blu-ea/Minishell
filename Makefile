@@ -20,8 +20,7 @@ DIR_LIBFT	:= libft
 LST_SRCS	:=	main.c\
 				read_line.c\
 				debug.c\
-				env.c\
-				test.c
+				env.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
@@ -31,6 +30,7 @@ BUILTIN		:=	cd.c\
 				echo.c\
 				exit.c\
 				export.c\
+				print_export.c\
 				unset.c\
 				pwd.c
 DIR_BUILTIN	:=	builtins
