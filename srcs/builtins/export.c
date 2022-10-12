@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/11 18:20:36 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/12 18:18:05 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**bin_export(char **args, char **env)
 {
 	int		i;
 	char	**new_env;
+	int		ret;
 
 	new_env = NULL;
 	i = 0;
@@ -46,15 +47,23 @@ char	**bin_export(char **args, char **env)
 		print_t_export(env);
 	while (args[i])
 	{
-		printf("%d", env_is_set(env, args[i]));
-		if (env_is_set(env, args[i]) == ENV_NOTSET)
-			printf("yep ca marche pas\n");
+		ret = env_is_set(env, args[i]);
+		if (ret == ENV_NOTSET)
+			printf("ca add\n");
 			// new_env = env_add(env, args[i]);
-		else
+		if (ret == ENV_SET || ret == ENV_UNSET)
 			printf("Nope ca update\n");
-	// 		new_env = env_update(env, args[i]);
+			// new_env = env_update(env, args[i]);
+		if (ret == -1)
+			printf("%s export: Something whent wrong\n", PROMT_E); 
+		if (ret == -2)
+			printf ("%s export: `%s': not a valid identifier\n",
+				PROMT_E, args[i]);
 		i++;
 	}
+	if (new_env == NULL)
+		return (env);
+	// free(env);
 	return (new_env);
 }
 

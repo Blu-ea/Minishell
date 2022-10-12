@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/11 16:29:47 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/12 18:23:10 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	main(int argc, char **argv, char **env)
 
 int	built_in(char *line, char **env)
 {
-	char	**args;
+	char			**args;
+	long int	ret;
 
 	args = ft_split(line, ' ');
 	if (!ft_strncmp(args[0], "echo", 4) && args[0][4] == 0)
@@ -54,10 +55,11 @@ int	built_in(char *line, char **env)
 		return (bin_env(env));
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	{
-		env = bin_export(args + 1, env);
-		if (env)
-			return (0);
-		return (1);
+		ret = (long int) bin_export(args + 1, env);
+		if (ret < 0)
+			return (1);
+		env = (char **)ret;
+		return (0);
 	}
 	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
 	// 	return (bin_unset(args + 1));
