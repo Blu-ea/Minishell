@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 04:05:14 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 06:20:51 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,36 +43,29 @@ int	built_in(char *line, char ***env)
 	int		ret;
 	int		i;
 
+	ret = 1;
 	args = ft_split(line, ' ');
 	if (!ft_strncmp(args[0], "echo", 4) && args[0][4] == 0)
-		return (bin_echo(args + 1));
+		ret = bin_echo(args + 1);
 	if (!ft_strncmp(args[0], "pwd", 3) && args[0][3] == 0)
-		return (bin_pwd());
+		ret = bin_pwd();
 	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
-	// 	return (bin_cd(args + 1));
+	// 	ret = bin_cd(args + 1));
 	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
-		return (bin_env(*env));
+		ret = bin_env(*env);
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	{
-		printf("					env 1 = %p\n ",env);
-		printf("						env 1 = %p\n ",env[0]);
 		*env = bin_export(args + 1, env, &ret);
-		printf("					env 2 = %p\n ",env);
-		printf("						env 2 = %p\n ",env[0]);
-		// printf("env = %p JE SUIS LALLLLALALALALALLALA", env);
-		if (ret < 0)
-			return (1);
-		return (0);
 	}
 	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
-	// 	return (bin_unset(args + 1));
+	// 	ret = bin_unset(args + 1));
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
-		return (bin_exit(args + 1));
+		ret = bin_exit(args + 1);
 	i = -1;
 	while (args[++i])
 		free(args[i]);
 	free(args);
-	return (1);
+	return (ret);
 }
 
 char	**init_env(char **env)
