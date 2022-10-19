@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/18 23:13:02 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 04:39:13 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ char	**bin_export(char **args, char ***env, int *ret)
 	i = 0;
 	if (!*args)
 		print_t_export(*env);
+	new_env = NULL;
 	while (args[i])
 	{
-		new_env = NULL;
 		*ret = env_is_set(*env, args[i]);
-		if (*ret == ENV_NOTSET){
-			printf("ca add\n");
-			new_env = env_add(*env, args[i]);}
+		if (*ret == ENV_NOTSET)
+			// printf("ca add\n");
+			new_env = env_add(*env, args[i]);
 		if (*ret == ENV_SET || *ret == ENV_UNSET)
 			printf("Nope ca update\n");
 			// new_env = env_update(env, args[i]);
@@ -59,10 +59,10 @@ char	**bin_export(char **args, char ***env, int *ret)
 			printf ("%s export: `%s': not a valid identifier\n",
 				PROMT_E, args[i]);
 		i++;
-		if (new_env == NULL)
-			*env = new_env;
 	}
-	// free(env);
+	printf ("new_env ===== %p ", new_env);
+	if (new_env == NULL)
+		new_env = *env;
 	return (new_env);
 }
 
@@ -77,7 +77,7 @@ int	ft_exp_print(char **env)
 		open_colon = 0;
 		i = 0;
 		temp = *env;
-		printf("%p - > %s\n", temp, temp);
+		// printf("%p - > %s\n", temp, temp);
 		write(1, "declare -x ", 11);
 		while (temp[i])
 		{
@@ -115,7 +115,7 @@ char	**env_add(char **env, char *args)
 	while (env[++i])
 		new_env[i] = env[i];
 		// new_env[i] = ft_strdup(env[i]);
-	new_env[i] = ft_strdup(args);
+	new_env[i] = ft_strdup(args);				/// Normal here 
 	// printf ("new == %s\n", new_env[i]);
 	// printf ("new == %p\n", new_env[i]);
 	if (!new_env[i])

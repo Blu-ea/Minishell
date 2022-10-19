@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:20:52 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/18 23:38:18 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 04:01:44 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	cmp_export(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	printf("str2 ================== %p \n", str2);
-	printf("str2 ------------------ %s \n", str2);
+	// printf("str2 ================== %p \n", str2);
+	// printf("str2 ------------------ %s \n", str2);
 	while (str1[i] && str2[i] && \
 			str1[i] == str2[i] && \
 			str1[i] != '=' && str2[i] != '=')

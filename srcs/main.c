@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 03:46:26 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 04:05:14 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ int	built_in(char *line, char ***env)
 		return (bin_env(*env));
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	{
+		printf("					env 1 = %p\n ",env);
+		printf("						env 1 = %p\n ",env[0]);
 		*env = bin_export(args + 1, env, &ret);
-		printf("env = %p JE SUIS LALLLLALALALALALLALA", env);
+		printf("					env 2 = %p\n ",env);
+		printf("						env 2 = %p\n ",env[0]);
+		// printf("env = %p JE SUIS LALLLLALALALALALLALA", env);
 		if (ret < 0)
 			return (1);
 		return (0);
