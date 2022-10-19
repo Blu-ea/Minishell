@@ -46,8 +46,8 @@ DEPH		:=	$(OBJS:=.o=.d)
 # -include $(DEPH)
 # ############################################################################ #
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -Werror
-SANITYZE	:=	-fsanitize=address -g
+CFLAGS		:=	-Wall -Wextra -Werror 
+SANITYZE	:=	-fsanitize=address 
 # ############################################################################ #
 # **************************************************************************** #
 ERASE	:=	\033[2K\r
@@ -71,7 +71,7 @@ NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
 all : $(NAME)
 
 $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -lreadline -o $@ 
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@
 
 ifeq ($(NORMINETTE),$(NORMITEST))
 	printf "$(GREEN)Everything is ok\n$(END)"
@@ -80,7 +80,7 @@ else
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -MMD
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)

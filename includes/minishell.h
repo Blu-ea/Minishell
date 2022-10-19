@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/11 17:49:12 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/18 10:48:40 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@
 /*				BUILTIN			*/
 /********************************/
 
-char	**bin_cd(char *path, char **env);		//in progress
-int		bin_pwd(void);							//Done
-int		bin_echo(char **args);					//Done
-int		bin_env(char **env);					//Done
-char	**bin_export(char **args, char **env);	//in progress print is done
-void	print_t_export(char **env);		//for export
-int		ft_exp_print(char **env);		//for export
+char	**bin_cd(char *path, char **env);				//in progress
+int		bin_pwd(void);									//Done
+int		bin_echo(char **args);							//Done
+int		bin_env(char **env);							//Done
+char	**bin_export(char **args, char ***env, int *ret);//in progress print done
+void	print_t_export(char **env);				//for exports
+int		ft_exp_print(char **env);				//for export
 char	**bin_unset(char **args, char **env);
-int		bin_exit(char **args);					//Done
+int		bin_exit(char **args);							//Done
 
 /********************************/
 /*				Main			*/
@@ -56,12 +56,11 @@ int		bin_exit(char **args);					//Done
 char	*ft_read_line(void);
 void	ft_clear_line(void);
 char	**init_env(char **env);
-int		built_in(char *line, char **env);
+int		built_in(char *line, char ***env);
 
 /********************************/
 /* 				Pars			*/
 /********************************/
-
 
 /********************************/
 /* 				Env				*/

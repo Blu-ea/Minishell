@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/03 18:56:40 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 00:02:12 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ char	*ft_read_line(void)
 
 void	ft_clear_line(void)
 {
-	// rl_clear_history();
+	clear_history();
+	rl_clear_history();
 }

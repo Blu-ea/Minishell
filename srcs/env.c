@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 02:51:28 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/12 18:34:00 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/18 10:27:05 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ int	env_is_set(char **env, char *name)
 		return (-2);
 	while (env[i])
 	{
+		printf ("==== debug  ====\n");
+		printf ("env [%d] = %s\n", i, env[i]);
+		printf ("==== debug  ====\n");
 		if (!ft_strncmp(env[i], temp, ft_strlen(temp)))
 		{
 			if (env[i][ft_strlen(temp)] == '=')
@@ -50,7 +53,7 @@ int	env_is_set(char **env, char *name)
 			if (env[i][ft_strlen(temp)] == 0)
 			{
 				free(temp);
-				return (ENV_NOTSET);
+				return (ENV_UNSET);
 			}
 		}
 		i++;

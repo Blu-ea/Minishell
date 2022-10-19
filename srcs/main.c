@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/12 18:23:10 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 03:46:26 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,18 @@ int	main(int argc, char **argv, char **env)
 	{
 		line = ft_read_line();
 	//	Parcing
-		built_in(line, env);
+		built_in(line, &env);
 		if (line != NULL)
 			free(line);
 	}
-	free(line);
-	ft_clear_line();
 	return (0);
 }
 
-int	built_in(char *line, char **env)
+int	built_in(char *line, char ***env)
 {
-	char			**args;
-	long int	ret;
+	char	**args;
+	int		ret;
+	int		i;
 
 	args = ft_split(line, ' ');
 	if (!ft_strncmp(args[0], "echo", 4) && args[0][4] == 0)
@@ -52,19 +51,23 @@ int	built_in(char *line, char **env)
 	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
 	// 	return (bin_cd(args + 1));
 	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
-		return (bin_env(env));
+		return (bin_env(*env));
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 	{
-		ret = (long int) bin_export(args + 1, env);
+		*env = bin_export(args + 1, env, &ret);
+		printf("env = %p JE SUIS LALLLLALALALALALLALA", env);
 		if (ret < 0)
 			return (1);
-		env = (char **)ret;
 		return (0);
 	}
 	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
 	// 	return (bin_unset(args + 1));
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
 		return (bin_exit(args + 1));
+	i = -1;
+	while (args[++i])
+		free(args[i]);
+	free(args);
 	return (1);
 }
 

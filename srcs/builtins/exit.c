@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/06 10:05:30 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 03:39:03 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	bin_exit(char **arg)
 	{
 		free(temp);
 		printf("exit\n%s exit: %s: Numeric argument required\n", PROMT_E, *arg);
+		ft_clear_line();
 		exit(255);
 	}
 	free(temp);
@@ -47,5 +48,6 @@ int	bin_exit(char **arg)
 	if (temp - *arg > 1)
 		return (1);
 	printf("exit\n");
+	ft_clear_line();
 	exit(ret % 256);
 }
