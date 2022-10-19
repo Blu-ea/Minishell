@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 06:37:05 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/19 07:40:45 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ char	**bin_export(char **args, char ***env, int *ret)
 		if (*ret == ENV_NOTSET)
 			new_env = env_add(*env, args[i]);
 		if (*ret == ENV_SET || *ret == ENV_UNSET)
-			printf("Nope ca update\n");
-			// new_env = env_update(env, args[i]);
+			new_env = env_update(*env, args[i]);
 		if (*ret == -1)
-			printf("%s export: Something whent wrong\n", PROMT_E); 
+			printf("%s export: Something whent wrong\n", PROMT_E);
 		if (*ret == -2)
 			printf ("%s export: `%s': not a valid identifier\n",
 				PROMT_E, args[i]);
@@ -93,12 +92,6 @@ int	ft_exp_print(char **env)
 	return (0);
 }
 
-char	**env_update(char **env, char *args)
-{
-	(void)env;
-	(void)args;
-	return (NULL);
-}
 
 char	**env_add(char **env, char *args)
 {
