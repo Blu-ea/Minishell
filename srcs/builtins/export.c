@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 07:40:45 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/23 12:06:59 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ char	**bin_export(char **args, char ***env, int *ret)
 	while (args[i])
 	{
 		*ret = env_is_set(*env, args[i]);
-		if (*ret == ENV_NOTSET)
-			new_env = env_add(*env, args[i]);
-		if (*ret == ENV_SET || *ret == ENV_UNSET)
-			new_env = env_update(*env, args[i]);
+		if (*ret == ENV_NOTSET){
+			printf("Ca add\n");
+			new_env = env_add(*env, args[i]);}
+		if (*ret == ENV_SET || *ret == ENV_UNSET){
+			printf("Ca update\n");
+			new_env = env_update(*env, args[i]);}
 		if (*ret == -1)
 			printf("%s export: Something whent wrong\n", PROMT_E);
 		if (*ret == -2)
@@ -94,7 +96,7 @@ int	ft_exp_print(char **env)
 
 
 char	**env_add(char **env, char *args)
-{
+{ // Need to remove the + if present
 	char	**new_env;
 	int		i;
 
