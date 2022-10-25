@@ -33,7 +33,8 @@ BUILTIN		:=	cd.c\
 				print_export.c\
 				unset.c\
 				pwd.c\
-				export_update.c
+				export_update.c\
+				export_add.c
 DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 06:59:56 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/23 12:31:24 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/23 12:36:15 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ char	**env_update(char **env, char *args)
 
 char	**no_append(char **env, char *args, int i)
 {
-	printf("env = %p\n", env);
-	printf("env[%d] = %s\n", i-1, env[i-1]);
 	free(env[i]);
 	env[i] = ft_strdup(args);
 	return (env);
@@ -141,11 +139,8 @@ char	**yes_append(char **env, char *args, int i,char *name)
 	char	*temp;
 	char	*temp2;
 
-	printf("check append\n");
 	temp = ft_strchr(env[i], '=');
-	printf("temp = %s\n", temp);
 	temp2 = ft_strjoin(temp + 1, &args[ft_strlen(name) + 2]);
-	printf("temp2 = %s\n", temp2);
 	free(env[i]);
 	temp = ft_strjoin(name, "=");
 	free(name);

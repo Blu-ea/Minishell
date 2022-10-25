@@ -6,16 +6,11 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/23 12:06:59 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/25 19:31:58 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**env_error(char **new_env, int i);
-char	**env_add(char **env, char *args);
-char	**env_update(char **env, char *args);
-
 
 /*
 	If no args, show every variable in env (even non set one)
@@ -43,16 +38,16 @@ char	**bin_export(char **args, char ***env, int *ret)
 	i = 0;
 	if (!*args)
 		print_t_export(*env);
-	new_env = NULL;
+	new_env = *env;
 	while (args[i])
 	{
-		*ret = env_is_set(*env, args[i]);
+		*ret = env_is_set(new_env, args[i]);
 		if (*ret == ENV_NOTSET){
 			printf("Ca add\n");
-			new_env = env_add(*env, args[i]);}
+			new_env = env_add(new_env, args[i]);}
 		if (*ret == ENV_SET || *ret == ENV_UNSET){
 			printf("Ca update\n");
-			new_env = env_update(*env, args[i]);}
+			new_env = env_update(new_env, args[i]);}
 		if (*ret == -1)
 			printf("%s export: Something whent wrong\n", PROMT_E);
 		if (*ret == -2)
@@ -94,33 +89,3 @@ int	ft_exp_print(char **env)
 	return (0);
 }
 
-
-char	**env_add(char **env, char *args)
-{ // Need to remove the + if present
-	char	**new_env;
-	int		i;
-
-	i = -1;
-	new_env = malloc(sizeof(char *) * ft_tablen(env) + 2);
-	if (!new_env)
-		return (NULL);
-	while (env[++i])
-		new_env[i] = ft_strdup(env[i]);
-	new_env[i] = ft_strdup(args);
-	if (!new_env[i])
-		return (env_error(new_env, i));
-	new_env[i + 1] = 0;
-	while (i--)
-		free(env[i]);
-	free(env);
-	return (new_env);
-}
-
-char	**env_error(char **new_env, int i)
-{
-	while (i--)
-		free(new_env[i]);
-	free(new_env);
-	printf("ERROR === env_error \n");
-	return (NULL);
-}
