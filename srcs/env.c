@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 02:51:28 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 06:59:16 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:32:53 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char	*split_export(char *s);
 int		ft_issallgood_export(char *s);
+int		env_is_set_ret(char *temp, int ret);
 
 /**
  * @brief Retrurn ENV_NOTSET, ENV_UNSET or ENV_SET 
@@ -27,36 +28,29 @@ int	env_is_set(char **env, char *name)
 	char	*temp;
 	int		i;
 
-	i = 0;
+	i = -1;
 	temp = split_export(name);
 	if (!temp)
 		return (-1);
-	if (temp == 0)
-		return (-2);
 	if (ft_issallgood_export(temp))
 		return (-2);
-	while (env[i])
+	while (env[++i])
 	{
 		if (!ft_strncmp(env[i], temp, ft_strlen(temp)))
 		{
 			if (env[i][ft_strlen(temp)] == '=')
-			{
-				free(temp);
-				return (ENV_SET);
-			}
-		}
-		if (!ft_strncmp(env[i], temp, ft_strlen(temp)))
-		{
+				return (env_is_set_ret(temp, ENV_SET));
 			if (env[i][ft_strlen(temp)] == 0)
-			{
-				free(temp);
-				return (ENV_UNSET);
-			}
+				return (env_is_set_ret(temp, ENV_UNSET));
 		}
-		i++;
 	}
+	return (env_is_set_ret(temp, ENV_NOTSET));
+}
+
+int	env_is_set_ret(char *temp, int ret)
+{
 	free(temp);
-	return (ENV_NOTSET);
+	return (ret);
 }
 
 int	ft_issallgood_export(char *s)
@@ -65,11 +59,17 @@ int	ft_issallgood_export(char *s)
 
 	i = 0;
 	if (!ft_isdigit(s[i]) && s[i] != '_')
+	{
+		free(s);
 		return (EXIT_FAILURE);
+	}
 	while (s[i])
 	{
 		if (s[i] != '_' && ft_isalphanum(s[i]))
+		{
+			free(s);
 			return (EXIT_FAILURE);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);

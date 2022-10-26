@@ -6,14 +6,14 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 06:59:56 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/23 12:36:15 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:16:43 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	**yes_append(char **env, char *args, int i, char *temp);
-char	**no_append(char **env, char *args, int i);
+char	**no_append(char **env, char *args, int i, char *temp);
 /*
 char	**split_egual(char *args);
 
@@ -92,7 +92,7 @@ char	**split_egual(char *args)
 // search for the name in the env (strncmp (ret, env[i],strlen(ret)) == 0)
 // look at append mode
 // if append mode == 0, free env[i] and replace it with the new value
-// if append mode == 1, free env[i] and replace it with the old value + new value
+// if append mode == 1, free env[i] and replace it with the old value+new value
 
 char	**env_update(char **env, char *args)
 {
@@ -112,35 +112,32 @@ char	**env_update(char **env, char *args)
 		temp[ft_strlen(temp) - 1] = 0;
 	}
 	len = ft_strlen(temp);
-	while (env[i])
-	{
-		if (!ft_strncmp(env[i], temp, len) && \
-				(env[i][len] == '=' || env[i][len] == 0))
-			break;
+	while (env[i] && !(!ft_strncmp(env[i], temp, len) && \
+				(env[i][len] == '=' || env[i][len] == 0)))
 		i++;
-	}
 	if (append == 0)
-	{
-		return (no_append(env, args, i));
-		free(temp);
-	}
+		return (no_append(env, args, i, temp));
 	return (yes_append(env, args, i, temp));
 }
 
-char	**no_append(char **env, char *args, int i)
+char	**no_append(char **env, char *args, int i, char *temp)
 {
 	free(env[i]);
 	env[i] = ft_strdup(args);
+	free(temp);
 	return (env);
 }
 
-char	**yes_append(char **env, char *args, int i,char *name)
+char	**yes_append(char **env, char *args, int i, char *name)
 {
 	char	*temp;
 	char	*temp2;
 
 	temp = ft_strchr(env[i], '=');
-	temp2 = ft_strjoin(temp + 1, &args[ft_strlen(name) + 2]);
+	if (temp == 0)
+		temp2 = ft_strdup(&args[ft_strlen(name) + 2]);
+	else
+		temp2 = ft_strjoin(temp + 1, &args[ft_strlen(name) + 2]);
 	free(env[i]);
 	temp = ft_strjoin(name, "=");
 	free(name);

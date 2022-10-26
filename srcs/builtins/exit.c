@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 03:39:03 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:27:40 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 	exit if none arg		$? 0
 	print "exit" if exit
 */
+
+int	exit_tomany(void);
+
 int	bin_exit(char **arg)
 {
 	int		ret;
@@ -44,10 +47,14 @@ int	bin_exit(char **arg)
 	while (*arg)
 		arg++;
 	if (temp - *arg > 1)
-		printf("%s exit: too many arguments\n", PROMT_E);
-	if (temp - *arg > 1)
-		return (1);
+		return (exit_tomany());
 	printf("exit\n");
 	ft_clear_line();
 	exit(ret % 256);
+}
+
+int	exit_tomany(void)
+{
+	printf("%s exit: too many arguments\n", PROMT_E);
+	return (1);
 }

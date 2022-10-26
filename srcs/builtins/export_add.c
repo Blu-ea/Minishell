@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 17:14:35 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/25 19:43:34 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:21:01 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char	**env_error(char **new_env, int i);
 char	*ft_remove_plus(char *args);
+char	**freeall(char **env, char *temp, char **new_env, int i);
 
 char	**env_add(char **env, char *args)
 {
@@ -28,21 +29,26 @@ char	**env_add(char **env, char *args)
 	new_env = malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
 		return (NULL);
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		new_env[i] = ft_strdup(env[i]);
 		if (!new_env[i])
 			return (env_error(new_env, i));
-		i++;
 	}
 	new_env[i] = ft_strdup(temp);
 	if (!new_env[i])
 		return (env_error(new_env, i));
 	new_env[i + 1] = NULL;
+	return (freeall(env, temp, new_env, i));
+}
+
+char	**freeall(char **env, char *temp, char **new_env, int i)
+{
 	while (i--)
 		free(env[i]);
 	free(env);
+	free(temp);
 	return (new_env);
 }
 
@@ -91,7 +97,7 @@ char	*ft_remove_plus(char *args)
 	while (args[i] && (args[i] != '=' && args[i] != '+'))
 		i++;
 	if (args[i] == '=' || !args[i])
-		return (args);
+		return (ft_strdup(args));
 	new_args = malloc(sizeof(char) * ft_strlen(args));
 	if (!new_args)
 		return (NULL);
