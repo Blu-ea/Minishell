@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/25 18:38:41 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:53:31 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**env_add(char **env, char *args);		//for export
 char	**env_update(char **env, char *args);	//for export
 int		ft_exp_print(char **env);				//for export
 void	print_t_export(char **env);				//for export
-char	**bin_unset(char **args, char **env);
+int		bin_unset(char **args, char ***env);
 int		bin_exit(char **args);							//Done
 
 /********************************/

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/24 05:27:25 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/26 16:53:35 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	built_in(char *line, char ***env)
 		ret = bin_env(*env);
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
 		*env = bin_export(args + 1, env, &ret);
-	// if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
-	// 	ret = bin_unset(args + 1));
+	if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
+		ret = bin_unset(args + 1, env);
 	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
 		ret = bin_exit(args + 1);
 	i = -1;
