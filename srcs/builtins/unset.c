@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/26 18:38:11 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/10/28 12:01:27 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,28 @@ int	bin_unset(char **args, char ***env)
 char	**unset_del(char ***env, char *arg)
 {
 	int		i;
+	int		j;
 	char	**new_env;
 
-	i = ft_tablen(*env);
-	new_env = malloc(sizeof(char *) * i--);
+	i = -1;
+	j = 0;
+	new_env = malloc(sizeof(char *) * (ft_tablen(*env)));
 	if (!new_env)
-		return (*env);
-	new_env[i] = 0;
-	i = 0;
-	printf("here\n");
-	while (ft_strncmp(*env[i], arg, ft_strlen(arg)) && \
-		*env[i][ft_strlen(arg)] != '=' && *env[i])
+		return (NULL);
+	while ((*env)[++i])
 	{
-		new_env[i] = *env[i];
-		i++;
-		printf("while\n");
-	}	
-	printf("there\n");
-	printf("i = %d\n", i);
-	while (*env[++i + 1])
-		new_env[i] = *env[i + 1];
-	printf("nope pls\n");
-	free(*env);
+		if (ft_strncmp((*env)[i], arg, ft_strlen(arg)) != 0)
+			new_env[j++] = ft_strdup((*env)[i]);
+	}
+	new_env[j] = NULL;
+	i = 0;
+	// while (*env[i])
+	// {
+	// 	printf("freeing %d %s\n", i, env[0][i]);
+	// 	free(env[0][i]);
+	// 	i++;
+	// }
+	printf("here\n");
+	// free(*env);
 	return (new_env);
 }
