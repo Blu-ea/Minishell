@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/11 06:58:40 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/14 06:27:44 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		line = ft_read_line();
+		if (line == NULL)
+			bin_exit(NULL);
 	//	Parcing
 		built_in(line, &env);
 		if (line != NULL)
@@ -68,6 +70,17 @@ int	built_in(char *line, char ***env)
 
 char	**init_env(char **env)
 {
+	// int	i;
+	// int	j;
+
 	env = ft_tabdup(env);
+	// i = env_is_set(env, "SHLVL");
+	// if (i == ENV_NOTSET)
+	// 	return (env_add(env, "SHLVL=1"));
+	// j = -1;
+	// while (env[++j])
+
+	
+	// ft_strjoin("SHLVL=", ft_itoa(ft_atoi(env[i] + 6) + 1));
 	return (env);
 }

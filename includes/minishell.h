@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/14 01:35:19 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/14 05:29:41 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ char	*env_get_value(char **env, char *name);
 
 /*  Debug  */
 
-int		test_export(char **env);
 
 void	print_env(char **env);
 
