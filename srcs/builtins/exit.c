@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/26 16:27:40 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/10 07:54:16 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	bin_exit(char **arg)
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
 	{
 		free(temp);
-		printf("exit\n%s exit: %s: Numeric argument required\n", PROMT_E, *arg);
+		printf("%s exit: %s: Numeric argument required\nexit\n", PROMT_E, *arg);
 		ft_clear_line();
 		exit(255);
 	}
@@ -46,7 +46,8 @@ int	bin_exit(char **arg)
 	temp = *arg;
 	while (*arg)
 		arg++;
-	if (temp - *arg > 1)
+	arg--;
+	if (temp - *arg != 1 && temp - *arg != 0)
 		return (exit_tomany());
 	printf("exit\n");
 	ft_clear_line();
@@ -54,7 +55,7 @@ int	bin_exit(char **arg)
 }
 
 int	exit_tomany(void)
-{
+{	
 	printf("%s exit: too many arguments\n", PROMT_E);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/26 16:53:35 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/11 06:58:40 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	built_in(char *line, char ***env)
 		ret = bin_echo(args + 1);
 	if (!ft_strncmp(args[0], "pwd", 3) && args[0][3] == 0)
 		ret = bin_pwd();
-	// if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
-	// 	ret = bin_cd(args + 1));
+	if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
+		ret = bin_cd(args + 1, *env);
 	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
 		ret = bin_env(*env);
 	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)

@@ -26,6 +26,7 @@ LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
 
 BUILTIN		:=	cd.c\
+				cd_env.c\
 				env.c\
 				echo.c\
 				exit.c\
@@ -48,8 +49,8 @@ DEPH		:=	$(OBJS:=.o=.d)
 # -include $(DEPH)
 # ############################################################################ #
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -Werror -g3
 SANITYZE	:=	-fsanitize=address 
+CFLAGS		:=	-Wall -Wextra -Werror -g3 $(SANITYZE)
 # ############################################################################ #
 # **************************************************************************** #
 ERASE	:=	\033[2K\r
@@ -78,7 +79,7 @@ $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
 ifeq ($(NORMINETTE),$(NORMITEST))
 	printf "$(GREEN)Everything is ok\n$(END)"
 else
-	printf "$(RED)$(SUR)NORMINETTE ERROR IN MINISHELL FILES !!\n $(NORMINETTE)$(END)"
+	printf "$(RED)$(SUR)NORMINETTE ERROR IN MINISHELL FILES !!\n $(NORMINETTE)$(END)\n"
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
@@ -105,4 +106,4 @@ fclean :
 re : fclean all
 
 .PHONY : all clean fclean re $(LIBFT)
-# .SILENT :
+.SILENT :

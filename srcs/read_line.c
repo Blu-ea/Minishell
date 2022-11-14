@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 00:02:12 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/12 18:11:27 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@
 
 char	*ft_read_line(void)
 {
-	char	*line;
+	char		*line;
+	static char	*history;
 
 	line = readline(PROMT);
-	if (line && *line)
+	if (line && *line && ft_strncmp(line, history, ft_strlen(line)))
 		add_history(line);
 	else if (!line)
 		return (NULL);
+	if (history)
+		free(history);
+	history = ft_strdup(line);
 	return (line);
 }
 

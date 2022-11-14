@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 17:14:35 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/26 16:21:01 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/12 18:07:37 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,27 +91,25 @@ char	**env_error(char **new_env, int i)
 char	*ft_remove_plus(char *args)
 {
 	int		i;
+	int		j;
 	char	*new_args;
 
 	i = 0;
-	while (args[i] && (args[i] != '=' && args[i] != '+'))
+	while (args[i] && args[i] != '=' && args[i] != '+')
 		i++;
 	if (args[i] == '=' || !args[i])
 		return (ft_strdup(args));
+	
 	new_args = malloc(sizeof(char) * ft_strlen(args));
 	if (!new_args)
 		return (NULL);
-	i = 0;
-	while (args[i] != '+')
-	{
+	new_args[ft_strlen(args)-1] = '\0';
+	i = -1;
+	while (args[++i] != '+')
 		new_args[i] = args[i];
-		i++;
-	}
-	while (args[i])
-	{
-		new_args[i] = args[i + 1];
-		i++;
-	}
-	new_args[i] = '\0';
+	i--;
+	j = i + 1;
+	while (new_args[++i] && args[++j])
+		new_args[i] = args[j];
 	return (new_args);
 }
