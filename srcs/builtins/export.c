@@ -6,11 +6,13 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/12 22:56:05 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/12/26 16:41:56 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ret_exp_update(int *ret);
 
 /*
 	If no args, show every variable in env (even non set one)
@@ -45,7 +47,7 @@ char	**bin_export(char **args, char ***env, int *ret)
 		if (*ret == ENV_NOTSET)
 			new_env = env_add(new_env, args[i]);
 		if (*ret == ENV_SET || *ret == ENV_UNDIFINED)
-			new_env = env_update(new_env, args[i]);
+			new_env = exp_update(new_env, args[i]);
 		if (*ret == -1)
 			printf("%s export: Something whent wrong\n", PROMT_E);
 		if (*ret == -2)
@@ -53,9 +55,20 @@ char	**bin_export(char **args, char ***env, int *ret)
 				PROMT_E, args[i]);
 		i++;
 	}
+	ret_exp_update(ret);
 	if (new_env == NULL)
 		new_env = *env;
 	return (new_env);
+}
+
+void	ret_exp_update(int *ret)
+{
+	if (*ret == ENV_NOTSET || *ret == ENV_SET || *ret == ENV_UNDIFINED)
+		*ret = 0;
+	else if (*ret == -1)
+		*ret = 1;
+	else
+		*ret = 2;
 }
 
 int	ft_exp_print(char **env)
@@ -66,6 +79,10 @@ int	ft_exp_print(char **env)
 
 	while (*env)
 	{
+		if (!ft_strncmp(*env, "_=", 2) || !ft_strncmp(*env, "?", 1))
+			env++;
+		if (!*env)
+			break;
 		open_colon = 0;
 		i = 0;
 		temp = *env;
@@ -81,8 +98,6 @@ int	ft_exp_print(char **env)
 			write(1, "\"", 1);
 		write(1, "\n", 1);
 		env++;
-		if (!ft_strncmp(*env, "_=", 2))
-			env++;
 	}
 	return (0);
 }

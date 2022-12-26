@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/12 23:35:15 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/22 20:21:43 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	bin_unset(char **args, char ***env)
 			*env = unset_del(*env, args[i]);
 		if (set == -1)
 			printf("%s export: Something whent wrong\n", PROMT_E);
+		if (set == -2)
+			printf ("%s export: `%s': not a valid identifier\n",
+				PROMT_E, args[i]);
 	}
 	return (0);
 }

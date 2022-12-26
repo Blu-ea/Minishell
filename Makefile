@@ -20,7 +20,8 @@ DIR_LIBFT	:= libft
 LST_SRCS	:=	main.c\
 				read_line.c\
 				debug.c\
-				env.c
+				env.c\
+				signal.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
@@ -40,9 +41,17 @@ DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
 OBJ_BUILTIN	:=	$(addprefix $(DIR_OBJS)/,$(LST_BUILTIN:.c=.o))
+
+PARSING		:=	pars_main.c
+
+DIR_PARSING	:=	pars
+LST_PARSING :=	$(addprefix $(DIR_PARSING)/,$(PARSING))
+SRC_PARSING	:=	$(addprefix $(DIR_SRCS)/,$(LST_PARSING))
+OBJ_PARSING	:=	$(addprefix $(DIR_OBJS)/,$(LST_PARSING:.c=.o))
+
 # ############################################################################ #
-SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN)
-OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN)
+SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN) $(SRC_PARSING)
+OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN) $(OBJ_PARSING)
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LST_INCS))
 LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
 DEPH		:=	$(OBJS:=.o=.d)
@@ -87,6 +96,7 @@ $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)
+	mkdir -p $(DIR_OBJS)/$(DIR_PARSING)
 	mkdir -p $(DIR_OBJS)/$(DIR_BUILTIN)
 
 $(LIBFT) :

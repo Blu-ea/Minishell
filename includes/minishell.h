@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/14 05:29:41 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/12/26 16:34:15 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		bin_echo(char **args);							//Done
 int		bin_env(char **env);							//Done
 char	**bin_export(char **args, char ***env, int *ret);//Done
 char	**env_add(char **env, char *args);		//for export
-char	**env_update(char **env, char *args);	//for export
+char	**exp_update(char **env, char *args);	//for export
 int		ft_exp_print(char **env);				//for export
 void	print_t_export(char **env);				//for export
 int		bin_unset(char **args, char ***env);			//Done
@@ -75,6 +75,8 @@ int		built_in(char *line, char ***env);
 /* 				Pars			*/
 /********************************/
 
+char	*mini_parsing(char *input, char **env);
+
 /********************************/
 /* 				Env				*/
 /********************************/
@@ -82,6 +84,14 @@ int		built_in(char *line, char ***env);
 int		env_is_set(char **env, char *name);
 char	**env_init(char **env);
 char	*env_get_value(char **env, char *name);
+
+
+/********************************/
+/* 				SIG				*/
+/********************************/
+
+void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
 
 /*  Debug  */
 

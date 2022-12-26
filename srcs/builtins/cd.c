@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/14 01:31:30 by amiguez          ###   ########.fr       */
+/*   Updated: 2022/11/22 20:14:00 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	bin_cd(char **path, char **env)
 	int		ret;
 
 	new_path = found_path(path, env);
-	printf("cd: new_path: %s\n", new_path);
 	if (new_path == NULL)
 		return (1);
 	old_path = getcwd(NULL, 0);
