@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/16 21:51:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 18:17:49 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,20 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, sigquit_handler);
 	while (env)
 	{
-	// print_env(env);
-		ret = 0;
+		ret = 1;
 		i = -1;
-		line = ft_read_line();
+		line = ft_read_line(env);
 		if (line == NULL)
 			bin_exit(NULL);
-		// parse_line = ft_split(line, ' ');
 		parse_line = parse(line, env);
-		print_command(parse_line);
-		while (parse_line[++i])
+		// print_command(parse_line);
+		while (parse_line && parse_line[++i])
 			ret = built_in(parse_line[i], &env);
-			;
 		if (!update_ret(env, ret))
 			bin_exit (NULL);
 		if (line != NULL)
 			free(line);
 		i = -1;
-		// if (parse_line != NULL)
-		// 	while (parse_line[++i])
-		// 		while (parse_line[i][++j])
-		// 			free(parse_line[i][j]);
 		free(parse_line);
 	}
 	return (1);

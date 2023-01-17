@@ -6,12 +6,11 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:39:52 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:54:42 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
 
 void	ft_exit(const char *str)
 {

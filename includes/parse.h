@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:22:47 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:57:35 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		handle_dollar_variables(char **cmd, char **env);
 void		handle_double_quotes(char ***cmd);
 void		handle_white_space(char ***cmd);
 void		handle_pipes(char ***cmd);
-char		handle_redirect(char ***cmd);
+void		handle_redirect(char ***cmd);
 
 char		***split_pipes(char **cmd);
 

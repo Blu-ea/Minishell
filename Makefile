@@ -53,7 +53,8 @@ PARSING		:=	parse.c\
 				get_index.c\
 				handlers.c\
 				split_pipes.c\
-				utils.c
+				utils.c\
+				utils2.c
 
 DIR_PARSING	:=	pars
 LST_PARSING :=	$(addprefix $(DIR_PARSING)/,$(PARSING))

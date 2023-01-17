@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 02:51:28 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/15 23:06:35 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:05:35 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	env_is_set_ret(char *temp, int ret)
 	free(temp);
 	return (ret);
 }
-
 
 int	ft_issallgood_export(char *s)
 {
@@ -114,13 +113,14 @@ char	*env_get_value(char **env, char *name)
 	{
 		if (!ft_strncmp(env[i], temp, ft_strlen(temp)))
 		{
-			ret = ft_strndup(env[i] + ft_strlen(temp) , ft_strlen(env[i]));
+			ret = ft_strndup(env[i] + ft_strlen(temp), ft_strlen(env[i]));
 			free(temp);
 			if (!ret)
 				return (NULL);
 			return (ret);
 		}
 	}
+	free(temp);
 	return (NULL);
 }
 

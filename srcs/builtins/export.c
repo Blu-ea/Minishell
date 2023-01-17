@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/12/26 16:41:56 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 18:00:55 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,4 @@ void	ret_exp_update(int *ret)
 		*ret = 1;
 	else
 		*ret = 2;
-}
-
-int	ft_exp_print(char **env)
-{
-	int		i;
-	char	*temp;
-	int		open_colon;
-
-	while (*env)
-	{
-		if (!ft_strncmp(*env, "_=", 2) || !ft_strncmp(*env, "?", 1))
-			env++;
-		if (!*env)
-			break;
-		open_colon = 0;
-		i = 0;
-		temp = *env;
-		write(1, "declare -x ", 11);
-		while (temp[i])
-		{
-			write(1, &temp[i], 1);
-			if (temp[i] == '=' && open_colon == 0)
-				open_colon = write(1, "\"", 1);
-			i++;
-		}
-		if (open_colon != 0)
-			write(1, "\"", 1);
-		write(1, "\n", 1);
-		env++;
-	}
-	return (0);
 }

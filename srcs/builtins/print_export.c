@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 20:20:52 by amiguez           #+#    #+#             */
-/*   Updated: 2022/10/19 06:37:12 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 16:43:34 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	sorttab(char **test);
 int		cmp_export(char *str1, char *str2);
+int		ft_exp_print(char **env, int i);
 
 void	print_t_export(char **env)
 {
@@ -33,7 +34,7 @@ void	print_t_export(char **env)
 		i++;
 	}
 	sorttab(temp);
-	ft_exp_print(temp);
+	ft_exp_print(temp, -1);
 	free(temp);
 }
 
@@ -77,4 +78,33 @@ int	cmp_export(char *str1, char *str2)
 	if (str1[i] == '=')
 		return (-1);
 	return (str1[i] - str2[i]);
+}
+
+int	ft_exp_print(char **env, int i)
+{
+	char	*temp;
+	int		open_colon;
+
+	while (*env)
+	{
+		open_colon = 0;
+		i = -1;
+		if (!ft_strncmp(*env, "_=", 2) || !ft_strncmp(*env, "?", 1))
+			env++;
+		if (!*env)
+			break ;
+		temp = *env;
+		write(1, "declare -x ", 11);
+		while (temp[++i])
+		{
+			write(1, &temp[i], 1);
+			if (temp[i] == '=' && open_colon == 0)
+				open_colon = write(1, "\"", 1);
+		}
+		if (open_colon != 0)
+			write(1, "\"", 1);
+		write(1, "\n", 1);
+		env++;
+	}
+	return (0);
 }

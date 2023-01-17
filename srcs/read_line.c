@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/12 18:11:27 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 18:24:05 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,25 @@
 
 #include "minishell.h"
 
-char	*ft_read_line(void)
+char	*ft_read_line(char **env)
 {
 	char		*line;
 	static char	*history;
 
+	if (!history)
+		history = NULL;
 	line = readline(PROMT);
-	if (line && *line && ft_strncmp(line, history, ft_strlen(line)))
+	if (line && *line && (ft_strncmp(line, history, ft_strlen(line)) \
+			|| ft_strncmp(history, line, ft_strlen(history))))
 		add_history(line);
 	else if (!line)
 		return (NULL);
 	if (history)
 		free(history);
 	history = ft_strdup(line);
+	if (g_error_sig)
+		env = exp_update (env, "?=1");
+	g_error_sig = 0;
 	return (line);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/16 19:13:57 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 18:17:19 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@
 
 # include "parse.h"
 
+int		g_error_sig;
+
 /********************************/
 /*				BUILTIN			*/
 /********************************/
@@ -58,7 +60,6 @@ int		bin_env(char **env);							//Done
 char	**bin_export(char **args, char ***env, int *ret);//Done
 char	**env_add(char **env, char *args);		//for export
 char	**exp_update(char **env, char *args);	//for export
-int		ft_exp_print(char **env);				//for export
 void	print_t_export(char **env);				//for export
 int		bin_unset(char **args, char ***env);			//Done
 char	**unset_del(char **env, char *arg);		//for unset
@@ -68,7 +69,7 @@ int		bin_exit(char **args);							//Done
 /*				Main			*/
 /********************************/
 
-char	*ft_read_line(void);
+char	*ft_read_line(char **env);
 void	ft_clear_line(void);
 int		built_in(char **args, char ***env);
 
@@ -91,7 +92,6 @@ void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
 
 /*  Debug  */
-
 
 void	print_env(char **env);
 

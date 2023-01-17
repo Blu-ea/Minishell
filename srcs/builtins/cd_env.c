@@ -6,13 +6,13 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 19:43:04 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/01 21:00:51 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 18:26:58 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	cd_env_mod(int pwd[2], char **env, char *new_path, char *old_path);\
-
 #include "minishell.h"
+
+int	cd_env_mod(int pwd[2], char **env, char *new_path, char *old_path);
 
 int	cd_update_env(char *new_path, char *old_path, char **env)
 {
@@ -26,8 +26,8 @@ int	cd_update_env(char *new_path, char *old_path, char **env)
 	{
 		if (!ft_strncmp(env[i], "PWD=", 4) || !ft_strncmp(env[i], "PWD", 4))
 			pwd[1] = i;
-		if (!ft_strncmp(env[i], "OLDPWD", 7) ||\
-				!ft_strncmp(env[i], "OLDPWD=", 7))
+		if (!ft_strncmp(env[i], "OLDPWD", 7) \
+				|| !ft_strncmp(env[i], "OLDPWD=", 7))
 			pwd[0] = i;
 	}
 	i = cd_env_mod(pwd, env, new_path, old_path);

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:21:42 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:55:49 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,6 @@ char	***parse(char *str, char **env)
 	handle_double_quotes(&cmd);
 	handle_white_space(&cmd);
 	handle_pipes(&cmd);
-	if (handle_redirect(&cmd))
-	{
-		clear_pipe(cmd);
-		errno = 5;
-		return (NULL);
-	}
+	handle_redirect(&cmd);
 	return (split_pipes(cmd));
 }

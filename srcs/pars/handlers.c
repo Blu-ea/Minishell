@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:41:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:55:17 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_white_space(char ***cmd)
 	}
 }
 
-char	handle_redirect(char ***cmd)
+void	handle_redirect(char ***cmd)
 {
 	int	*cutting_indexs;
 	int	i;
@@ -57,22 +57,15 @@ char	handle_redirect(char ***cmd)
 		if (cmd[0][i][0] == '0')
 		{
 			cutting_indexs = get_index_redirect(cmd[0][i] + 1);
-			if (cutting_indexs[0] != -1
-				&& cutting_indexs[0] - cutting_indexs[1] < -2)
-			{
-				free(cutting_indexs);
-				return (1);
-			}
 			i += split_merge_cmd(cmd, cutting_indexs, i, cut_cmd_redirect) - 1;
 			free(cutting_indexs);
 		}
 	}
-	return (0);
 }
 
 void	handle_pipes(char ***cmd)
 {
-	int *cutting_indexs;
+	int	*cutting_indexs;
 	int	i;
 
 	i = -1;
