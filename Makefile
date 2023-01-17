@@ -21,7 +21,8 @@ LST_SRCS	:=	main.c\
 				read_line.c\
 				debug.c\
 				env.c\
-				signal.c
+				signal.c\
+				init_env.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
@@ -42,7 +43,17 @@ LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
 OBJ_BUILTIN	:=	$(addprefix $(DIR_OBJS)/,$(LST_BUILTIN:.c=.o))
 
-PARSING		:=	pars_main.c
+PARSING		:=	parse.c\
+				clean_empty.c\
+				cut_cmd.c\
+				debug.c\
+				dollar_variable.c\
+				exit.c\
+				ft_split_charset.c\
+				get_index.c\
+				handlers.c\
+				split_pipes.c\
+				utils.c
 
 DIR_PARSING	:=	pars
 LST_PARSING :=	$(addprefix $(DIR_PARSING)/,$(PARSING))
@@ -83,7 +94,7 @@ NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
 all : $(NAME)
 
 $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@ $(SANITYZE)
 
 ifeq ($(NORMINETTE),$(NORMITEST))
 	printf "$(GREEN)Everything is ok\n$(END)"
@@ -92,7 +103,7 @@ else
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD $(SANITYZE)
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)
@@ -100,8 +111,8 @@ $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)/$(DIR_BUILTIN)
 
 $(LIBFT) :
-	git submodule update --remote --rebase $(DIR_LIBFT)
-	printf "$(YELLOW)LIBFT IS UP TO DATE!\n$(END)$(RED)"
+	# git submodule update --remote --rebase $(DIR_LIBFT)
+	# printf "$(YELLOW)LIBFT IS UP TO DATE!\n$(END)$(RED)"
 	make -C $(DIR_LIBFT)
 
 clean :

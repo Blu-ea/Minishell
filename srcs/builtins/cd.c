@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/22 20:14:00 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/15 17:14:11 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	*cd_transfo_path(char *path, char **env)
 	char	*temp;
 	char	*ret;
 
-	printf("cd: transfo_path: %s\n", path);
 	if (env_is_set(env, "HOME") == ENV_NOTSET)
 		return (cd_error(NO_HOME));
 	if (env_is_set(env, "HOME") == ENV_UNDIFINED)

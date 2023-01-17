@@ -6,11 +6,11 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 19:43:04 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/14 05:46:12 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/01 21:00:51 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	cd_env_mod(int *pwd, char **env, char *new_path, char *old_path);\
+int	cd_env_mod(int pwd[2], char **env, char *new_path, char *old_path);\
 
 #include "minishell.h"
 
@@ -43,7 +43,7 @@ int	cd_update_env(char *new_path, char *old_path, char **env)
 	return (0);
 }
 
-int	cd_env_mod(int *pwd, char **env, char *new_path, char *old_path)
+int	cd_env_mod(int pwd[2], char **env, char *new_path, char *old_path)
 {
 	int	i;
 
@@ -57,15 +57,15 @@ int	cd_env_mod(int *pwd, char **env, char *new_path, char *old_path)
 			env[pwd[0]] = ft_strdup("OLDPWD");
 		else
 			env[pwd[0]] = ft_strjoin("OLDPWD=", old_path);
+		if (env[pwd[0]] == NULL)
+			i++;
 	}
 	if (pwd[1] != -1)
 	{
 		free(env[pwd[1]]);
 		env[pwd[1]] = ft_strjoin("PWD=", new_path);
+		if (env[pwd[1]] == NULL)
+			i += 2;
 	}
-	if (env[pwd[0]] == NULL)
-		i++;
-	if (env[pwd[1]] == NULL)
-		i += 2;
 	return (i);
 }

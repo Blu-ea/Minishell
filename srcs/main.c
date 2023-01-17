@@ -6,12 +6,11 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2022/12/26 16:31:25 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/16 21:51:54 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 /*
 	At initialisation: 
 		shlvl+1 ?? shlvl = 0
@@ -25,50 +24,67 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*line;
 	int		ret;
+	char	***parse_line;
+	int		i;
 
 	(void)argc;
 	(void)argv;
 	env = init_env(env);
+	if (env == NULL)
+		printf("Something when wrong");
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
-	while (1)
+	while (env)
 	{
+	// print_env(env);
+		ret = 0;
+		i = -1;
 		line = ft_read_line();
 		if (line == NULL)
 			bin_exit(NULL);
-	//	Parcing
-		printf ("Pars : '%s'\n",mini_parsing(line, env));
-		ret = built_in(line, &env);
+		// parse_line = ft_split(line, ' ');
+		parse_line = parse(line, env);
+		print_command(parse_line);
+		while (parse_line[++i])
+			ret = built_in(parse_line[i], &env);
+			;
 		if (!update_ret(env, ret))
 			bin_exit (NULL);
 		if (line != NULL)
 			free(line);
+		i = -1;
+		// if (parse_line != NULL)
+		// 	while (parse_line[++i])
+		// 		while (parse_line[i][++j])
+		// 			free(parse_line[i][j]);
+		free(parse_line);
 	}
-	return (0);
+	return (1);
 }
 
-int	built_in(char *line, char ***env)
+int	built_in(char **args, char ***env)
 {
-	char	**args;
 	int		ret;
 	int		i;
 
 	ret = 1;
-	args = ft_split(line, ' ');
-	if (!ft_strncmp(args[0], "echo", 4) && args[0][4] == 0)
+	printf("args[0] = %s\n", args[0]);
+	printf("==========\n");
+	if (!ft_strncmp(args[0], "0echo", 5) && args[0][5] == 0)
 		ret = bin_echo(args + 1);
-	if (!ft_strncmp(args[0], "pwd", 3) && args[0][3] == 0)
+	if (!ft_strncmp(args[0], "0pwd", 4) && args[0][4] == 0)
 		ret = bin_pwd();
-	if (!ft_strncmp(args[0], "cd", 2) && args[0][2] == 0)
+	if (!ft_strncmp(args[0], "0cd", 3) && args[0][3] == 0)
 		ret = bin_cd(args + 1, *env);
-	if (!ft_strncmp(args[0], "env", 3) && args[0][3] == 0)
+	if (!ft_strncmp(args[0], "0env", 4) && args[0][4] == 0)
 		ret = bin_env(*env);
-	if (!ft_strncmp(args[0], "export", 6) && args[0][6] == 0)
+	if (!ft_strncmp(args[0], "0export", 7) && args[0][7] == 0)
 		*env = bin_export(args + 1, env, &ret);
-	if (!ft_strncmp(args[0], "unset", 5) && args[0][5] == 0)
+	if (!ft_strncmp(args[0], "0unset", 6) && args[0][6] == 0)
 		ret = bin_unset(args + 1, env);
-	if (!ft_strncmp(args[0], "exit", 4) && args[0][4] == 0)
+	if (!ft_strncmp(args[0], "0exit", 5) && args[0][5] == 0)
 		ret = bin_exit(args + 1);
+	printf("==========\n");
 	i = -1;
 	while (args[++i])
 		free(args[i]);
@@ -76,30 +92,10 @@ int	built_in(char *line, char ***env)
 	return (ret);
 }
 
-char	**init_env(char **env)
-{
-	int	i;
-	// int	j;
-
-	env = ft_tabdup(env);
-	env = env_add(env, "?");
-	if (!env)
-		return (NULL);
-	i = env_is_set(env, "SHLVL");
-	if (i == ENV_NOTSET)
-		env_add(env, "SHLVL=1");
-	// if (env_get_value)
-	// j = -1;
-	// while (env[++j])
-
-	
-	// ft_strjoin("SHLVL=", ft_itoa(ft_atoi(env[i] + 6) + 1));
-	return (env);
-}
-
 char	**update_ret(char **env, int ret)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
 	i = -1;
 	while (env[++i])
@@ -107,7 +103,9 @@ char	**update_ret(char **env, int ret)
 		if (!ft_strncmp(env[i], "?", 1))
 		{
 			free(env[i]);
-			env[i] = ft_strjoin("?", ft_itoa(ret));
+			temp = ft_itoa(ret);
+			env[i] = ft_strjoin("?=", temp);
+			free(temp);
 			if (env[i] == NULL)
 			{
 				ft_free_2d_array(env);
@@ -116,7 +114,6 @@ char	**update_ret(char **env, int ret)
 			}
 			return (env);
 		}
-		i++;
 	}
 	return (env);
 }

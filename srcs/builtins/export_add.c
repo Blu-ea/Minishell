@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 17:14:35 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/12 18:07:37 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/15 17:51:53 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	**env_add(char **env, char *args)
 	char	**new_env;
 	char	*temp;
 
+	if (!env)
+		return (NULL);
 	temp = ft_remove_plus(args);
 	i = 0;
 	while (env[i])
@@ -29,6 +31,7 @@ char	**env_add(char **env, char *args)
 	new_env = malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
 		return (NULL);
+	new_env[i + 1] = NULL;
 	i = -1;
 	while (env[++i])
 	{
@@ -39,7 +42,6 @@ char	**env_add(char **env, char *args)
 	new_env[i] = ft_strdup(temp);
 	if (!new_env[i])
 		return (env_error(new_env, i));
-	new_env[i + 1] = NULL;
 	return (freeall(env, temp, new_env, i));
 }
 
@@ -99,7 +101,6 @@ char	*ft_remove_plus(char *args)
 		i++;
 	if (args[i] == '=' || !args[i])
 		return (ft_strdup(args));
-	
 	new_args = malloc(sizeof(char) * ft_strlen(args));
 	if (!new_args)
 		return (NULL);

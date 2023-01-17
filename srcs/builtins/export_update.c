@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 06:59:56 by amiguez           #+#    #+#             */
-/*   Updated: 2022/12/26 16:34:24 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/15 17:52:54 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	**exp_update(char **env, char *args)
 	int		len;
 	int		append;
 
+	if (!env)
+		return (NULL);
 	i = 0;
 	append = 0;
 	temp = ft_search(args, '=');

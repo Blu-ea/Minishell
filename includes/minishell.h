@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2022/12/26 16:34:15 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/16 19:13:57 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <termios.h>
-# include <term.h>
+// # include <term.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
@@ -30,7 +30,6 @@
 
 # define PROMT "$minishell>"
 # define PROMT_E "minishell:"
-
 # define ENV_NOTSET 0	//Don t exist in env
 # define ENV_UNDIFINED 1//Is in env but don t have a variable(No '=' next to it)
 # define ENV_SET 2		//Is set in env with a variable (maybe empty)
@@ -43,6 +42,8 @@
 # define WRONG_PATH 2
 # define NO_HOME 3
 # define MALLOC_ERROR 10
+
+# include "parse.h"
 
 /********************************/
 /*				BUILTIN			*/
@@ -60,6 +61,7 @@ char	**exp_update(char **env, char *args);	//for export
 int		ft_exp_print(char **env);				//for export
 void	print_t_export(char **env);				//for export
 int		bin_unset(char **args, char ***env);			//Done
+char	**unset_del(char **env, char *arg);		//for unset
 int		bin_exit(char **args);							//Done
 
 /********************************/
@@ -68,14 +70,7 @@ int		bin_exit(char **args);							//Done
 
 char	*ft_read_line(void);
 void	ft_clear_line(void);
-char	**init_env(char **env);
-int		built_in(char *line, char ***env);
-
-/********************************/
-/* 				Pars			*/
-/********************************/
-
-char	*mini_parsing(char *input, char **env);
+int		built_in(char **args, char ***env);
 
 /********************************/
 /* 				Env				*/
@@ -85,6 +80,8 @@ int		env_is_set(char **env, char *name);
 char	**env_init(char **env);
 char	*env_get_value(char **env, char *name);
 
+char	**init_up_env(char **env);
+char	**init_env(char **env);
 
 /********************************/
 /* 				SIG				*/

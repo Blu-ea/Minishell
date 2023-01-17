@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2022/11/22 20:21:43 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/15 18:20:09 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,18 @@
 	cannot unset _
 */
 
-char	**unset_del(char **env, char *arg);
 void	free_unset(char **env);
 
 int	bin_unset(char **args, char ***env)
 {
-	int		i;
-	int		set;
+	int	i;
+	int	set;
+	int	ret;
 
+	ret = 0;
 	i = -1;
 	if (!*args)
-		return (0);
+		return (ret);
 	while (args[++i])
 	{
 		set = env_is_set(*env, args[i]);
@@ -37,8 +38,10 @@ int	bin_unset(char **args, char ***env)
 		if (set == -2)
 			printf ("%s export: `%s': not a valid identifier\n",
 				PROMT_E, args[i]);
+		if (set < 0)
+			ret = 1;
 	}
-	return (0);
+	return (ret);
 }
 
 char	**unset_del(char **env, char *arg)
