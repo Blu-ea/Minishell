@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/18 18:23:19 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 19:30:11 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ char	*ft_read_line(char **env)
 		env = exp_update (env, "?=1");
 	g_error_sig = 0;
 	if (!*line)
+	{
+		free(line);
 		return (ft_read_line(env));
+	}
 	return (line);
 }
 
