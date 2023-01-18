@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/18 16:39:53 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 17:33:58 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int argc, char **argv, char **env)
 	char	*line;
 	int		ret;
 	char	***parse_line;
-	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -44,7 +43,7 @@ int	main(int argc, char **argv, char **env)
 			bin_exit(NULL);
 		parse_line = parse(line, env);
 		// print_command(parse_line);
-		i = execute_pipes(parse_line, env);
+		ret = execute_pipes(parse_line, env);
 		if (errno)
 			perror(argv[0]);
 		check_fd_leak();
