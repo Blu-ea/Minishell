@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cut_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:18:25 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/17 15:48:59 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 14:46:50 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**cut_command(char *str, int *indexs)
 		return (NULL);
 	ret = malloc(sizeof(char *) * (cmd_parts(str, indexs) + 2));
 	if (!ret)
-		ft_exit("malloc error");
+		ft_exit("malloc error", 1);
 	i = 0;
 	j = 0;
 	if (indexs[0] != 0)
@@ -65,7 +65,7 @@ char	**cut_cmd_space(char *str, int *indexs)
 		return (NULL);
 	ret = malloc(sizeof(char *) * (cmd_parts(str, indexs) + 2));
 	if (!ret)
-		ft_exit("malloc error");
+		ft_exit("malloc error", 1);
 	i = 0;
 	j = 0;
 	if (indexs[0] != 0)
@@ -94,7 +94,7 @@ char	**cut_cmd_pipe(char *str, int *indexs)
 		return (NULL);
 	ret = malloc(sizeof(char *) * (cmd_parts(str, indexs) + 2));
 	if (!ret)
-		ft_exit("malloc error");
+		ft_exit("malloc error", 1);
 	i = 0;
 	j = 0;
 	if (indexs[0] != 0)
@@ -123,7 +123,7 @@ char	**cut_cmd_redirect(char *str, int *indexs)
 		return (NULL);
 	ret = malloc(sizeof(char *) * (cmd_parts(str, indexs) + 2));
 	if (!ret)
-		ft_exit("malloc error");
+		ft_exit("malloc error", 1);
 	i = 0;
 	j = 0;
 	if (indexs[0] != 0)

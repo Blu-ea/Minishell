@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 18:17:49 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 16:39:53 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "pipe.h"
 /*
 	At initialisation: 
 		shlvl+1 ?? shlvl = 0
@@ -37,20 +38,24 @@ int	main(int argc, char **argv, char **env)
 	while (env)
 	{
 		ret = 1;
-		i = -1;
+		// i = -1;
 		line = ft_read_line(env);
 		if (line == NULL)
 			bin_exit(NULL);
 		parse_line = parse(line, env);
 		// print_command(parse_line);
-		while (parse_line && parse_line[++i])
-			ret = built_in(parse_line[i], &env);
+		i = execute_pipes(parse_line, env);
+		if (errno)
+			perror(argv[0]);
+		check_fd_leak();
+		// while (parse_line && parse_line[++i])
+		// 	ret = built_in(parse_line[i], &env);
 		if (!update_ret(env, ret))
 			bin_exit (NULL);
 		if (line != NULL)
 			free(line);
-		i = -1;
-		free(parse_line);
+		// i = -1;
+		// free(parse_line);
 	}
 	return (1);
 }

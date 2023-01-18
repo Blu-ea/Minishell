@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/17 17:57:35 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 15:01:03 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void		clean_empty(char ***cmd);
 int			split_merge_cmd(char ***pipe, int *indexs, int index,
 				char **(*cut)(char *, int *));
 
-void		ft_exit(const char *str);
-void		clear_pipes(char ***pipes);
-void		clear_pipe(char **pipe);
+void		ft_exit(const char *str, int exit_code);
+int			clear_pipes(char ***pipes);
+int			clear_pipe(char **pipe);
 char		***clear_error_pipes(char ***pipes, char **cmd, int i);
 
 int			*get_index_single_quotes(char *str);

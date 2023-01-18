@@ -61,17 +61,34 @@ LST_PARSING :=	$(addprefix $(DIR_PARSING)/,$(PARSING))
 SRC_PARSING	:=	$(addprefix $(DIR_SRCS)/,$(LST_PARSING))
 OBJ_PARSING	:=	$(addprefix $(DIR_OBJS)/,$(LST_PARSING:.c=.o))
 
+EXECUTE		:=	debug.c\
+				error1.c\
+				execute_pipe.c\
+				execution.c\
+				fd_lst_utils.c\
+				free.c\
+				get_redirect.c\
+				pipe.c\
+				pipe_utils.c\
+				pipex.c\
+				utils.c
+
+DIR_EXECUTE	:=	execute
+LST_EXECUTE :=	$(addprefix $(DIR_EXECUTE)/,$(EXECUTE))
+SRC_EXECUTE	:=	$(addprefix $(DIR_SRCS)/,$(LST_EXECUTE))
+OBJ_EXECUTE	:=	$(addprefix $(DIR_OBJS)/,$(LST_EXECUTE:.c=.o))
+
 # ############################################################################ #
-SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN) $(SRC_PARSING)
-OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN) $(OBJ_PARSING)
+SRCS		:=	$(addprefix $(DIR_SRCS)/,$(LST_SRCS)) $(SRC_BUILTIN) $(SRC_PARSING) $(SRC_EXECUTE)
+OBJS		:=	$(addprefix $(DIR_OBJS)/,$(LST_OBJS)) $(OBJ_BUILTIN) $(OBJ_PARSING) $(OBJ_EXECUTE)
 INCS		:=	$(addprefix $(DIR_INCS)/,$(LST_INCS))
 LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
-DEPH		:=	$(OBJS:=.o=.d)
+# DEPH		:=	$(OBJS:=.o=.d)
 # -include $(DEPH)
 # ############################################################################ #
 CC			:=	gcc
 SANITYZE	:=	-fsanitize=address 
-CFLAGS		:=	-Wall -Wextra -Werror -g3 
+CFLAGS		:=	-Wall -Wextra -g3 #-Werror 
 # ############################################################################ #
 # **************************************************************************** #
 ERASE	:=	\033[2K\r
@@ -110,20 +127,21 @@ $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)
 	mkdir -p $(DIR_OBJS)/$(DIR_PARSING)
 	mkdir -p $(DIR_OBJS)/$(DIR_BUILTIN)
+	mkdir -p $(DIR_OBJS)/$(DIR_EXECUTE)
 
 $(LIBFT) :
 	# git submodule update --remote --rebase $(DIR_LIBFT)
 	# printf "$(YELLOW)LIBFT IS UP TO DATE!\n$(END)$(RED)"
-	make -C $(DIR_LIBFT)
+	make -sC $(DIR_LIBFT)
 
 clean :
 	rm -rf $(DIR_OBJS)
-	make -C $(DIR_LIBFT) clean
+	make -sC $(DIR_LIBFT) clean
 
 fclean :
 	rm -f $(NAME)
 	rm -rf $(DIR_OBJS)
-	make -C $(DIR_LIBFT) fclean
+	make -sC $(DIR_LIBFT) fclean
 
 re : fclean all
 

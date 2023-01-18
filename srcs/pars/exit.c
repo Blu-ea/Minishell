@@ -3,22 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:39:52 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/17 17:54:42 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 14:44:52 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(const char *str)
+/**
+ * @brief Exit the program with a message to the appropriate std, if errno is
+ * set, print the error message
+ * 
+ * @param str: The message to print
+ * @param exit_code: The exit code
+ */
+void	ft_exit(const char *str, int exit_code)
 {
-	if (errno)
-		perror(str);
-	else
-		ft_putendl_fd((char *)str, 2);
-	exit(errno);
+	if (str && exit_code)
+	{
+		ft_putstr_fd((char *)str, 2);
+		if (errno)
+			ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else if (str)
+	{
+		ft_putstr_fd((char *)str, 1);
+		if (errno)
+			ft_putstr_fd(strerror(errno), 1);
+		ft_putstr_fd("\n", 1);
+	}
+	exit(exit_code);
 }
 
 char	***clear_error_pipes(char ***pipes, char **cmd, int i)
@@ -33,27 +50,48 @@ char	***clear_error_pipes(char ***pipes, char **cmd, int i)
 	return (NULL);
 }
 
-void	clear_pipe(char **pipe)
-
-{
-	int	j;
-
-	if (!pipe)
-		return ;
-	j = -1;
-	while (pipe[++j])
-		free(pipe[j]);
-	free(pipe);
-}
-
-void	clear_pipes(char ***pipes)
+/**
+ * @brief Free a pipe
+ * 
+ * @param pipe: The pipe to free
+ * @return 1 or errno if errno is set
+ */
+int	clear_pipe(char **pipe)
 {
 	int	i;
 
-	if (!pipes)
-		return ;
-	i = -1;
-	while (pipes[++i])
+	i = 0;
+	if (!pipe[0])
+		i++;
+	while (pipe[i])
+	{
+		free(pipe[i]);
+		i++;
+	}
+	free(pipe);
+	if (errno)
+		return (errno);
+	return (1);
+}
+
+/**
+ * @brief Free pipes
+ * 
+ * @param pipes: The list of pipes
+ * @return 1 or errno if errno is set
+ */
+int	clear_pipes(char ***pipes)
+{
+	int	i;
+
+	i = 0;
+	while (pipes[i])
+	{
 		clear_pipe(pipes[i]);
+		i++;
+	}
 	free(pipes);
+	if (errno)
+		return (errno);
+	return (1);
 }

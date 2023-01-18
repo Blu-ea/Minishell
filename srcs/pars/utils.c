@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:06:19 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/17 18:28:31 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/18 14:47:00 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**insert(char **tab, char *str, int pos)
 	j = 0;
 	ret = malloc(sizeof(*ret) * (ft_tablen(tab) + 2));
 	if (!ret)
-		ft_exit("malloc failed");
+		ft_exit("malloc failed", 1);
 	while (tab[i] != NULL)
 	{
 		if (i == pos)
