@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 17:10:22 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 18:13:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ char	cmd_not_found(char *cmd)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
+		return (2);
 	}
-	return (2);
+	return (0);
 }
 
 /**

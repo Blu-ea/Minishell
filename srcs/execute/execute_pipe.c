@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 15:15:28 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 19:13:09 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ char	no_redirect(t_pipe **tpipe, char **pipe, int index)
  * 
  * @param pipes: array of pipes
  * @param envp: environment variables
- * @return the error code of the last command or errno if an error occured
+ * @return the error code of the last command or -1 if there was no command or
+ * errno if an error occured
  */
 int	execute_pipes(char ***pipes, char **envp)
 {

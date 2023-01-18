@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:53:35 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 16:35:44 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 17:56:02 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	trim_pipe(char ***pipe, int i)
 	char	*new_str;
 	char	**new_pipe;
 
-	new_pipe = ft_calloc(sizeof(*new_pipe), (new_pipe_len(*pipe) + 1));
+	new_pipe = ft_calloc(sizeof(*new_pipe), (new_pipe_len(*pipe) + 2));
 	if (!new_pipe)
 		return (1);
 	i = -1;
