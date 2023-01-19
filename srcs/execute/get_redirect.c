@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:42:54 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 17:14:50 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 #include <sys/wait.h>
 #include <readline/readline.h>
+#include "minishell.h"
 
 /**
  * @brief Open the file name and return the file descriptor
@@ -96,7 +97,9 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 	else if (pid == 0)
 	{
 		close(pipefd[0]);
+		g_error_sig = IN_HEREDOC;
 		read_heredoc((*str) + 1, pipefd[1]);
+		g_error_sig = 0;
 		close(pipefd[1]);
 		clear_pipes(pipes);
 		clear_pipe_lst(pipe_lst, 0);

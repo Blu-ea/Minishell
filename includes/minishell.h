@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 18:17:19 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/19 17:12:00 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # define WRONG_PATH 2
 # define NO_HOME 3
 # define MALLOC_ERROR 10
+
+# define C_C_CALL 1
+# define IN_HEREDOC 2
 
 # include "parse.h"
 
