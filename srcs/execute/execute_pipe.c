@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 16:45:56 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 17:47:07 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	convert_to_t_pipe(t_pipe *pipe_lst, t_pipe **pipe, char ***pipes, int i)
 	trim_prefix(pipes[i]);
 	(*pipe)->args = pipes[i];
 	(*pipe)->next = NULL;
-	if (pipe_add_back(pipe, pipe_new(0, 0)))
+	if (pipe_add_back(pipe, pipe_new(0, 0, (*pipe)->env)))
 		return (clear_error_pipe(pipe_lst, pipes));
 	*pipe = (*pipe)->next;
 	return (0);
@@ -98,7 +98,7 @@ int	execute_pipes(char ***pipes, char **envp)
 	t_pipe	*pipe_lst;
 	t_pipe	*pipe;
 
-	pipe_lst = pipe_new(0, 0);
+	pipe_lst = pipe_new(0, 0, envp);
 	if (!pipe_lst)
 		return (clear_pipes(pipes));
 	pipe = pipe_lst;

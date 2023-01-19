@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 17:14:50 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/19 18:15:21 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	get_fds(char **pipe, int *fds, int i, char append_mode)
 	return (0);
 }
 
-void	read_heredoc(char *str, int fd)
+void	read_heredoc(char *str, int fd, char **env)
 {
 	char	*line;
 
@@ -75,6 +75,7 @@ void	read_heredoc(char *str, int fd)
 		ft_strlen(str);
 		if (!line || ft_strncmp(line, str, ft_strlen(str) + 1) == 0)
 			break ;
+		line = trad_heredoc(line, env);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
@@ -98,7 +99,7 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 	{
 		close(pipefd[0]);
 		g_error_sig = IN_HEREDOC;
-		read_heredoc((*str) + 1, pipefd[1]);
+		read_heredoc((*str) + 1, pipefd[1], pipe_lst->env);
 		g_error_sig = 0;
 		close(pipefd[1]);
 		clear_pipes(pipes);

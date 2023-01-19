@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:49:16 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 18:14:18 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_pipe
 {
 	int				fd[2];
 	char			**args;
+	char			**env;
 	struct s_pipe	*next;
 }	t_pipe;
 
@@ -48,9 +49,10 @@ int			get_redirect(char **pipe, int *fds, char ***pipes,
 
 int			remove_redirect(char **pipe, int i);
 char		disable_pipe(t_pipe **tpipe, char **pipe);
+char		*trad_heredoc(char *line, char **env);
 
 t_pipe		*pipe_last(t_pipe *lst);
-t_pipe		*pipe_new(char **args, int *fd);
+t_pipe		*pipe_new(char **args, int *fd, char **env);
 char		pipe_add_back(t_pipe **lst, t_pipe *new);
 
 t_fd_lst	*fd_lst_new(int fd);

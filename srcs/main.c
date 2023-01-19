@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/19 17:00:47 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/19 17:22:36 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **env)
 		if (line == NULL)
 			bin_exit(NULL);
 		parse_line = parse(line, env);
-		// print_command(parse_line);
+		print_command(parse_line);
 		if (parse_line && parse_line[0][0])
 		{
 			ret = execute_pipes(parse_line, env);

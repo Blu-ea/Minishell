@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:29:54 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/13 18:17:23 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 17:45:26 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_pipe	*pipe_last(t_pipe *lst)
 	return (lst);
 }
 
-t_pipe	*pipe_new(char **args, int *fd)
+t_pipe	*pipe_new(char **args, int *fd, char **env)
 {
 	t_pipe	*new;
 
@@ -35,6 +35,7 @@ t_pipe	*pipe_new(char **args, int *fd)
 		new->fd[1] = fd[1];
 	}
 	new->next = NULL;
+	new->env = env;
 	return (new);
 }
 
