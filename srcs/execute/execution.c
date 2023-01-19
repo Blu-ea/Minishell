@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 00:55:58 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 16:38:21 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ pid_t	open_fork(int pipefd[2], t_pipe *pip, t_fd_lst *std_ins, t_fd_lst *pids)
  */
 char	*is_path_and_dup_access(char *str, char dup)
 {
+	if (!str[0] && dup)
+		return (0);
+	else if (!str[0] && !dup)
+		return ((char *)1);
 	if (dup)
 	{
 		if (str && access(str, F_OK) == 0)
