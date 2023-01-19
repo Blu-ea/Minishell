@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:04:25 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/19 15:31:53 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ char	***split_pipes(char **cmd)
 	nb_pipes = number_of_pipes(cmd) + 1;
 	pipes = malloc(sizeof(*pipes) * (nb_pipes + 1));
 	if (!pipes)
-		return (NULL); // FIXME: free on error
+		return (clear_error_pipes(pipes, cmd, -1));
 	i = -1;
 	while (++i < nb_pipes)
 	{
-		pipes[i] = malloc(sizeof(*(pipes[i])) * (size_pipe(cmd, i) + 1));
+		pipes[i] = ft_calloc(sizeof(*(pipes[i])), (size_pipe(cmd, i) + 2));
 		if (!pipes[i])
 			return (clear_error_pipes(pipes, cmd, i - 1));
 	}

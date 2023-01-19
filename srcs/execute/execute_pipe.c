@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 19:13:09 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:45:42 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
  */
 char	convert_to_t_pipe(t_pipe *pipe_lst, t_pipe **pipe, char ***pipes, int i)
 {
-	if (trim_pipe(pipes + i, -1))
-		return (clear_error_pipe(pipe_lst, pipes));
+	trim_prefix(pipes[i]);
 	(*pipe)->args = pipes[i];
 	(*pipe)->next = NULL;
 	if (pipe_add_back(pipe, pipe_new(0, 0)))
@@ -116,7 +115,6 @@ int	execute_pipes(char ***pipes, char **envp)
 			return (clear_error_pipe(pipe_lst, pipes));
 		else if (!index && convert_to_t_pipe(pipe_lst, &pipe, pipes, i))
 			return (errno);
-		// print_pipe_struct(pipe_lst);
 	}
 	free(pipes);
 	return (pipex(&pipe_lst, envp));

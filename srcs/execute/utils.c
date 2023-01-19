@@ -6,29 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 18:19:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 15:48:12 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:49:08 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-
-char	*ft_newjoin(char *s1, const char *s2)
-{
-	char	*ret;
-
-	ret = ft_strjoin(s1, s2);
-	if (!ret)
-		return (NULL);
-	if (s1)
-		free(s1);
-	return (ret);
-}
-
-void	init_fds(int *fds)
-{
-	fds[0] = 0;
-	fds[1] = 1;
-}
 
 void	remove_cmd(char **pipes)
 {

@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 15:01:03 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:41:27 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ char		quote_error(char *str);
 char		*clear_white_space(char *str);
 int			number_of_pipes(char **str);
 char		***parse(char *str, char **env);
+
+char		trim_pipe(char ***pipe);
 
 #endif // PARSE_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/17 17:55:49 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/19 15:47:03 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ int	number_of_pipes(char **str)
 
 char	***parse(char *str, char **env)
 {
+	char	***tmp;
 	char	**cmd;
 	int		*cutting_indexs;
+	int		i;
 
 	if (quote_error(str))
 		return (NULL);
@@ -103,5 +105,9 @@ char	***parse(char *str, char **env)
 	handle_white_space(&cmd);
 	handle_pipes(&cmd);
 	handle_redirect(&cmd);
-	return (split_pipes(cmd));
+	tmp = split_pipes(cmd);
+	i = -1;
+	while (tmp && tmp[++i])
+		trim_pipe(tmp + i);
+	return (tmp);
 }

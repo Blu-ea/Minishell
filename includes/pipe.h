@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 17:11:29 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:49:16 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ void		print_command(char ***pipes);
 void		print_pipe(char	**pipe, char nl);
 void		check_fd_leak(void);
 
-char		trim_pipe(char ***pipe, int i);
+void		trim_prefix(char **pipe);
 
-char		*ft_newjoin(char *s1, const char *s2);
 char		*add_prefix(const char *s1, char *s2);
 
 int			pipex(t_pipe **pipe_lst, char **envp);
@@ -49,7 +48,6 @@ int			get_redirect(char **pipe, int *fds, char ***pipes,
 
 int			remove_redirect(char **pipe, int i);
 char		disable_pipe(t_pipe **tpipe, char **pipe);
-void		init_fds(int *fds);
 
 t_pipe		*pipe_last(t_pipe *lst);
 t_pipe		*pipe_new(char **args, int *fd);

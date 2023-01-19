@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 15:49:10 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:42:54 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@
  */
 int	open_fd(char **pipe, char c)
 {
-	if (!pipe[0] || (pipe[0][0] == '2' && !pipe[1]))
+	if (!pipe[0])
 	{
 		errno = 5;
 		return (-1);
 	}
-	if (pipe[0][0] == '2')
-		pipe++;
 	if (c == '>')
 		return (open(pipe[0] + 1, O_WRONLY | O_CREAT | O_TRUNC, 0644));
 	else if (c == '<')
@@ -98,8 +96,6 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 	else if (pid == 0)
 	{
 		close(pipefd[0]);
-		if (str[0][0] == '2')
-			str++;
 		read_heredoc((*str) + 1, pipefd[1]);
 		close(pipefd[1]);
 		clear_pipes(pipes);
@@ -126,15 +122,14 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 {
 	int		i;
 
-	init_fds(fds);
+	fds[0] = 0;
+	fds[1] = 1;
 	i = 0;
 	while (p[i])
 	{
 		if (p[i][0] == '3')
 		{
 			if (ft_strlen(p[i] + 1) > 2 || !p[i + 1] || p[i + 1][0] == '3'
-				|| (p[i + 1][0] == '2' && p[i + 2] == 0)
-				|| (p[i + 1] && p[i + 1][0] == '2' && p[i + 2][0] == '3')
 				|| (p[i][1] != p[i][2] && p[i][2] != 0))
 				return (-1);
 			else if (p[i][1] == '<' && p[i][2] == '<')
@@ -143,7 +138,7 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 					return (-1);
 			}
 			else if (get_fds(p, fds, i, p[i][2]))
-				return (i + (p[i + 1][0] == '2'));
+				return (i);
 			i = remove_redirect(p, i);
 		}
 		i++;

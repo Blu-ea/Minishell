@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/18 19:17:51 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/18 19:28:53 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,13 @@ int	main(int argc, char **argv, char **env)
 		parse_line = parse(line, env);
 		// print_command(parse_line);
 		ret = execute_pipes(parse_line, env);
-		// if (ret == -1)
-			//TODO: don't update $?
-		// else
-			// TODO: update $?
 		printf("exit status = %d\n", ret);
 		if (errno)
 			perror(argv[0]);
 		check_fd_leak();
 		// while (parse_line && parse_line[++i])
 		// 	ret = built_in(parse_line[i], &env);
-		if (!update_ret(env, ret))
+		if (ret != -1 && !update_ret(env, ret))
 			bin_exit (NULL);
 		if (line != NULL)
 			free(line);

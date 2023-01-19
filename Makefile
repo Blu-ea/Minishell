@@ -17,62 +17,61 @@ DIR_OBJS	:= .objs
 DIR_INCS	:= includes
 DIR_LIBFT	:= libft
 # ############################################################################ #
-LST_SRCS	:=	main.c\
-				read_line.c\
-				debug.c\
-				env.c\
+LST_SRCS	:=	read_line.c\
+				init_env.c\
 				signal.c\
-				init_env.c
+				debug.c\
+				main.c\
+				env.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
 LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
 
-BUILTIN		:=	cd.c\
+BUILTIN		:=	export_update.c\
+				print_export.c\
+				export_add.c\
 				cd_env.c\
-				env.c\
+				export.c\
+				unset.c\
 				echo.c\
 				exit.c\
-				export.c\
-				print_export.c\
-				unset.c\
+				env.c\
 				pwd.c\
-				export_update.c\
-				export_add.c
+				cd.c
 DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
 OBJ_BUILTIN	:=	$(addprefix $(DIR_OBJS)/,$(LST_BUILTIN:.c=.o))
 
-PARSING		:=	parse.c\
-				clean_empty.c\
-				cut_cmd.c\
-				debug.c\
+PARSING		:=	ft_split_charset.c\
 				dollar_variable.c\
-				exit.c\
-				ft_split_charset.c\
+				clean_empty.c\
+				split_pipes.c\
+				trim_pipe.c\
 				get_index.c\
 				handlers.c\
-				split_pipes.c\
+				cut_cmd.c\
+				utils2.c\
+				debug.c\
 				utils.c\
-				utils2.c
-
+				parse.c\
+				exit.c
 DIR_PARSING	:=	pars
 LST_PARSING :=	$(addprefix $(DIR_PARSING)/,$(PARSING))
 SRC_PARSING	:=	$(addprefix $(DIR_SRCS)/,$(LST_PARSING))
 OBJ_PARSING	:=	$(addprefix $(DIR_OBJS)/,$(LST_PARSING:.c=.o))
 
-EXECUTE		:=	debug.c\
-				error1.c\
-				execute_pipe.c\
-				execution.c\
+EXECUTE		:=	execute_pipe.c\
 				fd_lst_utils.c\
-				free.c\
 				get_redirect.c\
-				pipe.c\
 				pipe_utils.c\
+				execution.c\
+				error1.c\
+				debug.c\
 				pipex.c\
-				utils.c
-
+				utils.c\
+				pipe.c\
+				free.c
 DIR_EXECUTE	:=	execute
 LST_EXECUTE :=	$(addprefix $(DIR_EXECUTE)/,$(EXECUTE))
 SRC_EXECUTE	:=	$(addprefix $(DIR_SRCS)/,$(LST_EXECUTE))
@@ -87,8 +86,8 @@ LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
 # -include $(DEPH)
 # ############################################################################ #
 CC			:=	gcc
-SANITYZE	:=	-fsanitize=address 
-CFLAGS		:=	-Wall -Wextra -g3 #-Werror 
+SANITYZE	:=	-fsanitize=address
+CFLAGS		:=	-Wall -Wextra -g3 #-Werror
 # ############################################################################ #
 # **************************************************************************** #
 ERASE	:=	\033[2K\r

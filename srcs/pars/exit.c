@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:39:52 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 14:44:52 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/19 15:33:45 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ char	***clear_error_pipes(char ***pipes, char **cmd, int i)
 		i--;
 	}
 	clear_pipe(cmd);
-	free(pipes);
+	if (pipes)
+		free(pipes);
 	return (NULL);
 }
 
