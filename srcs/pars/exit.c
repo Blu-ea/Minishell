@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:39:52 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:33:45 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:47:40 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,22 @@ int	clear_pipes(char ***pipes)
 	if (errno)
 		return (errno);
 	return (1);
+}
+
+char	**check_fail_cut_cmd(char **ret, int j)
+{
+	int	i;
+
+	i = j;
+	while (--j != -1)
+	{
+		if (!ret[j])
+		{
+			while (i--)
+				free(ret[i]);
+			free(ret);
+			return (NULL);
+		}
+	}
+	return (ret);
 }

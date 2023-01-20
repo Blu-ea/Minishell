@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 18:13:37 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:36:24 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	cmd_not_found(char *cmd)
 /**
  * @brief Free the pipe list and exit with the error message
  * 
- * @param text: The error message
+ * @param ret: 1 if an error occured, 2 if the command was not found
  * @param pipe: The pipe list
  * @param std_ins: The list of standard input
  * @param pids: The list of pid

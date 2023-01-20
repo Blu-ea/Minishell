@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:06:19 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 14:47:00 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:33:25 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,13 @@ char	*ft_join3(char *s1, const char *s2, char *s3)
 	char	*ret;
 
 	tmp = ft_strjoin(s1, s2);
-	free(s1);
+	if (s1)
+		free(s1);
 	ret = ft_strjoin(tmp, s3);
-	free(tmp);
-	free(s3);
+	if (tmp)
+		free(tmp);
+	if (s3)
+		free(s3);
 	return (ret);
 }
 
@@ -38,7 +41,8 @@ char	*add_prefix(const char *s1, char *s2)
 	char	*ret;
 
 	ret = ft_strjoin(s1, s2);
-	free(s2);
+	if (s2)
+		free(s2);
 	return (ret);
 }
 
@@ -57,8 +61,15 @@ int	*append_int(int *tab, int nb)
 	int	*ret;
 	int	i;
 
+	if (!tab)
+		return (NULL);
 	i = 0;
 	ret = malloc(sizeof(int) * (ft_inttablen(tab) + 2));
+	if (!ret)
+	{
+		free(tab);
+		return (NULL);
+	}
 	while (tab[i] != -1)
 	{
 		ret[i] = tab[i];
@@ -80,7 +91,10 @@ char	**insert(char **tab, char *str, int pos)
 	j = 0;
 	ret = malloc(sizeof(*ret) * (ft_tablen(tab) + 2));
 	if (!ret)
-		ft_exit("malloc failed", 1);
+	{
+		free(str);
+		return (NULL);
+	}
 	while (tab[i] != NULL)
 	{
 		if (i == pos)

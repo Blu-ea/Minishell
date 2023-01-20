@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_empty.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:28:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 23:50:16 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	clean_empty(char ***cmd)
 	char	*tmp;
 
 	i = -1;
-	while (cmd[0][++i])
+	while (cmd && cmd[0] && cmd[0][++i])
 	{
 		if (cmd[0][i][0] == '0' && cmd[0][i][1] == '\0')
 		{

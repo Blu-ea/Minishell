@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:47:03 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:43:21 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,12 @@ char	quote_error(char *str)
 	return (0);
 }
 
-/**
- * @brief Replace all white spaces by 1 space char
- * 
- * @param str 
- * @return char* 
- */
-char	*clear_white_space(char *str)
-{
-	char	*ret;
-	int		i;
-	int		j;
-
-	ret = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	i = -1;
-	j = 0;
-	while (str[++i])
-	{
-		if (str[i] == ' ' || (str[i] <= '\t' && str[i] >= '\r'))
-		{
-			ret[j++] = ' ';
-			while (str[i] == ' ' || (str[i] <= '\t' && str[i] >= '\r'))
-				i++;
-			i--;
-		}
-		else
-			ret[j++] = str[i];
-	}
-	ret[j] = '\0';
-	return (ret);
-}
-
 int	number_of_pipes(char **str)
 {
 	int	ret;
 
 	ret = 0;
-	while (*str)
+	while (str && *str)
 	{
 		if (str[0][0] == '4')
 			ret++;
@@ -86,6 +55,18 @@ int	number_of_pipes(char **str)
 	return (ret);
 }
 
+/**
+ * @brief Preporcessing of the command line, it will return a list of pipes,
+ * each pipe is a list of commands and each command is a list of arguments that
+ * are identified by a special character at the beginning of the argument. (0
+ * for a normal argument, 1 for arguments that where in quotes, 2 for spaces,
+ * 3 for redirections, 4 for pipes(shoudn't be here))
+ * 
+ * @param str: the command line
+ * @param env: the environment
+ * @return A list of pipes or NULL if there is an error or 1 if there is a quote
+ * error
+ */
 char	***parse(char *str, char **env)
 {
 	char	***tmp;
@@ -94,17 +75,18 @@ char	***parse(char *str, char **env)
 	int		i;
 
 	if (quote_error(str))
-		return (NULL);
+		return ((char ***)1);
 	cutting_indexs = get_index_single_quotes(str);
 	if (!cutting_indexs)
 		return (NULL);
 	cmd = cut_command(str, cutting_indexs);
 	free(cutting_indexs);
-	handle_dollar_variables(cmd, env);
-	handle_double_quotes(&cmd);
-	handle_white_space(&cmd);
-	handle_pipes(&cmd);
-	handle_redirect(&cmd);
+	if (!cmd)
+		return (NULL);
+	if (handle_dollar_variables(cmd, env) || handle_double_quotes(&cmd)
+		|| handle_white_space(&cmd) || handle_pipes(&cmd)
+		|| handle_redirect(&cmd) && cmd && clear_pipe(cmd))
+		return (NULL);
 	tmp = split_pipes(cmd);
 	i = -1;
 	while (tmp && tmp[++i])

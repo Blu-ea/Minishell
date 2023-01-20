@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:19:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 16:25:15 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:48:28 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*handle_dollar_variable(char *str, char **env)
 	char		*tmp;
 
 	i = -1;
-	while (str[++i])
+	while (str && str[++i])
 	{
 		if (str[i] == '$' && str[i + 1])
 		{
@@ -66,5 +66,13 @@ void	handle_dollar_variables(char **cmd, char **env)
 
 	i = -1;
 	while (cmd[++i])
-		cmd[i] = handle_dollar_variable(cmd[i], env);
+	{
+		if (cmd[i][0] == '0')
+		{
+			cmd[i] = handle_dollar_variable(cmd[i], env);
+			if (!cmd[i])
+				return (1);
+		}
+	}
+	return (0);
 }

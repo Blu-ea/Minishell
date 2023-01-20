@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 16:25:30 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:36:49 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void		clean_empty(char ***cmd);
 int			split_merge_cmd(char ***pipe, int *indexs, int index,
 				char **(*cut)(char *, int *));
 
-void		ft_exit(const char *str, int exit_code);
 int			clear_pipes(char ***pipes);
 int			clear_pipe(char **pipe);
 char		***clear_error_pipes(char ***pipes, char **cmd, int i);
+char		**check_fail_cut_cmd(char **ret, int j);
 
 int			*get_index_single_quotes(char *str);
 int			*get_index_double_quotes(char *str);
@@ -50,11 +50,11 @@ int			*get_index_redirect(char *str);
 int			*get_index_pipe(char *str);
 
 char		*handle_dollar_variable(char *str, char **env);
-void		handle_dollar_variables(char **cmd, char **env);
-void		handle_double_quotes(char ***cmd);
-void		handle_white_space(char ***cmd);
-void		handle_pipes(char ***cmd);
-void		handle_redirect(char ***cmd);
+char		handle_dollar_variables(char **cmd, char **env);
+char		handle_double_quotes(char ***cmd);
+char		handle_white_space(char ***cmd);
+char		handle_pipes(char ***cmd);
+char		handle_redirect(char ***cmd);
 
 char		***split_pipes(char **cmd);
 

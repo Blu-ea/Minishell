@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 19:06:58 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:25:17 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void		free_fds(t_fd_lst *std_in, t_fd_lst *pids);
 
 int			execute_pipes(char ***pipes, char **envp);
 
-int			launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
-				t_fd_lst **pids);
+int			launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins);
 
 void		ft_exit(const char *str, int exit_code);
 #endif // PIPE_H

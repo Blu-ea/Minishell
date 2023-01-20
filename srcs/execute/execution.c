@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 16:38:21 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 23:31:05 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@
  * @brief SAFE Open a pipe and a fork safely
  * 
  * @param pipefd: list of the stdin and stdout of the pipe
- * @param args: list of args to free in case it fails
- * @param std_ins: list of the stdin to free in case it fails
- * @param pids: list of the pid to free in case it fails
+ * @param pip: the current pipe to reset if an error occured
  * @return the pid of the child or -1 if the command had an error
  */
-pid_t	open_fork(int pipefd[2], t_pipe *pip, t_fd_lst *std_ins, t_fd_lst *pids)
+pid_t	open_fork(int pipefd[2], t_pipe *pip)
 {
 	pid_t	pid;
 
@@ -29,16 +27,16 @@ pid_t	open_fork(int pipefd[2], t_pipe *pip, t_fd_lst *std_ins, t_fd_lst *pids)
 		return (-1);
 	if (pipe(pipefd) == -1)
 	{
-		clear_pipe_lst(pip, 1);
-		free_fds(std_ins, pids);
-		ft_exit("Pipe error: ", 1);
+		free(pip->args[0]);
+		pip->args[0] = 0;
+		return (-1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
-		clear_pipe_lst(pip, 1);
-		free_fds(std_ins, pids);
-		ft_exit("Fork error: ", 1);
+		free(pip->args[0]);
+		pip->args[0] = 0;
+		return (-1);
 	}
 	return (pid);
 }
@@ -78,7 +76,8 @@ char	*is_path_and_dup_access(char *str, char dup)
  * 
  * @param path: the path to search in
  * @param cmd: the command to search
- * @return the full path of the command or 0 if it doesn't exist
+ * @return the full path of the command or 0 if it doesn't exist or -1 if there
+ * was a malloc error
  */
 char	*get_path(char *path, char *cmd, int i)
 {
@@ -116,8 +115,8 @@ char	*get_path(char *path, char *cmd, int i)
  * @param pipe: the pipe to execute
  * @param envp: the envp
  * @param std_ins: the list of the stdin to get the output of the previous pipe
- * @return the error code of the execve or 0 if the command doesn't exist or if
- * there was a malloc error
+ * @return the error code of the execve or 0 if the command doesn't exist or -1
+ * if there was a malloc error
  */
 int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {
@@ -147,12 +146,22 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	return (i);
 }
 
-int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins, t_fd_lst **pids)
+/**
+ * @brief Launch the program and add the stdin of the pipe to the list of stdin
+ *  
+ * @param pipe: the pipe to execute 
+ * @param envp: the envp
+ * @param std_ins: the list of the stdin to get the output of the previous pipe
+ * and add the stdin of the current pipe
+ * @return the pid of the child or 0 if the command doesn't exist or -1 if there
+ * was a malloc error
+ */
+int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {
 	pid_t	pid;
 	int		pipefd[2];
 
-	pid = open_fork(pipefd, pipe, *std_ins, *pids);
+	pid = open_fork(pipefd, pipe);
 	if (pid == 0)
 	{
 		return (handle_child(pipefd, pipe, envp, std_ins));

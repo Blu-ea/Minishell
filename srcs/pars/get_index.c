@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_index.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:13:29 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/16 19:14:54 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 23:47:17 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	*get_index_double_quotes(char *str)
 	int	*ret;
 
 	ret = malloc(sizeof(int));
+	if (!ret)
+		return (NULL);
 	ret[0] = -1;
 	i = -1;
 	while (str[++i])
@@ -71,6 +73,8 @@ int	*get_index_white_space(char *str)
 	int	*ret;
 
 	ret = malloc(sizeof(int));
+	if (!ret)
+		return (NULL);
 	ret[0] = -1;
 	i = -1;
 	while (str[++i])
@@ -94,6 +98,8 @@ int	*get_index_pipe(char *str)
 	int	*ret;
 
 	ret = malloc(sizeof(int));
+	if (!ret)
+		return (NULL);
 	ret[0] = -1;
 	i = -1;
 	while (str[++i])
@@ -117,6 +123,8 @@ int	*get_index_redirect(char *str)
 	char	c;
 
 	ret = malloc(sizeof(*ret));
+	if (!ret)
+		return (NULL);
 	ret[0] = -1;
 	i = -1;
 	while (str[++i])
