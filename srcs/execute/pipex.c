@@ -6,11 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 16:48:20 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 19:37:41 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "minishell.h"
 #include <sys/wait.h>
 
 /**
@@ -72,6 +73,17 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	return (0);
 }
 
+void	check_exit(t_pipe **pipe_lst, char **envp)
+{
+	if (pipe_len(*pipe_lst) == 2
+		&& !ft_strncmp((*pipe_lst)->args[0], "exit", 5))
+	{
+		clear_split(envp);
+		clear_pipe_lst(*pipe_lst, 1);
+		bin_exit((*pipe_lst)->args);
+	}
+}
+
 /**
  * @brief Launch all the command in the pipe list
  * 
@@ -87,6 +99,7 @@ int	pipex(t_pipe **pipe_lst, char **envp)
 	char		tmp;
 	int			ret;
 
+	check_exit(pipe_lst, envp);
 	pids = fd_lst_new(0);
 	std_ins = fd_lst_new(0);
 	pipe = *pipe_lst;

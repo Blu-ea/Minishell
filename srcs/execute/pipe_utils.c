@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:29:54 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 17:45:26 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 19:10:11 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,17 @@ char	pipe_add_back(t_pipe **lst, t_pipe *new)
 	last = pipe_last(*lst);
 	last->next = new;
 	return (0);
+}
+
+int	pipe_len(t_pipe *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
 }

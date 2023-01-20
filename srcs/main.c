@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/19 17:22:36 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 19:45:39 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	main(int argc, char **argv, char **env)
 	while (env)
 	{
 		ret = 1;
-		// i = -1;
 		line = ft_read_line(env);
 		if (line == NULL)
 			bin_exit(NULL);
 		parse_line = parse(line, env);
-		print_command(parse_line);
+		free(line);
+		// print_command(parse_line);
 		if (parse_line && parse_line[0][0])
 		{
 			ret = execute_pipes(parse_line, env);
@@ -53,12 +53,10 @@ int	main(int argc, char **argv, char **env)
 			if (!update_ret(env, ret))
 				bin_exit (NULL);
 		}
-		// while (parse_line && parse_line[++i])
-		// 	ret = built_in(parse_line[i], &env);
-		if (line != NULL)
-			free(line);
-		// i = -1;
-		// free(parse_line);
+		else if (parse_line)
+			clear_pipes(parse_line);
+		else
+			printf("quote error\n");
 	}
 	return (1);
 }
