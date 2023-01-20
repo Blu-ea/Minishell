@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 18:15:21 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 16:22:22 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	read_heredoc(char *str, int fd, char **env)
 		ft_strlen(str);
 		if (!line || ft_strncmp(line, str, ft_strlen(str) + 1) == 0)
 			break ;
-		line = trad_heredoc(line, env);
+		line = handle_dollar_variable(line, env);
 		ft_putstr_fd(line, fd);
 		ft_putstr_fd("\n", fd);
 		free(line);
