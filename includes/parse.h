@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:41:27 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/20 16:13:23 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int			*get_index_white_space(char *str);
 int			*get_index_redirect(char *str);
 int			*get_index_pipe(char *str);
 
+char		*handle_dollar_variable(char *str, char **env);
 void		handle_dollar_variables(char **cmd, char **env);
 void		handle_double_quotes(char ***cmd);
 void		handle_white_space(char ***cmd);

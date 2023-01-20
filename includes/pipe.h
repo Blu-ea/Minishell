@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 18:14:18 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 16:14:23 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int			get_redirect(char **pipe, int *fds, char ***pipes,
 
 int			remove_redirect(char **pipe, int i);
 char		disable_pipe(t_pipe **tpipe, char **pipe);
-char		*trad_heredoc(char *line, char **env);
 
 t_pipe		*pipe_last(t_pipe *lst);
 t_pipe		*pipe_new(char **args, int *fd, char **env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 02:51:28 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 17:05:35 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/20 15:57:55 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ char	*env_get_value(char **env, char *name)
 		{
 			ret = ft_strndup(env[i] + ft_strlen(temp), ft_strlen(env[i]));
 			free(temp);
-			if (!ret)
-				return (NULL);
 			return (ret);
 		}
 	}
