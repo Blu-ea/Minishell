@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:19:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 15:59:11 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/17 18:00:43 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*get_variable(char *str)
 char	*handle_dollar_variable(char *str, char **env)
 {
 	int			i;
-	int			len_var;
 	char		*var;
 	char		*tmp;
 
@@ -45,15 +44,17 @@ char	*handle_dollar_variable(char *str, char **env)
 		if (str[i] == '$' && str[i + 1])
 		{
 			tmp = get_variable(str + i + 1);
-			len_var = ft_strlen(tmp);
 			var = env_get_value(env, tmp);
 			free(tmp);
 			if (!var)
-				var = ft_strdup("");
-			tmp = ft_join3(ft_substr(str, 0, i), var, ft_substr(str,
-						i + 1 + len_var, ft_strlen(str)));
+				tmp = ft_strjoin_free(ft_substr(str, 0, i), ft_substr(str,
+							i + 1 + ft_strlen(tmp), ft_strlen(str)), FREE_BOTH);
+			else
+				tmp = ft_join3(ft_substr(str, 0, i), var, ft_substr(str,
+							i + 1 + ft_strlen(tmp), ft_strlen(str)));
+			if (var)
+				free(var);
 			free(str);
-			free(var);
 			str = tmp;
 		}
 	}
