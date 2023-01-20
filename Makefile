@@ -43,8 +43,7 @@ LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
 OBJ_BUILTIN	:=	$(addprefix $(DIR_OBJS)/,$(LST_BUILTIN:.c=.o))
 
-PARSING		:=	ft_split_charset.c\
-				dollar_variable.c\
+PARSING		:=	dollar_variable.c\
 				clean_empty.c\
 				split_pipes.c\
 				trim_pipe.c\

@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 15:21:55 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:36:49 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 00:49:49 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,11 @@
 # include <errno.h>
 # include "../libft/includes/libft.h"
 
-typedef struct s_command
-{
-	char	***pipes;
-	int		nb_pipes;
-}	t_command;
-
 void		print_pipe(char	**pipe, char nl);
 void		print_command(char ***pipes);
 void		print_cutting_index(int *cutting_index);
 char		*add_red(char *str, int i);
 
-t_command	*init_command(t_command *command);
-char		**ft_split_charset(char *str, char *charset);
 char		*ft_join3(char *s1, const char *s2, char *s3);
 char		*add_prefix(const char *s1, char *s2);
 int			ft_inttablen(int *tan);

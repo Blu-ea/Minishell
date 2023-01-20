@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:43:21 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 00:47:26 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ char	***parse(char *str, char **env)
 	free(cutting_indexs);
 	if (!cmd)
 		return (NULL);
-	if (handle_dollar_variables(cmd, env) || handle_double_quotes(&cmd)
-		|| handle_white_space(&cmd) || handle_pipes(&cmd)
-		|| handle_redirect(&cmd) && cmd && clear_pipe(cmd))
+	if ((handle_dollar_variables(cmd, env) || handle_double_quotes(&cmd)
+			|| handle_white_space(&cmd) || handle_pipes(&cmd)
+			|| handle_redirect(&cmd)) && cmd && clear_pipe(cmd))
 		return (NULL);
 	tmp = split_pipes(cmd);
 	i = -1;

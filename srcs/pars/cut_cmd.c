@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:18:25 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:50:02 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 00:46:49 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	**cut_cmd_redirect(char *str, int *indexs)
 
 	if (ft_inttablen(indexs) % 2 != 0)
 		return (NULL);
-	ft_calloc(sizeof(*ret), (cmd_parts(str, indexs) + 2));
+	ret = ft_calloc(sizeof(*ret), (cmd_parts(str, indexs) + 2));
 	if (!ret)
 		return (NULL);
 	i = 0;

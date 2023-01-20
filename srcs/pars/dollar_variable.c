@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:19:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:48:28 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 00:46:23 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*handle_dollar_variable(char *str, char **env)
 	return (str);
 }
 
-void	handle_dollar_variables(char **cmd, char **env)
+char	handle_dollar_variables(char **cmd, char **env)
 {
 	int	i;
 
