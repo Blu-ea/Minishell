@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 20:55:28 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:30:41 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	env = init_env(env);
 	if (env == NULL)
-		printf("Something went wrong");
+		ft_print_error("Something went wrong");
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
 	while (env)
@@ -45,26 +45,23 @@ int	main(int argc, char **argv, char **env)
 		}
 		parse_line = parse(line, env);
 		free(line);
-		// print_command(parse_line);
-		if (parse_line && parse_line[0][0])
+		if (parse_line && parse_line != (char ***)1 && parse_line[0][0])
 		{
 			ret = execute_pipes(parse_line, &env);
-			printf("exit status = %d\n", ret);
 			if (errno)
 				perror(argv[0]);
-			check_fd_leak();
 			if (!update_ret(env, ret))
 			{
 				ret = bin_exit (NULL, env);
 				exit(ret); // let it that way ??
 			}
 		}
-		else if (parse_line)
+		else if (parse_line && parse_line != (char ***)1)
 			clear_pipes(parse_line);
 		else
-			printf("quote error\n");
+			ft_print_error("Quote error");
 	}
-	printf("env error\n");
+	ft_print_error("env error");
 	return (1);
 }
 
@@ -85,11 +82,41 @@ char	**update_ret(char **env, int ret)
 			if (env[i] == NULL)
 			{
 				ft_free_2d_array(env);
-				printf("%s Something whent wrong\n", PROMT_E);
+				ft_print_error("Something went wrong");
 				return (NULL);
 			}
 			return (env);
 		}
 	}
 	return (env);
+}
+
+void	ft_print_error(char *str)
+{
+	ft_putstr_fd(PROMT_E, 2);
+	ft_putstr_fd(" ", 2);
+	ft_putstr_fd(str, 2);
+	if (errno)
+	{
+		ft_putstr_fd(": ", 2);
+		perror("");
+	}
+	else
+		ft_putstr_fd("\n", 2);
+}
+
+void	ft_print_error2(char *str, char *str2)
+{
+	ft_putstr_fd(PROMT_E, 2);
+	ft_putstr_fd(" ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(str2, 2);
+	if (errno)
+	{
+		ft_putstr_fd(": ", 2);
+		perror("");
+	}
+	else
+		ft_putstr_fd("\n", 2);
 }

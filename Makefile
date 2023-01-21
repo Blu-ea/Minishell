@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/07 09:17:51 by amiguez           #+#    #+#              #
-#    Updated: 2022/07/03 11:08:27 by amiguez          ###   ########.fr        #
+#    Updated: 2023/01/21 22:03:02 by jcollon          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ EXECUTE		:=	execute_pipe.c\
 				get_redirect.c\
 				builtin_exec.c\
 				pipe_utils.c\
+				open_fork.c\
 				execution.c\
 				error1.c\
 				debug.c\

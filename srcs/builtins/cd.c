@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 15:38:50 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:21:14 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	bin_cd(char **path, char **env)
 	old_path = getcwd(NULL, 0);
 	if (chdir(new_path) == -1)
 	{
-		printf("minishell: cd: %s: %s\n", new_path, strerror(errno));
+		ft_print_error2("cd", new_path);
 		free(new_path);
 		free(old_path);
 		return (1);
@@ -112,6 +112,6 @@ char	*cd_error(int err)
 	if (err == NO_HOME)
 		write(2, " cd: HOME not set\n", 20);
 	if (err == MALLOC_ERROR)
-		write(2, " cd: Something whent wrong\n", 29);
+		write(2, " cd: Something went wrong\n", 29);
 	return (NULL);
 }

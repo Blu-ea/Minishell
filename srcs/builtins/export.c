@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 16:25:21 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 22:14:02 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	export_error(int err, char *arg)
 	if (err == -1 || err == -2)
 		write (2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == -1)
-		write (2, " export: Something whent wrong\n", 32);
+		write (2, " export: Something went wrong\n", 32);
 	if (err == -2)
 	{
 		write (2, " export: `", 11);

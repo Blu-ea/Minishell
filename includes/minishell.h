@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 20:50:56 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:35:26 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ int		g_error_sig;
 /*				BUILTIN			*/
 /********************************/
 
-int		bin_cd(char **path, char **env);				//Done
-char	*cd_error(int err);						//for cd
-int		cd_update_env(char *new_path, char *old_path, char **env);	//for cd
-int		bin_pwd(void);									//Done
-int		bin_echo(char **args);							//Done
-int		bin_env(char **env);							//Done
-char	**bin_export(char **args, char ***env, int *ret);//Done
-char	**env_add(char **env, char *args);		//for export
-char	**exp_update(char **env, char *args);	//for export
-void	print_t_export(char **env);				//for export
-int		bin_unset(char **args, char ***env);			//Done
-char	**unset_del(char **env, char *arg);		//for unset
-int		bin_exit(char **args, char **env);							//Done
+int		bin_cd(char **path, char **env);
+char	*cd_error(int err);
+int		cd_update_env(char *new_path, char *old_path, char **env);
+int		bin_pwd(void);
+int		bin_echo(char **args);
+int		bin_env(char **env);
+char	**bin_export(char **args, char ***env, int *ret);
+char	**env_add(char **env, char *args);
+char	**exp_update(char **env, char *args);
+void	print_t_export(char **env);
+int		bin_unset(char **args, char ***env);
+char	**unset_del(char **env, char *arg);
+int		bin_exit(char **args, char **env);
 
 /********************************/
 /*				Main			*/
@@ -75,6 +75,8 @@ int		bin_exit(char **args, char **env);							//Done
 char	*ft_read_line(char **env);
 void	ft_clear_line(void);
 int		built_in(char **args, char ***env);
+void	ft_print_error(char *str);
+void	ft_print_error2(char *str, char *str2);
 
 /********************************/
 /* 				Env				*/

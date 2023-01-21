@@ -6,40 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 19:20:30 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 22:03:57 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-
-/**
- * @brief SAFE Open a pipe and a fork safely
- * 
- * @param pipefd: list of the stdin and stdout of the pipe
- * @param pip: the current pipe to reset if an error occured
- * @return the pid of the child or -1 if the command had an error
- */
-pid_t	open_fork(int pipefd[2], t_pipe *pip)
-{
-	pid_t	pid;
-
-	if (pip->args[0] == 0)
-		return (-1);
-	if (pipe(pipefd) == -1)
-	{
-		free(pip->args[0]);
-		pip->args[0] = 0;
-		return (-1);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		free(pip->args[0]);
-		pip->args[0] = 0;
-		return (-1);
-	}
-	return (pid);
-}
 
 /**
  * @brief Check if the command a path (begining with / or .) or dup the command
@@ -107,17 +78,26 @@ char	*get_path(char *path, char *cmd, int i)
 	return (new_path);
 }
 
-int	execute(char *path, t_pipe *pipe, char **envp, int pipefd[2])
+/**
+ * @brief Check if the command is a built in and execute it or execute the
+ * command
+ * 
+ * @param path: the path to the command or 0 if it doesn't exist or -1 if there
+ * was a malloc error
+ * @param pipe: the pipe to execute
+ * @param envp: the environment
+ * @param pipefd[2]: stdin and stdout of the pipe
+ * @return the error code of the execve or 0 if the command doesn't exist or -1
+ * if there was a malloc error
+ */
+int	execute(char *path, t_pipe *pipe, char **envp, int *pipefd)
 {
 	int	i;
 
 	i = is_built_in(pipe->args[0]);
 	if (i)
 	{
-		if (i < 0)
-			i = run_built_in(i, &pipe, &envp, 0);
-		else
-			i = 0;
+		i = run_built_in(i, &pipe, &envp, 0);
 		free(pipe->args[0]);
 		pipe->args[0] = 0;
 		close(pipefd[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 17:14:35 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 15:47:04 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 22:13:59 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**freeall(char **env, char *temp, char **new_env, int i)
 char	**env_error(char **new_env, int i)
 {
 	write (2, PROMT_E, ft_strlen(PROMT_E));
-	write (2, "Something whent wrong", 21);
+	write (2, "Something went wrong", 21);
 	while (i--)
 		free(new_env[i]);
 	free(new_env);

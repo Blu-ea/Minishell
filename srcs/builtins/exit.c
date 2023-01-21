@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 20:52:03 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:27:46 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ int	exit_alpha(char *temp, char **arg);
  * @return beteewn 0 and 255 if need to exit -1 if not || env is free if need
  * to exit
  */
-
 int	bin_exit(char **arg, char **env)
 {
 	int		ret;
 	char	*temp;
 
 	if (arg == NULL || !*arg)
-		printf("exit\n");
+		write(2, "exit\n", 6);
 	if (arg == NULL || !*arg)
 		return (post_exit(env, 0));
 	ret = ft_atoi(*arg);
@@ -53,12 +52,11 @@ int	bin_exit(char **arg, char **env)
 		arg++;
 	arg--;
 	if (temp - *arg != 1 && temp - *arg != 0)
-	{	
-		write (2, PROMT_E, ft_strlen(PROMT_E));
-		write (2, "exit: too many arguments\n", 26);
+	{
+		ft_print_error2("exit", "too many arguments");
 		return (-1);
 	}
-	printf("exit\n");
+	write(2, "exit\n", 6);
 	ft_clear_line();
 	return (post_exit(env, ret % 256));
 }
@@ -103,8 +101,7 @@ int	bin_pipe_exit(char **arg)
 	arg--;
 	if (temp - *arg != 1 && temp - *arg != 0)
 	{	
-		write (2, PROMT_E, ft_strlen(PROMT_E));
-		write (2, "exit: too many arguments\n", 26);
+		ft_print_error2("exit", "too many arguments");
 		return (1);
 	}
 	ft_clear_line();

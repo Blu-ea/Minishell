@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 20:24:37 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 22:22:51 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,14 @@ int	wait_pids(t_fd_lst **pids)
 char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	t_fd_lst **pids)
 {
-	t_fd_lst	*tmp;
-	char		**t_envp;
-	int			i;
-
-	i = -1;
-	t_envp = unset_del(ft_tabdup(envp), "?");
-	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, t_envp, std_ins)))
+	envp = unset_del(envp, "?");
+	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, envp, std_ins)))
 		|| (*pids)->fd <= 0)
 	{
-		while (t_envp[++i])
-			free(t_envp[i]);
-		free(t_envp);
+		clear_split(envp);
 		if ((*pids)->fd == 0)
 		{
-			tmp = (*pids)->next;
-			free(*pids);
-			*pids = tmp;
+			*pids = fd_lst_del_one(*pids);
 			if (fd_lst_add_front(std_ins,
 					fd_lst_new(open("/dev/null", O_RDONLY))))
 				return (1);
@@ -77,9 +68,7 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 		else
 			return (1);
 	}
-	while (t_envp[++i])
-		free(t_envp[i]);
-	free(t_envp);
+	clear_split(envp);
 	return (0);
 }
 
@@ -107,7 +96,7 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	ret = 0;
 	while (pipe->next)
 	{
-		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
+		tmp = launch_pipe(pipe, ft_tabdup(*envp), &std_ins, &pids);
 		if (tmp)
 			error_execve(tmp, *pipe_lst, std_ins, pids);
 		pipe = pipe->next;

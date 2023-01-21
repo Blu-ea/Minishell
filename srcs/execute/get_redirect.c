@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 16:22:22 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 23:40:28 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 		read_heredoc((*str) + 1, pipefd[1], pipe_lst->env);
 		g_error_sig = 0;
 		close(pipefd[1]);
+		clear_split(pipe_lst->env);
 		clear_pipes(pipes);
 		clear_pipe_lst(pipe_lst, 0);
 		exit(0);
