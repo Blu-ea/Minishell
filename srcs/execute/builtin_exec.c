@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:03:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 20:43:07 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:39:42 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "minishell.h"
 
 /**
- * @brief test if it's a build-in
+ * @brief Return if the command is a built in (>0) or a command to rewrite (<0)
  * 
  * @param cmd the command
- * @return int 1=exit | 2=cd | 3=export | 4=unset | -1=env | -2=echo | -3=pwd
+ * @return 1=exit | 2=cd | 3=export | 4=unset | -1=env | -2=echo | -3=pwd
  */
 int	is_built_in(char *cmd)
 {
@@ -38,21 +38,40 @@ int	is_built_in(char *cmd)
 	return (0);
 }
 
+int	rebin_export(char **args, char ***envp)
+{
+	int		ret;
+
+	*envp = bin_export(args, envp, &ret);
+	return (ret);
+}
+
+/**
+ * @brief Execute the built in
+ * 
+ * @param ret the return of is_built_in
+ * @param pipe_lst the pipe list
+ * @param envp the environment
+ * @param pre_pipe if the command is before the fork
+ * @return the return of the built in
+ */
 int	run_built_in(int ret, t_pipe **pipe_lst, char ***envp, char pre_pipe)
 {
 	if (ret == 1 && pre_pipe)
 	{
-		clear_split(*envp);
-		clear_pipe_lst(*pipe_lst, 1);
-		bin_exit((*pipe_lst)->args + 1, *envp); //FIXME: cannot access args from free memory
+		ret = bin_exit((*pipe_lst)->args + 1, *envp);
+		if (ret >= 0)
+		{
+			clear_split(*envp);
+			clear_pipe_lst(*pipe_lst, 1);
+			exit(ret);
+		}
+		return (-ret);
 	}
 	else if (ret == 2 && pre_pipe)
 		return (bin_cd((*pipe_lst)->args + 1, *envp));
 	else if (ret == 3 && pre_pipe)
-	{
-		*envp = bin_export((*pipe_lst)->args + 1, envp, &ret);
-		return (ret);
-	}
+		return (rebin_export((*pipe_lst)->args + 1, envp));
 	else if (ret == 4 && pre_pipe)
 		return (bin_unset((*pipe_lst)->args + 1, envp));
 	else if (ret == -1 && !pre_pipe)

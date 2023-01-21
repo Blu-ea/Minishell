@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 04:41:27 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 16:00:39 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 23:34:47 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	bin_pwd(void)
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{
-		write (2, PROMT_E, ft_strlen(PROMT_E));
-		write (2, " pwd: Failed", 13);
+		ft_print_error("pwd");
 		return (EXIT_FAILURE);
 	}
 	printf("%s\n", path);
