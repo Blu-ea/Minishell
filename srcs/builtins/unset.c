@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 16:04:22 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 16:26:00 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 */
 
 void	free_unset(char **env);
+void	unset_error(int err, char *arg);
 
 int	bin_unset(char **args, char ***env)
 {
@@ -85,7 +86,7 @@ void	unset_error(int err, char *arg)
 	if (err == -1 || err == -2)
 		write (2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == -1)
-		write (2, " export: Something whent wrong\n", PROMT_E);
+		write (2, " export: Something whent wrong\n", 32);
 	if (err == -2)
 	{
 		write (2, " export: `", 11);
