@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/22 00:24:24 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/22 00:25:06 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		bin_pipe_exit(char **arg);				//for exit in pipes
 /********************************/
 
 char	*ft_read_line(char **env);
-void	ft_clear_line(void);
+void	ft_clear_line(char *new_history, int i);
 int		built_in(char **args, char ***env);
 void	ft_print_error(char *str);
 void	ft_print_error2(char *str, char *str2);

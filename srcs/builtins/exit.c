@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 23:27:46 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 00:25:33 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	bin_exit(char **arg, char **env)
 		return (-1);
 	}
 	write(2, "exit\n", 6);
-	ft_clear_line();
+	ft_clear_line(NULL, IN_EXIT);
 	return (post_exit(env, ret % 256));
 }
 
@@ -68,7 +68,7 @@ int	exit_alpha(char *temp, char **arg)
 	write (2, " exit: ", 8);
 	write (2, *arg, ft_strlen(*arg));
 	write (2, ": Numeric argument required\nexit\n", 34);
-	ft_clear_line();
+	ft_clear_line(NULL, IN_EXIT);
 	return (2);
 }
 
@@ -104,6 +104,6 @@ int	bin_pipe_exit(char **arg)
 		ft_print_error2("exit", "too many arguments");
 		return (1);
 	}
-	ft_clear_line();
+	ft_clear_line(NULL, IN_EXIT);
 	exit(ret % 256);
 }
