@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:23:44 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 16:11:56 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,41 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	return (0);
 }
 
-void	check_exit(t_pipe **pipe_lst, char **envp)
+char	is_built_in(t_pipe **pipe_lst, char **envp)
 {
-	if (pipe_len(*pipe_lst) == 2
-		&& !ft_strncmp((*pipe_lst)->args[0], "exit", 5))
+	if (pipe_len(*pipe_lst) == 2)
 	{
-		clear_split(envp);
-		clear_pipe_lst(*pipe_lst, 1);
-		bin_exit((*pipe_lst)->args);
+		if (!ft_strncmp((*pipe_lst)->args[0], "exit", 5))
+		{
+			clear_split(envp);
+			clear_pipe_lst(*pipe_lst, 1);
+			bin_exit((*pipe_lst)->args);
+		}
+		else if (!ft_strncmp((*pipe_lst)->args[0], "cd", 3))
+			return (1);
+		else if (!ft_strncmp((*pipe_lst)->args[0], "export", 7))
+			return (2);
+		else if (!ft_strncmp((*pipe_lst)->args[0], "unset", 6))
+			return (3);
 	}
+	return (0);
+}
+
+int	run_built_in(t_pipe **pipe_lst, char ***envp)
+{
+	int	ret;
+
+	ret = is_built_in(pipe_lst, *envp);
+	if (ret == 1)
+		return (bin_cd((*pipe_lst)->args + 1, *envp));
+	else if (ret == 2)
+	{
+		*envp = bin_export((*pipe_lst)->args + 1, envp, &ret);
+		return (ret);
+	}
+	else if (ret == 3)
+		return (bin_unset((*pipe_lst)->args + 1, envp));
+	return (0);
 }
 
 /**
@@ -91,7 +117,7 @@ void	check_exit(t_pipe **pipe_lst, char **envp)
  * @param envp: the environment
  * @return int the status code of the last command
  */
-int	pipex(t_pipe **pipe_lst, char **envp)
+int	pipex(t_pipe **pipe_lst, char ***envp)
 {
 	t_fd_lst	*std_ins;
 	t_fd_lst	*pids;
@@ -99,14 +125,15 @@ int	pipex(t_pipe **pipe_lst, char **envp)
 	char		tmp;
 	int			ret;
 
-	check_exit(pipe_lst, envp);
+	if (is_built_in(pipe_lst, *envp))
+		return (run_built_in(pipe_lst, envp));
 	pids = fd_lst_new(0);
 	std_ins = fd_lst_new(0);
 	pipe = *pipe_lst;
 	ret = 0;
 	while (pipe->next)
 	{
-		tmp = launch_pipe(pipe, envp, &std_ins, &pids);
+		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
 		if (tmp)
 			error_execve(tmp, *pipe_lst, std_ins, pids);
 		pipe = pipe->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 17:47:07 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 16:14:13 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ char	no_redirect(t_pipe **tpipe, char **pipe, int index)
  * @return the error code of the last command or 0 if there was nothing but a 
  * redirect or errno if an error occured
  */
-int	execute_pipes(char ***pipes, char **envp)
+int	execute_pipes(char ***pipes, char ***envp)
 {
 	int		i;
 	int		index;
 	t_pipe	*pipe_lst;
 	t_pipe	*pipe;
 
-	pipe_lst = pipe_new(0, 0, envp);
+	pipe_lst = pipe_new(0, 0, *envp);
 	if (!pipe_lst)
 		return (clear_pipes(pipes));
 	pipe = pipe_lst;

@@ -6,17 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:36:24 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 15:59:00 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-
-char	free_return(void *str, char ret)
-{
-	free(str);
-	return (ret);
-}
 
 /**
  * @brief Print to stderr 'cmd': command not found
