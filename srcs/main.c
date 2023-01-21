@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 16:31:39 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 20:55:28 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	main(int argc, char **argv, char **env)
 		ret = 1;
 		line = ft_read_line(env);
 		if (line == NULL)
-			bin_exit(NULL);
+		{
+			ret = bin_exit(NULL, env);
+			exit(ret);
+		}
 		parse_line = parse(line, env);
 		free(line);
 		// print_command(parse_line);
@@ -51,13 +54,17 @@ int	main(int argc, char **argv, char **env)
 				perror(argv[0]);
 			check_fd_leak();
 			if (!update_ret(env, ret))
-				bin_exit (NULL);
+			{
+				ret = bin_exit (NULL, env);
+				exit(ret); // let it that way ??
+			}
 		}
 		else if (parse_line)
 			clear_pipes(parse_line);
 		else
 			printf("quote error\n");
 	}
+	printf("env error\n");
 	return (1);
 }
 

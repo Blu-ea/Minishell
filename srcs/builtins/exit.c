@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 16:21:11 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 20:52:03 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,19 @@
 	print "exit" if exit
 */
 
+int	post_exit(char **env, int ret);
 int	exit_alpha(char *temp, char **arg);
 
-int	bin_exit(char **arg)
+/**
+ * @brief Will 
+ * 
+ * @param arg: exit code
+ * @param env: enviroment 
+ * @return beteewn 0 and 255 if need to exit -1 if not || env is free if need
+ * to exit
+ */
+
+int	bin_exit(char **arg, char **env)
 {
 	int		ret;
 	char	*temp;
@@ -32,11 +42,11 @@ int	bin_exit(char **arg)
 	if (arg == NULL || !*arg)
 		printf("exit\n");
 	if (arg == NULL || !*arg)
-		exit(0);
+		return (post_exit(env, 0));
 	ret = ft_atoi(*arg);
 	temp = ft_itoa(ret);
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
-		exit(exit_alpha(temp, arg));
+		return (post_exit(env, exit_alpha(temp, arg)));
 	free(temp);
 	temp = *arg;
 	while (*arg)
@@ -46,11 +56,11 @@ int	bin_exit(char **arg)
 	{	
 		write (2, PROMT_E, ft_strlen(PROMT_E));
 		write (2, "exit: too many arguments\n", 26);
-		return (1);
+		return (-1);
 	}
 	printf("exit\n");
 	ft_clear_line();
-	exit(ret % 256);
+	return (post_exit(env, ret % 256));
 }
 
 int	exit_alpha(char *temp, char **arg)
@@ -62,6 +72,17 @@ int	exit_alpha(char *temp, char **arg)
 	write (2, ": Numeric argument required\nexit\n", 34);
 	ft_clear_line();
 	return (2);
+}
+
+int	post_exit(char **env, int ret)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+		free (env[i]);
+	free (env);
+	return (ret);
 }
 
 int	bin_pipe_exit(char **arg)

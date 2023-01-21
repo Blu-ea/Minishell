@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/19 17:12:00 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 20:50:56 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**exp_update(char **env, char *args);	//for export
 void	print_t_export(char **env);				//for export
 int		bin_unset(char **args, char ***env);			//Done
 char	**unset_del(char **env, char *arg);		//for unset
-int		bin_exit(char **args);							//Done
+int		bin_exit(char **args, char **env);							//Done
 
 /********************************/
 /*				Main			*/

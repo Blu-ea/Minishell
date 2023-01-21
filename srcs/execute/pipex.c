@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 19:13:48 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 20:24:37 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 #include <sys/wait.h>
+#include "minishell.h"
 
 /**
  * @brief Wait for all the pid in the list
@@ -51,10 +52,17 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	t_fd_lst **pids)
 {
 	t_fd_lst	*tmp;
+	char		**t_envp;
+	int			i;
 
-	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, envp, std_ins)))
+	i = -1;
+	t_envp = unset_del(ft_tabdup(envp), "?");
+	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, t_envp, std_ins)))
 		|| (*pids)->fd <= 0)
 	{
+		while (t_envp[++i])
+			free(t_envp[i]);
+		free(t_envp);
 		if ((*pids)->fd == 0)
 		{
 			tmp = (*pids)->next;
@@ -69,6 +77,9 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 		else
 			return (1);
 	}
+	while (t_envp[++i])
+		free(t_envp[i]);
+	free(t_envp);
 	return (0);
 }
 
