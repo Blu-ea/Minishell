@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/15 17:14:11 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 15:38:50 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,12 @@ char	*cd_transfo_path(char *path, char **env)
 
 char	*cd_error(int err)
 {
+	write(2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == TO_MANY_ARGS)
-		printf("%s: cd: too many arguments\n", PROMT_E);
+		write(2, " cd: too many arguments\n", 26);
 	if (err == NO_HOME)
-		printf("%s: cd: HOME not set\n", PROMT_E);
+		write(2, " cd: HOME not set\n", 20);
 	if (err == MALLOC_ERROR)
-		printf("%s: cd: Something whent wrong\n", PROMT_E);
+		write(2, " cd: Something whent wrong\n", 29);
 	return (NULL);
 }

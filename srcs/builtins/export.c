@@ -6,13 +6,14 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 18:00:55 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 16:03:50 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	ret_exp_update(int *ret);
+void	export_error(int err, char *arg);
 
 /*
 	If no args, show every variable in env (even non set one)
@@ -48,17 +49,27 @@ char	**bin_export(char **args, char ***env, int *ret)
 			new_env = env_add(new_env, args[i]);
 		if (*ret == ENV_SET || *ret == ENV_UNDIFINED)
 			new_env = exp_update(new_env, args[i]);
-		if (*ret == -1)
-			printf("%s export: Something whent wrong\n", PROMT_E);
-		if (*ret == -2)
-			printf ("%s export: `%s': not a valid identifier\n",
-				PROMT_E, args[i]);
+		export_error(*ret, args[i]);
 		i++;
 	}
 	ret_exp_update(ret);
 	if (new_env == NULL)
 		new_env = *env;
 	return (new_env);
+}
+
+void	export_error(int err, char *arg)
+{
+	if (err == -1 || err == -2)
+		write (2, PROMT_E, ft_strlen(PROMT_E));
+	if (err == -1)
+		write (2, " export: Something whent wrong\n", PROMT_E);
+	if (err == -2)
+	{
+		write (2, " export: `", 11);
+		write (2, arg, ft_strlen(arg));
+		write (2, "': not a valid identifier\n", 27);
+	}
 }
 
 void	ret_exp_update(int *ret)

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 18:01:00 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/21 16:04:22 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ int	bin_unset(char **args, char ***env)
 		set = env_is_set(*env, args[i]);
 		if (set == ENV_SET || set == ENV_UNDIFINED)
 			*env = unset_del(*env, args[i]);
-		if (set == -1)
-			printf("%s export: Something whent wrong\n", PROMT_E);
-		if (set == -2)
-			printf ("%s export: `%s': not a valid identifier\n",
-				PROMT_E, args[i]);
+		unset_error(set, args[i]);
 		if (set < 0)
 			ret = 1;
 	}
@@ -82,4 +78,18 @@ void	free_unset(char **env)
 		i++;
 	}
 	free(env);
+}
+
+void	unset_error(int err, char *arg)
+{
+	if (err == -1 || err == -2)
+		write (2, PROMT_E, ft_strlen(PROMT_E));
+	if (err == -1)
+		write (2, " export: Something whent wrong\n", PROMT_E);
+	if (err == -2)
+	{
+		write (2, " export: `", 11);
+		write (2, arg, ft_strlen(arg));
+		write (2, "': not a valid identifier\n", 27);
+	}
 }
