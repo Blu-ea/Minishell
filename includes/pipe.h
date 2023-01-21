@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 16:14:24 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 19:13:22 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void		trim_prefix(char **pipe);
 char		*add_prefix(const char *s1, char *s2);
 
 int			pipex(t_pipe **pipe_lst, char ***envp);
+
+int			is_built_in(char *cmd);
+int			run_built_in(int ret, t_pipe **pipe_lst, char ***envp,
+				char pre_pipe);
 
 int			get_redirect(char **pipe, int *fds, char ***pipes,
 				t_pipe *pipe_lst);

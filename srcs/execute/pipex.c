@@ -6,12 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 16:11:56 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 19:13:48 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
-#include "minishell.h"
 #include <sys/wait.h>
 
 /**
@@ -73,43 +72,6 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	return (0);
 }
 
-char	is_built_in(t_pipe **pipe_lst, char **envp)
-{
-	if (pipe_len(*pipe_lst) == 2)
-	{
-		if (!ft_strncmp((*pipe_lst)->args[0], "exit", 5))
-		{
-			clear_split(envp);
-			clear_pipe_lst(*pipe_lst, 1);
-			bin_exit((*pipe_lst)->args);
-		}
-		else if (!ft_strncmp((*pipe_lst)->args[0], "cd", 3))
-			return (1);
-		else if (!ft_strncmp((*pipe_lst)->args[0], "export", 7))
-			return (2);
-		else if (!ft_strncmp((*pipe_lst)->args[0], "unset", 6))
-			return (3);
-	}
-	return (0);
-}
-
-int	run_built_in(t_pipe **pipe_lst, char ***envp)
-{
-	int	ret;
-
-	ret = is_built_in(pipe_lst, *envp);
-	if (ret == 1)
-		return (bin_cd((*pipe_lst)->args + 1, *envp));
-	else if (ret == 2)
-	{
-		*envp = bin_export((*pipe_lst)->args + 1, envp, &ret);
-		return (ret);
-	}
-	else if (ret == 3)
-		return (bin_unset((*pipe_lst)->args + 1, envp));
-	return (0);
-}
-
 /**
  * @brief Launch all the command in the pipe list
  * 
@@ -125,8 +87,9 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	char		tmp;
 	int			ret;
 
-	if (is_built_in(pipe_lst, *envp))
-		return (run_built_in(pipe_lst, envp));
+	ret = is_built_in((*pipe_lst)->args[0]);
+	if (pipe_len(*pipe_lst) == 2 && ret > 0)
+		return (run_built_in(ret, pipe_lst, envp, 1));
 	pids = fd_lst_new(0);
 	std_ins = fd_lst_new(0);
 	pipe = *pipe_lst;

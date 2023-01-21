@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:31:05 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/21 19:20:30 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,33 @@ char	*get_path(char *path, char *cmd, int i)
 	return (new_path);
 }
 
+int	execute(char *path, t_pipe *pipe, char **envp, int pipefd[2])
+{
+	int	i;
+
+	i = is_built_in(pipe->args[0]);
+	if (i)
+	{
+		if (i < 0)
+			i = run_built_in(i, &pipe, &envp, 0);
+		else
+			i = 0;
+		free(pipe->args[0]);
+		pipe->args[0] = 0;
+		close(pipefd[1]);
+		exit(i);
+	}
+	if (path && path != (char *)-1)
+	{
+		i = execve(path, pipe->args, envp);
+		free(path);
+		return (i);
+	}
+	i = -(path == (char *)-1);
+	close(pipefd[1]);
+	return (i);
+}
+
 /**
  * @brief Duplicate the appropriate fd to the stdin and stdout and execute the
  * command
@@ -120,7 +147,6 @@ char	*get_path(char *path, char *cmd, int i)
  */
 int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {
-	int		i;
 	char	*path;
 
 	close(pipefd[0]);
@@ -133,17 +159,7 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	else if (pipe->next->next)
 		dup2(pipefd[1], STDOUT_FILENO);
 	path = get_path(getenv("PATH"), pipe->args[0], -1);
-	if (path && path != (char *)-1)
-	{
-		i = execve(path, pipe->args, envp);
-		free(path);
-	}
-	else
-	{
-		i = -(path == (char *)-1);
-		close(pipefd[1]);
-	}
-	return (i);
+	return (execute(path, pipe, envp, pipefd));
 }
 
 /**

@@ -63,6 +63,7 @@ OBJ_PARSING	:=	$(addprefix $(DIR_OBJS)/,$(LST_PARSING:.c=.o))
 EXECUTE		:=	execute_pipe.c\
 				fd_lst_utils.c\
 				get_redirect.c\
+				builtin_exec.c\
 				pipe_utils.c\
 				execution.c\
 				error1.c\
