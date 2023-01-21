@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 20:50:56 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/22 00:21:21 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 # define C_C_CALL 1
 # define IN_HEREDOC 2
 
+# define NOT_IN_EXIT 1
+# define IN_EXIT 0
+
 # include "parse.h"
 
 int		g_error_sig;
@@ -68,6 +71,12 @@ int		bin_unset(char **args, char ***env);			//Done
 char	**unset_del(char **env, char *arg);		//for unset
 int		bin_exit(char **args, char **env);							//Done
 
+
+
+int		bin_cd(char **path, char **env);				//Done
+char	**bin_export(char **args, char ***env, int *ret);//Done
+char	**unset_del(char **env, char *arg);		//for unset
+int		bin_pipe_exit(char **arg);				//for exit in pipes
 /********************************/
 /*				Main			*/
 /********************************/

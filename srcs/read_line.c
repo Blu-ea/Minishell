@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/19 17:12:37 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/22 00:20:28 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ char	*ft_read_line(char **env)
 	char		*line;
 	static char	*history;
 
-	if (!history)
-		history = NULL;
 	line = readline(PROMT);
 	if (line && *line && (ft_strncmp(line, history, ft_strlen(line)) \
 			|| ft_strncmp(history, line, ft_strlen(history))))
@@ -37,6 +35,7 @@ char	*ft_read_line(char **env)
 	if (history)
 		free(history);
 	history = ft_strdup(line);
+	ft_clear_line(history, NOT_IN_EXIT);
 	if (g_error_sig == C_C_CALL)
 		env = exp_update (env, "?=1");
 	g_error_sig = 0;
@@ -48,8 +47,16 @@ char	*ft_read_line(char **env)
 	return (line);
 }
 
-void	ft_clear_line(void)
+void	ft_clear_line(char *new_history, int i)
 {
-	clear_history();
-	rl_clear_history();
+	static char	*history_temp;
+
+	if (i == IN_EXIT)
+	{
+		free(history_temp);
+		clear_history();
+		rl_clear_history();
+	}
+	else 
+		history_temp = new_history;
 }
