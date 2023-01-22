@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 23:40:28 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 16:22:15 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	read_heredoc(char *str, int fd, char **env)
 {
 	char	*line;
 
+	g_error_sig = IN_HEREDOC;
 	line = NULL;
 	while (1)
 	{
@@ -82,6 +83,7 @@ void	read_heredoc(char *str, int fd, char **env)
 	}
 	if (line)
 		free(line);
+	g_error_sig = 0;
 }
 
 int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
@@ -98,13 +100,13 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 	else if (pid == 0)
 	{
 		close(pipefd[0]);
-		g_error_sig = IN_HEREDOC;
+		pipe_lst->env = unset_del(pipe_lst->env, "?");
 		read_heredoc((*str) + 1, pipefd[1], pipe_lst->env);
-		g_error_sig = 0;
 		close(pipefd[1]);
 		clear_split(pipe_lst->env);
 		clear_pipes(pipes);
 		clear_pipe_lst(pipe_lst, 0);
+		ft_clear_line(NULL, IN_EXIT);
 		exit(0);
 	}
 	close(pipefd[1]);

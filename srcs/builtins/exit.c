@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/22 00:25:33 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/22 16:18:52 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ int	exit_alpha(char *temp, char **arg);
  */
 int	bin_exit(char **arg, char **env)
 {
-	int		ret;
 	char	*temp;
 
 	if (arg == NULL || !*arg)
+	{
 		write(2, "exit\n", 6);
-	if (arg == NULL || !*arg)
+		ft_clear_line(NULL, IN_EXIT);
 		return (post_exit(env, 0));
-	ret = ft_atoi(*arg);
-	temp = ft_itoa(ret);
+	}
+	temp = ft_itoa(ft_atoi(*arg));
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
 		return (post_exit(env, exit_alpha(temp, arg)));
 	free(temp);
@@ -58,7 +58,7 @@ int	bin_exit(char **arg, char **env)
 	}
 	write(2, "exit\n", 6);
 	ft_clear_line(NULL, IN_EXIT);
-	return (post_exit(env, ret % 256));
+	return (post_exit(env, ft_atoi(temp) % 256));
 }
 
 int	exit_alpha(char *temp, char **arg)

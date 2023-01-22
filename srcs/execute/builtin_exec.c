@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:03:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 23:39:42 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 15:17:14 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	run_built_in(int ret, t_pipe **pipe_lst, char ***envp, char pre_pipe)
 		ret = bin_exit((*pipe_lst)->args + 1, *envp);
 		if (ret >= 0)
 		{
-			clear_split(*envp);
 			clear_pipe_lst(*pipe_lst, 1);
 			exit(ret);
 		}

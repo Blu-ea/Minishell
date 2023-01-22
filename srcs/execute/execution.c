@@ -6,11 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 22:03:57 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 16:21:24 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "minishell.h"
 
 /**
  * @brief Check if the command a path (begining with / or .) or dup the command
@@ -86,11 +87,10 @@ char	*get_path(char *path, char *cmd, int i)
  * was a malloc error
  * @param pipe: the pipe to execute
  * @param envp: the environment
- * @param pipefd[2]: stdin and stdout of the pipe
  * @return the error code of the execve or 0 if the command doesn't exist or -1
  * if there was a malloc error
  */
-int	execute(char *path, t_pipe *pipe, char **envp, int *pipefd)
+int	execute(char *path, t_pipe *pipe, char **envp)
 {
 	int	i;
 
@@ -98,9 +98,11 @@ int	execute(char *path, t_pipe *pipe, char **envp, int *pipefd)
 	if (i)
 	{
 		i = run_built_in(i, &pipe, &envp, 0);
-		free(pipe->args[0]);
-		pipe->args[0] = 0;
-		close(pipefd[1]);
+		if (path && path != (char *)-1)
+			free(path);
+		clear_split(envp);
+		clear_pipe_lst(pipe, 1);
+		ft_clear_line(NULL, IN_EXIT);
 		exit(i);
 	}
 	if (path && path != (char *)-1)
@@ -110,7 +112,6 @@ int	execute(char *path, t_pipe *pipe, char **envp, int *pipefd)
 		return (i);
 	}
 	i = -(path == (char *)-1);
-	close(pipefd[1]);
 	return (i);
 }
 
@@ -128,18 +129,28 @@ int	execute(char *path, t_pipe *pipe, char **envp, int *pipefd)
 int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {
 	char	*path;
+	int		ret;
 
 	close(pipefd[0]);
 	if (pipe->fd[0] != 0)
 		dup2(pipe->fd[0], STDIN_FILENO);
-	else
+	else if (*std_ins)
 		dup2((*std_ins)->fd, STDIN_FILENO);
 	if (pipe->fd[1] != 1 && pipe->next->next)
 		dup2(pipe->fd[1], STDOUT_FILENO);
 	else if (pipe->next->next)
 		dup2(pipefd[1], STDOUT_FILENO);
 	path = get_path(getenv("PATH"), pipe->args[0], -1);
-	return (execute(path, pipe, envp, pipefd));
+	ret = execute(path, pipe, envp);
+	close(pipefd[1]);
+	if (ret >= 0)
+	{
+		clear_split(envp);
+		clear_pipe_lst(pipe, 1);
+		ft_clear_line(NULL, IN_EXIT);
+		exit(ret);
+	}
+	return (ret);
 }
 
 /**
@@ -160,6 +171,7 @@ int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	pid = open_fork(pipefd, pipe);
 	if (pid == 0)
 	{
+		envp = unset_del(envp, "?");
 		return (handle_child(pipefd, pipe, envp, std_ins));
 	}
 	else if (pid == -1)

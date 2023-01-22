@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 22:22:51 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 15:55:27 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	wait_pids(t_fd_lst **pids)
 char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	t_fd_lst **pids)
 {
-	envp = unset_del(envp, "?");
 	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, envp, std_ins)))
 		|| (*pids)->fd <= 0)
 	{
@@ -68,7 +67,6 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 		else
 			return (1);
 	}
-	clear_split(envp);
 	return (0);
 }
 
@@ -90,13 +88,13 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	ret = is_built_in((*pipe_lst)->args[0]);
 	if (pipe_len(*pipe_lst) == 2 && ret > 0)
 		return (run_built_in(ret, pipe_lst, envp, 1));
-	pids = fd_lst_new(0);
-	std_ins = fd_lst_new(0);
+	pids = NULL;
+	std_ins = NULL;
 	pipe = *pipe_lst;
 	ret = 0;
 	while (pipe->next)
 	{
-		tmp = launch_pipe(pipe, ft_tabdup(*envp), &std_ins, &pids);
+		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
 		if (tmp)
 			error_execve(tmp, *pipe_lst, std_ins, pids);
 		pipe = pipe->next;

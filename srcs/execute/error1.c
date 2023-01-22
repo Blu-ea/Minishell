@@ -6,11 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 22:19:40 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/22 15:59:52 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "minishell.h"
 
 /**
  * @brief Print to stderr 'cmd': command not found
@@ -39,9 +40,9 @@ char	cmd_not_found(char *cmd)
  */
 void	error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins, t_fd_lst *pids)
 {
-	clear_split(pipe->env);
 	clear_pipe_lst(pipe, 1);
 	free_fds(std_ins, pids);
+	ft_clear_line(NULL, IN_EXIT);
 	if (ret == 1)
 		ft_exit("Error: ", 1);
 	exit(127);
