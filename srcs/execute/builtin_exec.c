@@ -60,7 +60,7 @@ int	rebin_export(char **args, char ***envp)
 int	run_built_in(int ret, t_pipe **pipe_lst, char ***envp, char pre_pipe)
 {
 	if (!pre_pipe)
-		return (in_pipe(pipe_lst, envp, ret));
+		ret = in_pipe(pipe_lst, envp, ret);
 	else if (ret == 1)
 	{
 		ret = bin_exit((*pipe_lst)->args + 1, *envp);
@@ -69,15 +69,16 @@ int	run_built_in(int ret, t_pipe **pipe_lst, char ***envp, char pre_pipe)
 			clear_pipe_lst(*pipe_lst, 1);
 			exit(ret);
 		}
-		return (-ret);
+		ret = -ret;
 	}
 	else if (ret == 2)
-		return (bin_cd((*pipe_lst)->args + 1, *envp));
+		ret = bin_cd((*pipe_lst)->args + 1, *envp);
 	else if (ret == 3)
-		return (rebin_export((*pipe_lst)->args + 1, envp));
+		ret = rebin_export((*pipe_lst)->args + 1, envp);
 	else if (ret == 4)
-		return (bin_unset((*pipe_lst)->args + 1, envp));
-	return (0);
+		ret = bin_unset((*pipe_lst)->args + 1, envp);
+	clear_pipe_lst(*pipe_lst, 1);
+	return (ret);
 }
 
 int	in_pipe(t_pipe **pipe_lst, char ***envp, int ret)
