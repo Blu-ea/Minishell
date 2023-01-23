@@ -20,7 +20,6 @@ DIR_LIBFT	:= libft
 LST_SRCS	:=	read_line.c\
 				init_env.c\
 				signal.c\
-				debug.c\
 				main.c\
 				env.c
 LST_OBJS	:=	$(LST_SRCS:.c=.o)
@@ -28,6 +27,7 @@ LST_INCS	:=	minishell.h
 LST_LIBFT	:=	libft.a
 
 BUILTIN		:=	export_update.c\
+				buildin_pipe.c\
 				print_export.c\
 				export_add.c\
 				cd_env.c\
@@ -37,8 +37,7 @@ BUILTIN		:=	export_update.c\
 				exit.c\
 				env.c\
 				pwd.c\
-				cd.c\
-				buildin_pipe.c
+				cd.c
 DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
@@ -52,7 +51,6 @@ PARSING		:=	dollar_variable.c\
 				handlers.c\
 				cut_cmd.c\
 				utils2.c\
-				debug.c\
 				utils.c\
 				parse.c\
 				exit.c
@@ -69,7 +67,6 @@ EXECUTE		:=	execute_pipe.c\
 				open_fork.c\
 				execution.c\
 				error1.c\
-				debug.c\
 				pipex.c\
 				utils.c\
 				pipe.c\
@@ -88,7 +85,7 @@ LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
 # -include $(DEPH)
 # ############################################################################ #
 CC			:=	gcc
-SANITYZE	:=	-fsanitize=address
+# SANITYZE	:=	-fsanitize=address
 CFLAGS		:=	-Wall -Wextra -g3 -Werror
 # ############################################################################ #
 # **************************************************************************** #
@@ -113,7 +110,7 @@ NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
 all : $(NAME)
 
 $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@ $(FSANITIZE)
 ifeq ($(NORMINETTE),$(NORMITEST))
 	printf "$(GREEN)Everything is ok\n$(END)"
 else
@@ -121,7 +118,7 @@ else
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD $(FSANITIZE)
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)

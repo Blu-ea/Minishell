@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:44:26 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 21:40:51 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@
 */
 
 char	**update_ret(char **env, int ret);
+char	**loop(char **env, int ret, char *line, char ***parse_line);
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*line;
-	int		ret;
-	char	***parse_line;
-
 	(void)argc;
 	(void)argv;
 	env = init_env(env);
@@ -36,33 +33,39 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, sigquit_handler);
 	while (env)
 	{
-		ret = 1;
-		line = ft_read_line(env);
-		if (line == NULL)
-		{
-			ret = bin_exit(NULL, env);
-			exit(ret);
-		}
-		parse_line = parse(line, env);
-		free(line);
-		if (parse_line && parse_line != (char ***)1 && parse_line[0][0])
-		{
-			ret = execute_pipes(parse_line, &env);
-			if (errno)
-				perror(PROMT_E);
-			if (!update_ret(env, ret))
-			{
-				ret = bin_exit (NULL, env);
-				exit(ret); // let it that way ??
-			}
-		}
-		else if (parse_line && parse_line != (char ***)1)
-			clear_pipes(parse_line);
-		else
-			ft_print_error("Quote error");
+		env = loop(env, 0, NULL, NULL);
 	}
 	ft_print_error("env error");
 	return (1);
+}
+
+char	**loop(char **env, int ret, char *line, char ***parse_line)
+{
+	ret = 1;
+	line = ft_read_line(env);
+	if (line == NULL)
+	{
+		ret = bin_exit(NULL, env);
+		exit(ret);
+	}
+	parse_line = parse(line, env);
+	free(line);
+	if (parse_line && parse_line != (char ***)1 && parse_line[0][0])
+	{
+		ret = execute_pipes(parse_line, &env);
+		if (errno)
+			perror(PROMT_E);
+		if (!update_ret(env, ret))
+		{
+			ret = bin_exit (NULL, env);
+			exit(ret);
+		}
+	}
+	else if (parse_line && parse_line != (char ***)1)
+		clear_pipes(parse_line);
+	else
+		ft_print_error("Quote error");
+	return (env);
 }
 
 char	**update_ret(char **env, int ret)

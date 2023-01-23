@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_redirect.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 20:42:41 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 21:22:23 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	open_fd(char **pipe, char c)
 	else if (c == '<')
 		return (open(pipe[0] + 1, O_RDONLY));
 	else
-		return (open(pipe[0] + 1,
-				O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, 0644));
+		return (open(pipe[0] + 1, O_WRONLY | O_CREAT | O_APPEND, 0644));
 }
 
 /**
