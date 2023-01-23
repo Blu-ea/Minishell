@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/22 15:55:27 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 18:43:45 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	if (fd_lst_add_front(pids, fd_lst_new(launch_prog(pipe, envp, std_ins)))
 		|| (*pids)->fd <= 0)
 	{
-		clear_split(envp);
 		if ((*pids)->fd == 0)
 		{
 			*pids = fd_lst_del_one(*pids);
@@ -65,7 +64,10 @@ char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 			return (cmd_not_found(pipe->args[0]));
 		}
 		else
+		{
+			clear_split(envp);
 			return (1);
+		}
 	}
 	return (0);
 }
@@ -92,7 +94,7 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	std_ins = NULL;
 	pipe = *pipe_lst;
 	ret = 0;
-	while (pipe->next)
+	while (pipe->next && pipe->args[0])
 	{
 		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
 		if (tmp)

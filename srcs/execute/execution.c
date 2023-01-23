@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/22 16:21:24 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 18:41:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	path = get_path(getenv("PATH"), pipe->args[0], -1);
 	ret = execute(path, pipe, envp);
 	close(pipefd[1]);
-	if (ret >= 0)
+	if (ret > 0)
 	{
 		clear_split(envp);
 		clear_pipe_lst(pipe, 1);

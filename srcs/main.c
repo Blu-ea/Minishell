@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 23:30:41 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 18:44:26 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			ret = execute_pipes(parse_line, &env);
 			if (errno)
-				perror(argv[0]);
+				perror(PROMT_E);
 			if (!update_ret(env, ret))
 			{
 				ret = bin_exit (NULL, env);
