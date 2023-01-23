@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:58:19 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/23 19:38:31 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <unistd.h>
 
 # define PROMT "$minishell>"
-# define PROMT_E "minishell:"
+# define PROMT_E "minishell"
 # define ENV_NOTSET 0	//Don t exist in env
 # define ENV_UNDIFINED 1//Is in env but don t have a variable(No '=' next to it)
 # define ENV_SET 2		//Is set in env with a variable (maybe empty)

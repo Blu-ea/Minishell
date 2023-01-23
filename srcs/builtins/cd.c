@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:23:07 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/23 19:38:56 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ char	*cd_error(int err)
 {
 	write(2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == TO_MANY_ARGS)
-		write(2, " cd: too many arguments\n", 25);
+		write(2, ": cd: too many arguments\n", 25);
 	if (err == NO_HOME)
-		write(2, " cd: HOME not set\n", 19);
+		write(2, ": cd: HOME not set\n", 19);
 	if (err == MALLOC_ERROR)
-		write(2, " cd: Something went wrong\n", 27);
+		write(2, ": cd: Something went wrong\n", 27);
 	return (NULL);
 }

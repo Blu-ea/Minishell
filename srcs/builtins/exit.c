@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:16:47 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/23 19:40:27 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	bin_exit(char **arg, char **env)
 	return (post_exit(env, ft_atoi(temp) % 256));
 }
 
-int	exit_alpha(char *temp, char **arg, int	pipe)
+int	exit_alpha(char *temp, char **arg, int pipe)
 {
 	free(temp);
 	write (2, PROMT_E, ft_strlen(PROMT_E));
-	write (2, " exit: ", 8);
+	write (2, ": exit: ", 8);
 	write (2, *arg, ft_strlen(*arg));
 	write (2, ": Numeric argument required\nexit\n", 34);
 	if (pipe != IN_PIPE)

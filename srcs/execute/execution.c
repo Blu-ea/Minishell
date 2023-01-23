@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 18:41:37 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 19:34:52 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*get_path(char *path, char *cmd, int i)
 	if (is_path_and_dup_access(cmd, 0))
 		return (is_path_and_dup_access(cmd, 1));
 	paths = ft_split(path, ':');
+	free(path);
 	new_path = (char *)-1;
 	while (paths && (new_path == (char *)-1 || access(new_path, F_OK)))
 	{
@@ -140,7 +141,9 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 		dup2(pipe->fd[1], STDOUT_FILENO);
 	else if (pipe->next->next)
 		dup2(pipefd[1], STDOUT_FILENO);
-	path = get_path(getenv("PATH"), pipe->args[0], -1);
+	path = env_get_value(envp, "PATH");
+	if (path)
+		path = get_path(path, pipe->args[0], -1);
 	ret = execute(path, pipe, envp);
 	close(pipefd[1]);
 	if (ret > 0)

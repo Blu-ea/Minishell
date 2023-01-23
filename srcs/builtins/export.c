@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:41:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 22:14:02 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 19:39:16 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	export_error(int err, char *arg)
 	if (err == -1 || err == -2)
 		write (2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == -1)
-		write (2, " export: Something went wrong\n", 32);
+		write (2, ": export: Something went wrong\n", 32);
 	if (err == -2)
 	{
-		write (2, " export: `", 11);
+		write (2, ": export: `", 11);
 		write (2, arg, ft_strlen(arg));
 		write (2, "': not a valid identifier\n", 27);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:00:20 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:56:50 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/23 19:38:43 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	bin_pipe_export(char **args, char ***env)
 		if (ret == -2)
 		{
 			write (2, PROMT_E, ft_strlen(PROMT_E));
-			write (2, " :export : `", 13);
+			write (2, ": export : `", 13);
 			write (2, args[i], ft_strlen(args[i]));
 			write (2, "': not a valid identifier\n", 27);
 		}
@@ -102,7 +102,7 @@ int	bin_pipe_unset(char **args, char ***env)
 		if (ret == -2)
 		{
 			write (2, PROMT_E, ft_strlen(PROMT_E));
-			write (2, " :export : `", 13);
+			write (2, ": export : `", 13);
 			write (2, args[i], ft_strlen(args[i]));
 			write (2, "': not a valid identifier\n", 27);
 		}
