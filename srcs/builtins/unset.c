@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 07:51:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 22:14:04 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 18:44:12 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	bin_unset(char **args, char ***env)
 	while (args[++i])
 	{
 		set = env_is_set(*env, args[i]);
-		if (set == ENV_SET || set == ENV_UNDIFINED)
+		if ((set == ENV_SET || set == ENV_UNDIFINED) && ft_strncmp("_", args[i],
+				ft_strlen(args[i])))
 			*env = unset_del(*env, args[i]);
 		unset_error(set, args[i]);
 		if (set < 0)

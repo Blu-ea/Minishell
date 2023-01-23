@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/22 00:25:06 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/23 18:58:19 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@
 
 # define NOT_IN_EXIT 1
 # define IN_EXIT 0
+# define NOT_IN_PIPE 1
+# define IN_PIPE 0
 
 # include "parse.h"
 
 int		g_error_sig;
 
 /********************************/
-/*				BUILTIN			*/
+/*				BUILDIN			*/
 /********************************/
 
 int		bin_cd(char **path, char **env);
@@ -71,19 +73,15 @@ int		bin_unset(char **args, char ***env);
 char	**unset_del(char **env, char *arg);
 int		bin_exit(char **args, char **env);
 
+/********************************/
+/*		for BUILDIN in pipes	*/
+/********************************/
 
+int		bin_pipe_exit(char **arg);
+int		bin_pipe_cd(char **path, char **env);
+int		bin_pipe_export(char **args, char ***env);
+int		bin_pipe_unset(char **args, char ***env);
 
-int		bin_cd(char **path, char **env);				//Done
-char	**bin_export(char **args, char ***env, int *ret);//Done
-char	**unset_del(char **env, char *arg);		//for unset
-int		bin_exit(char **args, char **env);							//Done
-
-
-
-int		bin_cd(char **path, char **env);				//Done
-char	**bin_export(char **args, char ***env, int *ret);//Done
-char	**unset_del(char **env, char *arg);		//for unset
-int		bin_pipe_exit(char **arg);				//for exit in pipes
 /********************************/
 /*				Main			*/
 /********************************/

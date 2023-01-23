@@ -37,7 +37,8 @@ BUILTIN		:=	export_update.c\
 				exit.c\
 				env.c\
 				pwd.c\
-				cd.c
+				cd.c\
+				buildin_pipe.c
 DIR_BUILTIN	:=	builtins
 LST_BUILTIN	:=	$(addprefix $(DIR_BUILTIN)/,$(BUILTIN))
 SRC_BUILTIN	:=	$(addprefix $(DIR_SRCS)/,$(LST_BUILTIN))
@@ -88,7 +89,7 @@ LIBFT		:=	$(addprefix $(DIR_LIBFT)/,$(LST_LIBFT))
 # ############################################################################ #
 CC			:=	gcc
 SANITYZE	:=	-fsanitize=address
-CFLAGS		:=	-Wall -Wextra -g3 #-Werror
+CFLAGS		:=	-Wall -Wextra -g3 -Werror
 # ############################################################################ #
 # **************************************************************************** #
 ERASE	:=	\033[2K\r
@@ -112,8 +113,7 @@ NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
 all : $(NAME)
 
 $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@ $(SANITYZE)
-
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@
 ifeq ($(NORMINETTE),$(NORMITEST))
 	printf "$(GREEN)Everything is ok\n$(END)"
 else
@@ -121,7 +121,7 @@ else
 endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD $(SANITYZE)
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD
 
 $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)
