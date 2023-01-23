@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 18:43:45 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 20:50:58 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,12 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	pids = NULL;
 	std_ins = NULL;
 	pipe = *pipe_lst;
-	ret = 0;
 	while (pipe->next && pipe->args[0])
 	{
 		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
 		if (tmp)
 			error_execve(tmp, *pipe_lst, std_ins, pids);
 		pipe = pipe->next;
-		ret++;
 	}
 	ret = wait_pids(&pids);
 	clear_pipe_lst(*pipe_lst, 1);

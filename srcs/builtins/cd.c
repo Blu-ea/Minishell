@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:38:56 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 19:51:04 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	bin_cd(char **path, char **env)
 	if (chdir(new_path) == -1)
 	{
 		ft_print_error2("cd", new_path);
+		errno = 0;
 		free(new_path);
 		free(old_path);
 		return (1);
@@ -61,8 +62,6 @@ char	*found_path(char **path, char **env)
 	if (path[0] == 0 || !ft_strncmp(path[0], "~", 2) || \
 			!ft_strncmp(path[0], "~/", 3))
 		return (cd_get_home(env));
-	if (path[1] != 0)
-		return (cd_error(TO_MANY_ARGS));
 	if (!ft_strncmp(path[0], "~/", 2))
 		return (cd_transfo_path(path[0], env));
 	return (ft_strdup(path[0]));

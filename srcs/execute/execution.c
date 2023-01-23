@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 19:34:52 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/23 21:14:32 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 		dup2(pipe->fd[0], STDIN_FILENO);
 	else if (*std_ins)
 		dup2((*std_ins)->fd, STDIN_FILENO);
-	if (pipe->fd[1] != 1 && pipe->next->next)
+	if (pipe->fd[1] != 1)
 		dup2(pipe->fd[1], STDOUT_FILENO);
 	else if (pipe->next->next)
 		dup2(pipefd[1], STDOUT_FILENO);
