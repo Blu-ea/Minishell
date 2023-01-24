@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 18:19:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 16:25:19 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 19:00:57 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "minishell.h"
+
+void	read_heredoc(char *str, int fd, char **env);
 
 void	remove_cmd(char **pipes)
 {
@@ -48,4 +51,18 @@ char	disable_pipe(t_pipe **tpipe, char **pipe)
 		return (1);
 	*tpipe = (*tpipe)->next;
 	return (0);
+}
+
+void	ft_fork_heredoc(int pipefd[2], char **str, t_pipe *pipe_lst,
+	char ***pipes)
+{
+	close(pipefd[0]);
+	pipe_lst->env = unset_del(pipe_lst->env, "?");
+	read_heredoc((*str) + 1, pipefd[1], pipe_lst->env);
+	close(pipefd[1]);
+	clear_split(pipe_lst->env);
+	clear_pipes(pipes);
+	clear_pipe_lst(pipe_lst, 0);
+	ft_clear_line(NULL, IN_EXIT);
+	exit(0);
 }

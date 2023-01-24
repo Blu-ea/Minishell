@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:38:31 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 19:25:13 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@
 
 # define C_C_CALL 1
 # define IN_HEREDOC 2
+# define LAUNCHED_HEREDOC 3
+# define IN_READLINE 4
+# define CHILD 5
 
 # define NOT_IN_EXIT 1
 # define IN_EXIT 0
@@ -109,6 +112,7 @@ char	**init_env(char **env);
 
 void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
+void	sigint_inpipe(int sig);
 
 /*  Debug  */
 

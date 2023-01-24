@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:40:46 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 18:10:53 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ char	*ft_read_line(char **env)
 	char		*line;
 	static char	*history;
 
+	if (g_error_sig == C_C_CALL)
+		env = exp_update (env, "?=1");
+	g_error_sig = IN_READLINE;
 	line = readline(PROMT);
 	if (line && *line && (ft_strncmp(line, history, ft_strlen(line)) \
 			|| ft_strncmp(history, line, ft_strlen(history))))
@@ -36,8 +39,6 @@ char	*ft_read_line(char **env)
 		free(history);
 	history = ft_strdup(line);
 	ft_clear_line(history, NOT_IN_EXIT);
-	if (g_error_sig == C_C_CALL)
-		env = exp_update (env, "?=1");
 	g_error_sig = 0;
 	if (!*line)
 	{

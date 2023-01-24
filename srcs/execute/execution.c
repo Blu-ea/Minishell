@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/24 16:23:01 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 19:26:28 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 	}
 	if (path && path != (char *)-1)
 	{
+		g_error_sig = CHILD;
 		i = execve(path, pipe->args, envp);
 		free(path);
 		return (i);

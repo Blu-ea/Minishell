@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 21:22:23 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/24 19:01:16 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include "minishell.h"
+
+void	ft_fork_heredoc(int pipefd[2], char **str, t_pipe *pipe_lst,
+			char ***pipes);
 
 /**
  * @brief Open the file name and return the file descriptor
@@ -99,19 +102,12 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 		return (1);
 	else if (pid == 0)
 	{
-		close(pipefd[0]);
-		pipe_lst->env = unset_del(pipe_lst->env, "?");
-		read_heredoc((*str) + 1, pipefd[1], pipe_lst->env);
-		close(pipefd[1]);
-		clear_split(pipe_lst->env);
-		clear_pipes(pipes);
-		clear_pipe_lst(pipe_lst, 0);
-		ft_clear_line(NULL, IN_EXIT);
-		exit(0);
+		ft_fork_heredoc(pipefd, str, pipe_lst, pipes);
 	}
 	close(pipefd[1]);
 	fds[0] = pipefd[0];
 	wait(&status);
+	g_error_sig = 0;
 	return (WEXITSTATUS(status));
 }
 
@@ -141,6 +137,7 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 				return (-1);
 			else if (p[i][1] == '<' && p[i][2] == '<')
 			{
+				g_error_sig = LAUNCHED_HEREDOC;
 				if (heredoc(p + i + 1, fds, pipes, pipe_lst))
 					return (-1);
 			}
