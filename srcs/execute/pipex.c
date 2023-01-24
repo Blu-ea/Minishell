@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 20:50:58 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 16:29:18 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	wait_pids(t_fd_lst **pids)
 	t_fd_lst	*lst;
 	int			pid;
 
-	if (!(*pids)->fd)
-		return (0);
+	if (!(*pids) || !(*pids)->fd)
+		return (1);
 	lst = (*pids);
 	waitpid(lst->fd, &pid, 0);
 	lst = lst->next;

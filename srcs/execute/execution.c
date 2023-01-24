@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/24 16:04:46 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 16:23:01 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*is_path_and_dup_access(char *str, char dup)
 		return (0);
 	}
 	str = ft_strtrim(str, " \t\n\r");
-	if (str[0] == '/' || (str[0] == '.' && str[1] == '/'))
+	if (str[0] == '/' || str[0] == '.')
 	{
 		free(str);
 		return ((char *)1);
@@ -102,7 +102,6 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 		if (path && path != (char *)-1)
 			free(path);
 		clear_split(envp);
-		clear_pipe_lst(pipe, 1);
 		ft_clear_line(NULL, IN_EXIT);
 		exit(i);
 	}
