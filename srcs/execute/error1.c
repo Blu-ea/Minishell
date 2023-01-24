@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/22 15:59:52 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 16:06:20 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @brief Print to stderr 'cmd': command not found
  * 
  * @param cmd: The command that was not found
- * @return 2
+ * @return 2 or 0 if cmd is NULL (because it souldn't be executed)
  */
 char	cmd_not_found(char *cmd)
 {

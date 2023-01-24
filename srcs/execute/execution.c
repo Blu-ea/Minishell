@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 21:14:32 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 16:04:46 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 		free(path);
 		return (i);
 	}
+	if (!path)
+		clear_split(envp);
 	i = -(path == (char *)-1);
 	return (i);
 }
