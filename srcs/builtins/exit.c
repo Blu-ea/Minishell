@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:40:27 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/24 15:45:28 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	bin_exit(char **arg, char **env)
 	{
 		write(2, "exit\n", 6);
 		ft_clear_line(NULL, IN_EXIT);
-		return (post_exit(env, 0));
+		return (post_exit(env, -1));
 	}
 	temp = ft_itoa(ft_atoi(*arg));
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
@@ -75,11 +75,22 @@ int	exit_alpha(char *temp, char **arg, int pipe)
 
 int	post_exit(char **env, int ret)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
+	if (ret == -1)
+	{
+		temp = env_get_value(env, "?");
+		ret = ft_atoi(temp);
+		if (temp)
+			free(temp);
+	}
 	i = -1;
-	while (env[++i])
-		free (env[i]);
-	free (env);
+	if (env)
+	{
+		while (env[++i])
+			free (env[i]);
+		free (env);
+	}
 	return (ret);
 }
