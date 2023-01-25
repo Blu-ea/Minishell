@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/24 15:45:28 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/25 19:19:30 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 	print "exit" if exit
 */
 
-int	post_exit(char **env, int ret);
+int	post_exit(char **env, int ret, int arg);
 int	exit_alpha(char *temp, char **arg, int pipe);
 
 /**
@@ -41,11 +41,11 @@ int	bin_exit(char **arg, char **env)
 	{
 		write(2, "exit\n", 6);
 		ft_clear_line(NULL, IN_EXIT);
-		return (post_exit(env, -1));
+		return (post_exit(env, -1, NO_ARGS));
 	}
 	temp = ft_itoa(ft_atoi(*arg));
 	if (ft_strncmp(temp, arg[0], ft_strlen(arg[0])) != 0)
-		return (post_exit(env, exit_alpha(temp, arg, NOT_IN_PIPE)));
+		return (post_exit(env, exit_alpha(temp, arg, NOT_IN_PIPE), ARGS));
 	free(temp);
 	temp = *arg;
 	while (*arg)
@@ -58,7 +58,7 @@ int	bin_exit(char **arg, char **env)
 	}
 	write(2, "exit\n", 6);
 	ft_clear_line(NULL, IN_EXIT);
-	return (post_exit(env, ft_atoi(temp) % 256));
+	return (post_exit(env, ft_atoi(*arg), ARGS));
 }
 
 int	exit_alpha(char *temp, char **arg, int pipe)
@@ -73,18 +73,21 @@ int	exit_alpha(char *temp, char **arg, int pipe)
 	return (2);
 }
 
-int	post_exit(char **env, int ret)
+int	post_exit(char **env, int ret, int arg)
 {
 	int		i;
 	char	*temp;
 
-	if (ret == -1)
+	if (arg == NO_ARGS)
 	{
 		temp = env_get_value(env, "?");
 		ret = ft_atoi(temp);
 		if (temp)
 			free(temp);
 	}
+	if (arg == ARGS)
+		while (ret <= 0)
+			ret += 256;
 	i = -1;
 	if (env)
 	{

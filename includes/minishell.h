@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/24 19:25:13 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/25 19:15:05 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # define ENV_NOTSET 0	//Don t exist in env
 # define ENV_UNDIFINED 1//Is in env but don t have a variable(No '=' next to it)
 # define ENV_SET 2		//Is set in env with a variable (maybe empty)
+
+# define NO_ARGS 0
+# define ARGS 1
 
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
