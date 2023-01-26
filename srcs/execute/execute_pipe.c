@@ -6,11 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 16:14:13 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 17:58:11 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "minishell.h"
 
 /**
  * @brief Trim the pipe and convert it to a t_pipe and add it to the list
@@ -70,12 +71,12 @@ char	no_redirect(t_pipe **tpipe, char **pipe, int index)
 	{
 		stat(pipe[index + 1] + 1, &buf);
 		if (S_ISDIR(buf.st_mode))
-			errno = 21;
+			errno = EISDIR;
 		else
-			errno = 13;
+			errno = EACCES;
 	}
 	else
-		errno = 2;
+		errno = ENOENT;
 	tmp = ft_strjoin("Redirect: ", pipe[index + 1] + 1);
 	perror(tmp);
 	free(tmp);
@@ -108,8 +109,8 @@ int	execute_pipes(char ***pipes, char ***envp)
 		index = get_redirect(pipes[i], pipe->fd, pipes, pipe_lst);
 		if (index && handle_get_red(index, pipe_lst, pipes))
 		{
-			errno = 5;
-			return (errno);
+			ft_print_error("Syntax error");
+			return (2);
 		}
 		else if (index && no_redirect(&pipe, pipes[i], index))
 			return (clear_error_pipe(pipe_lst, pipes));

@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 22:19:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 00:46:23 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 17:44:42 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ char	*get_variable(char *str)
 
 	i = 0;
 	if (str[i] && (!ft_isalpha(str[i]) || str[i] == '_'))
+	{
 		i++;
-	while (str[i] && (!ft_isalphanum(str[i]) || str[i] == '_') && i != 0)
-		i++;
+		while (str[i] && (!ft_isalphanum(str[i]) || str[i] == '_'))
+			i++;
+	}
+	else if (str[i] && !ft_isdigit(str[i]))
+		return (ft_substr(str, 0, 1));
 	if (str[0] == '?')
 		i = 1;
+	if (i == 0)
+		return (ft_strdup(""));
 	return (ft_substr(str, 0, i));
 }
 

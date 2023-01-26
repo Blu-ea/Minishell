@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/24 16:06:20 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 16:48:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,29 @@
  * @brief Print to stderr 'cmd': command not found
  * 
  * @param cmd: The command that was not found
- * @return 2 or 0 if cmd is NULL (because it souldn't be executed)
+ * @return 2 or 3 if the cmd is a directory or 0 if cmd is NULL (because it
+ * souldn't be executed)
  */
-char	cmd_not_found(char *cmd)
+char	cmd_not_found(char *cmd, int exit_code)
 {
-	if (cmd)
+	if (cmd && exit_code == 0)
 	{
+		ft_putstr_fd(PROMT_E, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		return (2);
 	}
+	else if (cmd && exit_code == -126)
+		return (3);
 	return (0);
 }
 
 /**
  * @brief Free the pipe list and exit with the error message
  * 
- * @param ret: 1 if an error occured, 2 if the command was not found
+ * @param ret: 1 if an error occured, 2 if the command was not found 3 if it is
+ * a directory
  * @param pipe: The pipe list
  * @param std_ins: The list of standard input
  * @param pids: The list of pid
@@ -44,8 +50,14 @@ void	error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins, t_fd_lst *pids)
 	free_fds(std_ins, pids);
 	ft_clear_line(NULL, IN_EXIT);
 	if (ret == 1)
-		ft_exit("Error: ", 1);
-	exit(127);
+	{
+		perror(PROMT_E);
+		exit(errno);
+	}
+	else if (ret == 2)
+		exit(127);
+	else if (ret == 3)
+		exit(126);
 }
 
 /**

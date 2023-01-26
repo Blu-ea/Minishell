@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:29:54 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 19:10:11 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 16:37:41 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ t_pipe	*pipe_new(char **args, int *fd, char **env)
 	return (new);
 }
 
-char	pipe_add_back(t_pipe **lst, t_pipe *new)
+char	pipe_add_back(t_pipe **lst, t_pipe *new_lst)
 {
 	t_pipe	*last;
 
-	if (!lst || !new)
+	if (!lst || !new_lst)
 		return (1);
 	if (!*lst)
 	{
-		*lst = new;
+		*lst = new_lst;
 		return (0);
 	}
 	last = pipe_last(*lst);
-	last->next = new;
+	last->next = new_lst;
 	return (0);
 }
 

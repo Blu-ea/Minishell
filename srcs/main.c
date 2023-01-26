@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 21:40:51 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:47:05 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**loop(char **env, int ret, char *line, char ***parse_line)
 	if (parse_line && parse_line != (char ***)1 && parse_line[0][0])
 	{
 		ret = execute_pipes(parse_line, &env);
-		if (errno)
+		if (errno && errno != 4)
 			perror(PROMT_E);
 		if (!update_ret(env, ret))
 		{
@@ -97,7 +97,7 @@ char	**update_ret(char **env, int ret)
 void	ft_print_error(char *str)
 {
 	ft_putstr_fd(PROMT_E, 2);
-	ft_putstr_fd(" ", 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	if (errno)
 	{
@@ -111,7 +111,7 @@ void	ft_print_error(char *str)
 void	ft_print_error2(char *str, char *str2)
 {
 	ft_putstr_fd(PROMT_E, 2);
-	ft_putstr_fd(" ", 2);
+	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str2, 2);

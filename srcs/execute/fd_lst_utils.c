@@ -6,23 +6,23 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:54:11 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 22:08:47 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 16:37:31 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 
-char	fd_lst_add_front(t_fd_lst **lst, t_fd_lst *new)
+char	fd_lst_add_front(t_fd_lst **lst, t_fd_lst *new_lst)
 {
-	if (!lst || !new)
+	if (!lst || !new_lst)
 		return (1);
 	if (!*lst)
 	{
-		*lst = new;
+		*lst = new_lst;
 		return (0);
 	}
-	new->next = *lst;
-	*lst = new;
+	new_lst->next = *lst;
+	*lst = new_lst;
 	return (0);
 }
 

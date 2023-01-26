@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 02:51:28 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 18:51:29 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 17:40:49 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ char	*env_get_value(char **env, char *name)
 
 	if (!env)
 		return (NULL);
+	if (!name[0])
+		return (ft_strdup("$"));
 	i = -1;
 	temp = ft_strjoin(name, "=");
 	if (!temp)

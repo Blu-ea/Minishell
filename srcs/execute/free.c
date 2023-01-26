@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 19:02:35 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/18 14:43:58 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 17:59:01 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ void	clear_pipe_lst(t_pipe *pipe, char clear_args)
  * @brief Free a split
  * 
  * @param split: The split to free
- * @return NULL
+ * @return 0
  */
-void	*clear_split(char **split)
+char	clear_split(char **split)
 {
 	int	i;
 
 	if (!split)
-		return (NULL);
+		return (0);
 	i = -1;
 	while (split[++i])
 		free(split[i]);
 	free(split);
-	return (NULL);
+	return (0);
 }
 
 /**

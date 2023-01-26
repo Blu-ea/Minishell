@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 22:54:19 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 16:36:57 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ char		disable_pipe(t_pipe **tpipe, char **pipe);
 t_pipe		*pipe_new(char **args, int *fd, char **env);
 int			pipe_len(t_pipe *lst);
 t_pipe		*pipe_last(t_pipe *lst);
-char		pipe_add_back(t_pipe **lst, t_pipe *new);
+char		pipe_add_back(t_pipe **lst, t_pipe *new_lst);
 
 /* *******************************fd_lst UTILS******************************* */
 t_fd_lst	*fd_lst_new(int fd);
-char		fd_lst_add_front(t_fd_lst **lst, t_fd_lst *new);
+char		fd_lst_add_front(t_fd_lst **lst, t_fd_lst *new_lst);
 t_fd_lst	*fd_lst_del_one(t_fd_lst *lst);
 
 /* ***********************************EXIT*********************************** */
-char		cmd_not_found(char *cmd);
+char		cmd_not_found(char *cmd, int exit_code);
 void		error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins,
 				t_fd_lst *pids);
 void		free_fds(t_fd_lst *std_in, t_fd_lst *pids);
@@ -78,7 +78,7 @@ void		ft_exit(const char *str, int exit_code);
 void		clear_pipe_lst(t_pipe *pipe, char clear_args);
 int			clear_pipe(char **pipe);
 int			clear_pipes(char ***pipe);
-void		*clear_split(char **split);
+char		clear_split(char **split);
 char		clear_error_pipe(t_pipe *pipe_lst, char ***pipes);
 
 #endif // PIPE_H
