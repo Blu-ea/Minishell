@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 12:18:10 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/19 15:59:14 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:04:01 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*join_pipe(char *new_str, char **pipe, int *i)
  * @brief Remove the spaces(2) and merge texts(0, 1)
  * 
  * @param pipe: The address of the pipe to trim
- * @return 1 if an error occured, 0 otherwise 
+ * @return 1 if an error occured or if a pipe is empty, 0 otherwise 
  */
 char	trim_pipe(char ***pipe)
 {
@@ -73,7 +73,7 @@ char	trim_pipe(char ***pipe)
 	char	**new_pipe;
 
 	new_pipe = ft_calloc(sizeof(*new_pipe), (new_pipe_len(*pipe) + 2));
-	if (!new_pipe)
+	if (!new_pipe || (!pipe[0][0] && free_return(new_pipe, 1)))
 		return (1);
 	i = 0;
 	j = -1;
@@ -83,12 +83,24 @@ char	trim_pipe(char ***pipe)
 			++i;
 		new_str = ft_strdup((*pipe)[i]);
 		new_str = join_pipe(new_str, *pipe, &i);
-		if (!new_str)
+		if (!new_str || (!new_str[0] && free_return(new_str, 1)))
 			return (clear_pipe(new_pipe));
 		new_pipe[++j] = new_str;
 	}
-	new_pipe[++j] = NULL;
+	if (!new_pipe[0] && clear_pipe(new_pipe))
+		return (1);
 	clear_pipe(*pipe);
 	*pipe = new_pipe;
 	return (0);
+}
+
+char	error_pipe(void)
+{
+	if (errno)
+	{
+		perror("Error");
+		return (1);
+	}
+	printf("parse: syntax error near unexpected token `|'\n");
+	return (1);
 }

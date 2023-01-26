@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 19:56:46 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:12:22 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,17 @@ char	**loop(char **env, int ret, char *line, char ***parse_line)
 	}
 	parse_line = parse(line, env);
 	free(line);
-	if (parse_line && parse_line != (char ***)1 && parse_line[0][0])
-	{
-		ret = execute_pipes(parse_line, &env);
-		if (errno && errno != 4)
-			perror(PROMT_E);
-		if (!update_ret(env, ret))
-		{
-			ret = bin_exit (NULL, env);
-			exit(ret);
-		}
-	}
-	else if (parse_line && parse_line != (char ***)1)
-		clear_pipes(parse_line);
+	if (!parse_line)
+		ret = 2;
 	else
-		ft_print_error("Quote error");
+		ret = execute_pipes(parse_line, &env);
+	if (errno && errno != 4)
+		perror(PROMT_E);
+	if (!update_ret(env, ret))
+	{
+		ret = bin_exit (NULL, env);
+		exit(ret);
+	}
 	return (env);
 }
 

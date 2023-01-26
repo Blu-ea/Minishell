@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/21 00:47:26 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:08:10 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ int	number_of_pipes(char **str)
 	return (ret);
 }
 
+char	**handle_single_quotes(char *str)
+{
+	int		*cutting_indexs;
+	char	**cmd;
+
+	cutting_indexs = get_index_single_quotes(str);
+	if (!cutting_indexs)
+		return (NULL);
+	cmd = cut_command(str, cutting_indexs);
+	free(cutting_indexs);
+	return (cmd);
+}
+
 /**
  * @brief Preporcessing of the command line, it will return a list of pipes,
  * each pipe is a list of commands and each command is a list of arguments that
@@ -64,23 +77,20 @@ int	number_of_pipes(char **str)
  * 
  * @param str: the command line
  * @param env: the environment
- * @return A list of pipes or NULL if there is an error or 1 if there is a quote
- * error
+ * @return A list of pipes or NULL if there is an error
  */
 char	***parse(char *str, char **env)
 {
 	char	***tmp;
 	char	**cmd;
-	int		*cutting_indexs;
 	int		i;
 
 	if (quote_error(str))
-		return ((char ***)1);
-	cutting_indexs = get_index_single_quotes(str);
-	if (!cutting_indexs)
+	{
+		ft_print_error("Error quotes not closed");
 		return (NULL);
-	cmd = cut_command(str, cutting_indexs);
-	free(cutting_indexs);
+	}
+	cmd = handle_single_quotes(str);
 	if (!cmd)
 		return (NULL);
 	if ((handle_dollar_variables(cmd, env) || handle_double_quotes(&cmd)
@@ -90,6 +100,7 @@ char	***parse(char *str, char **env)
 	tmp = split_pipes(cmd);
 	i = -1;
 	while (tmp && tmp[++i])
-		trim_pipe(tmp + i);
+		if (trim_pipe(tmp + i) && tmp && clear_pipes(tmp) && error_pipe())
+			return (NULL);
 	return (tmp);
 }

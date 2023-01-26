@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 21:29:52 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 23:59:46 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	pids = NULL;
 	std_ins = NULL;
 	pipe = *pipe_lst;
-	while (pipe->next && pipe->args[0])
+	while (pipe->next)
 	{
 		tmp = launch_pipe(pipe, *envp, &std_ins, &pids);
 		if (tmp)

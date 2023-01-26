@@ -6,37 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:39:52 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/20 23:47:40 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:01:32 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * @brief Exit the program with a message to the appropriate std, if errno is
- * set, print the error message
- * 
- * @param str: The message to print
- * @param exit_code: The exit code
- */
-void	ft_exit(const char *str, int exit_code)
-{
-	if (str && exit_code)
-	{
-		ft_putstr_fd((char *)str, 2);
-		if (errno)
-			ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
-	}
-	else if (str)
-	{
-		ft_putstr_fd((char *)str, 1);
-		if (errno)
-			ft_putstr_fd(strerror(errno), 1);
-		ft_putstr_fd("\n", 1);
-	}
-	exit(exit_code);
-}
 
 char	***clear_error_pipes(char ***pipes, char **cmd, int i)
 {
@@ -85,12 +59,11 @@ int	clear_pipes(char ***pipes)
 {
 	int	i;
 
-	i = 0;
-	while (pipes[i])
-	{
+	if (!pipes)
+		return (1);
+	i = -1;
+	while (pipes[++i])
 		clear_pipe(pipes[i]);
-		i++;
-	}
 	free(pipes);
 	if (errno)
 		return (errno);
@@ -112,5 +85,11 @@ char	**check_fail_cut_cmd(char **ret, int j)
 			return (NULL);
 		}
 	}
+	return (ret);
+}
+
+char	free_return(void *ptr, int ret)
+{
+	free(ptr);
 	return (ret);
 }

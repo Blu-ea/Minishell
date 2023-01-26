@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 16:36:57 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:03:14 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ typedef struct s_fd_lst
 	int				fd;
 	struct s_fd_lst	*next;
 }	t_fd_lst;
-
-/* **********************************DEBUG*********************************** */
-void		print_pipe_struct(t_pipe *pipe);
-void		print_command(char ***pipes);
-void		print_pipe(char	**pipe, char nl);
-void		check_fd_leak(void);
 
 /* ********************************EXECUTION********************************* */
 int			execute_pipes(char ***pipes, char ***envp);
@@ -74,7 +68,6 @@ char		cmd_not_found(char *cmd, int exit_code);
 void		error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins,
 				t_fd_lst *pids);
 void		free_fds(t_fd_lst *std_in, t_fd_lst *pids);
-void		ft_exit(const char *str, int exit_code);
 void		clear_pipe_lst(t_pipe *pipe, char clear_args);
 int			clear_pipe(char **pipe);
 int			clear_pipes(char ***pipe);
