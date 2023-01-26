@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 21:43:33 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 23:06:21 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define IN_READLINE 4
 # define CHILD 5
 # define C_C_HEREDOC 6
+# define C_BACK 7
 
 # define NOT_IN_EXIT 1
 # define IN_EXIT 0

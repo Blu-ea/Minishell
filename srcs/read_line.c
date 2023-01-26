@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 19:12:49 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:54:31 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_read_line(char **env)
 
 	if (g_error_sig == C_C_HEREDOC)
 		env = exp_update (env, "?=130");
+	if (g_error_sig == C_BACK)
+		env = exp_update (env, "?=131");
 	g_error_sig = IN_READLINE;
 	line = readline(PROMT);
 	if (line && *line && (ft_strncmp(line, history, ft_strlen(line)) \

@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 20:00:51 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/24 19:41:48 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 20:16:09 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	sigint_handler(int sig)
 	(void)sig;
 	if (g_error_sig == IN_HEREDOC)
 		exit(1);
-	if (g_error_sig == CHILD)
+	else if (g_error_sig == CHILD)
 		return ;
-	if (g_error_sig == IN_READLINE || g_error_sig == C_C_CALL)
+	else if (g_error_sig == IN_READLINE || g_error_sig == C_C_CALL)
 	{
 		rl_redisplay();
 		ft_putstr_fd("  \b\b", 2);
@@ -47,9 +47,9 @@ void	sigquit_handler(int sig)
 		ft_putstr_fd("  \b\b", 2);
 		return ;
 	}
-	if (g_error_sig == LAUNCHED_HEREDOC)
+	else if (g_error_sig == LAUNCHED_HEREDOC)
 		return ;
-	if (g_error_sig == IN_READLINE)
+	else if (g_error_sig == IN_READLINE)
 	{
 		rl_on_new_line();
 		rl_redisplay();
@@ -58,12 +58,7 @@ void	sigquit_handler(int sig)
 	else
 	{
 		rl_on_new_line();
-		ft_putstr_fd("\b\b  \b\b", 2);
+		ft_putstr_fd("Quit: 3\n", 2);
+		g_error_sig = C_BACK;
 	}
-}
-
-void	sigint_inpipe(int sig)
-{
-	(void)sig;
-	return ;
 }
