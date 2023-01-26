@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:03:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/23 19:03:52 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 18:34:38 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ int	in_pipe(t_pipe **pipe_lst, char ***envp, int ret)
 	else if (ret == -2)
 		return (bin_echo((*pipe_lst)->args + 1));
 	else if (ret == -3)
-		return (bin_pwd());
+		return (bin_pwd(*envp));
 	return (0);
 }

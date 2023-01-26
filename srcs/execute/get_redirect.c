@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:58:01 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/24 19:01:16 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:13:57 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	read_heredoc(char *str, int fd, char **env)
 	}
 	if (line)
 		free(line);
-	g_error_sig = 0;
+	if (line)
+		g_error_sig = 0;
 }
 
 int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
@@ -107,7 +108,10 @@ int	heredoc(char **str, int *fds, char ***pipes, t_pipe *pipe_lst)
 	close(pipefd[1]);
 	fds[0] = pipefd[0];
 	wait(&status);
-	g_error_sig = 0;
+	if (WEXITSTATUS(status))
+		g_error_sig = C_C_HEREDOC ;
+	else
+		g_error_sig = 0;
 	return (WEXITSTATUS(status));
 }
 
@@ -127,8 +131,8 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 
 	fds[0] = 0;
 	fds[1] = 1;
-	i = 0;
-	while (p[i])
+	i = -1;
+	while (p[++i])
 	{
 		if (p[i][0] == '3')
 		{
@@ -145,7 +149,6 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 				return (i);
 			i = remove_redirect(p, i);
 		}
-		i++;
 	}
 	return (0);
 }

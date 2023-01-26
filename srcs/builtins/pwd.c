@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 04:41:27 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/21 23:34:47 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 13:38:15 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bin_pwd(void)
+int	bin_pwd(char **env)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
+	if (path == NULL)
+		path = env_get_value(env, "PWD");
 	if (path == NULL)
 	{
 		ft_print_error("pwd");

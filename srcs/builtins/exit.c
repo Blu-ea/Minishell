@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/25 19:19:30 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 13:24:55 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ int	post_exit(char **env, int ret, int arg)
 		if (temp)
 			free(temp);
 	}
-	if (arg == ARGS)
-		while (ret <= 0)
-			ret += 256;
 	i = -1;
 	if (env)
 	{
@@ -95,5 +92,7 @@ int	post_exit(char **env, int ret, int arg)
 			free (env[i]);
 		free (env);
 	}
+	while (ret <= 0)
+		ret += 256;
 	return (ret);
 }

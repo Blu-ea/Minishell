@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/25 19:15:05 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:07:06 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define LAUNCHED_HEREDOC 3
 # define IN_READLINE 4
 # define CHILD 5
+# define C_C_HEREDOC 6
 
 # define NOT_IN_EXIT 1
 # define IN_EXIT 0
@@ -68,7 +69,7 @@ int		g_error_sig;
 int		bin_cd(char **path, char **env);
 char	*cd_error(int err);
 int		cd_update_env(char *new_path, char *old_path, char **env);
-int		bin_pwd(void);
+int		bin_pwd(char **env);
 int		bin_echo(char **args);
 int		bin_env(char **env);
 char	**bin_export(char **args, char ***env, int *ret);
