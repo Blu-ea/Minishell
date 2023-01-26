@@ -6,13 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:00:20 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:38:43 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 20:04:20 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*found_path(char **path, char **env);
 int		exit_alpha(char *temp, char **arg, int pipe);
 void	ret_exp_update(int *ret);
 
@@ -46,7 +45,7 @@ int	bin_pipe_cd(char **path, char **env)
 	char	*old_path;
 	int		ret;
 
-	new_path = found_path(path, env);
+	new_path = follow_home(*path, env, "cd");
 	if (new_path == NULL)
 		return (1);
 	old_path = getcwd(NULL, 0);

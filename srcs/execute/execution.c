@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 18:01:18 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 21:41:45 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,23 @@
  * @brief Check if the command a path (begining with / or .)
  * 
  * @param str: the command to check/dup
+ * @param env: the env to get the home path
  * @return bool if the command a path
  */
-char	is_path(char *str)
+char	is_path(char **str, char **env)
 {
 	char	*tmp;
 
-	if (!str[0])
+	if (!*str[0])
 		return (1);
-	tmp = ft_strtrim(str, " \t\n\r");
-	if (tmp && (tmp[0] == '/' || tmp[0] == '.'))
+	tmp = ft_strtrim(*str, " \t\n\r");
+	if (tmp && (tmp[0] == '/' || tmp[0] == '.' || tmp[0] == '~'))
 	{
+		if (tmp[0] == '~')
+		{
+			free(*str);
+			*str = follow_home(tmp, env, NULL);
+		}
 		free(tmp);
 		return (1);
 	}
@@ -40,17 +46,28 @@ char	is_path(char *str)
  * @brief Check if the command exist and is a file
  * 
  * @param str: the command to check
- * @return The dupped command or 0 if it doesn't exist or is not a file
+ * @return The dupped command or 0 if it doesn't exist or is not a file or -1 if
+ * an error occured or HOME is not set and it was a path with ~
  */
 char	check_access(char *str, char **cmd)
 {
-	if (!str || !str[0])
-		return (0);
-	if (str && access(str, F_OK) == 0)
+	if (!str)
 	{
+		free(*cmd);
+		return (-1);
+	}
+	if (!str[0])
+	{
+		free(*cmd);
+		return (0);
+	}
+	if (str && (access(str, F_OK) == 0 || is_built_in(str)))
+	{
+		free(*cmd);
 		*cmd = ft_strdup(str);
 		return (1);
 	}
+	free(*cmd);
 	return (0);
 }
 
@@ -59,23 +76,27 @@ char	check_access(char *str, char **cmd)
  * 
  * @param path: the address of the path variable
  * @param cmd: the command to check
+ * @param env: the environment to get $HOME
  * @return 1 if the command exist or 0 if it doesn't exist or -1 if an error
  * occured and put the full path in path
  */
-char	get_path(char **path, char *cmd, int i)
+char	get_path(char **path, char **cmd, char **env)
 {
 	char	*tmp;
 	char	*new_cmd;
 	char	**paths;
+	int		i;
 
-	if (is_path(cmd))
-		return (check_access(cmd, path));
+	if (is_path(cmd, env) || is_built_in(*cmd))
+		return (check_access(*cmd, path));
 	if (!*path)
 		return (0);
 	paths = ft_split(*path, ':');
+	free(*path);
 	if (!paths)
 		return (-1);
 	new_cmd = NULL;
+	i = -1;
 	while (paths && (new_cmd == NULL || access(new_cmd, F_OK)))
 	{
 		if (new_cmd)
@@ -84,7 +105,7 @@ char	get_path(char **path, char *cmd, int i)
 		{
 			new_cmd = ft_strjoin(paths[i], "/");
 			tmp = new_cmd;
-			new_cmd = ft_strjoin(new_cmd, cmd);
+			new_cmd = ft_strjoin(new_cmd, *cmd);
 			if (tmp)
 				free(tmp);
 		}
@@ -104,8 +125,8 @@ char	get_path(char **path, char *cmd, int i)
  * was a malloc error
  * @param pipe: the pipe to execute
  * @param envp: the environment
- * @return the error code of the execve or 0 if the command doesn't exist or
- * -256 if there was a malloc error
+ * @return -1 if execve failed or 0 if the command doesn't exist or -256 if
+ * there was a malloc error
  */
 int	execute(char *path, t_pipe *pipe, char **envp)
 {
@@ -133,14 +154,17 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 		}
 		else
 		{
-			g_error_sig = CHILD;
+			// g_error_sig = CHILD;
 			i = execve(path, pipe->args, envp);
+			clear_split(envp);
 		}
 		free(path);
 		return (i);
 	}
 	if (!path)
 		clear_split(envp);
+	else if (path != (char *)-1)
+		free(path);
 	i = -((path == (char *)-1) * 256);
 	return (i);
 }
@@ -172,8 +196,15 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	else if (pipe->next->next)
 		dup2(pipefd[1], STDOUT_FILENO);
 	path = env_get_value(envp, "PATH");
-	if (get_path(&path, pipe->args[0], -1) == 1)
+	if (get_path(&path, pipe->args, envp) == 1)
 		ret = execute(path, pipe, envp);
+	else
+		clear_split(envp);
+	if (!pipe->args[0])
+	{
+		pipe->args[0] = ft_strdup("");
+		ret = -2;
+	}
 	close(pipefd[1]);
 	return (ret);
 }

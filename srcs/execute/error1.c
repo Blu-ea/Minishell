@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 16:48:37 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 21:32:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
  * @brief Print to stderr 'cmd': command not found
  * 
  * @param cmd: The command that was not found
- * @return 2 or 3 if the cmd is a directory or 0 if cmd is NULL (because it
- * souldn't be executed)
+ * @return 1 if it is a execve error, 2 if the command was not found, 3 if it is
+ * a directory, 4 if HOME is not set and was needed, 0 if the command didn't
+ * execute
  */
 char	cmd_not_found(char *cmd, int exit_code)
 {
-	if (cmd && exit_code == 0)
+	if (cmd && exit_code == -1)
+		return (1);
+	else if (cmd && exit_code == 0)
 	{
 		ft_putstr_fd(PROMT_E, 2);
 		ft_putstr_fd(": ", 2);
@@ -30,8 +33,10 @@ char	cmd_not_found(char *cmd, int exit_code)
 		ft_putstr_fd(": command not found\n", 2);
 		return (2);
 	}
-	else if (cmd && exit_code == -126)
+	else if (cmd && (exit_code == -126))
 		return (3);
+	else if (cmd && exit_code == -2)
+		return (4);
 	return (0);
 }
 
@@ -39,7 +44,7 @@ char	cmd_not_found(char *cmd, int exit_code)
  * @brief Free the pipe list and exit with the error message
  * 
  * @param ret: 1 if an error occured, 2 if the command was not found 3 if it is
- * a directory
+ * a directory, 4 if HOME is not set and was needed
  * @param pipe: The pipe list
  * @param std_ins: The list of standard input
  * @param pids: The list of pid
@@ -49,15 +54,17 @@ void	error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins, t_fd_lst *pids)
 	clear_pipe_lst(pipe, 1);
 	free_fds(std_ins, pids);
 	ft_clear_line(NULL, IN_EXIT);
-	if (ret == 1)
+	if (ret == 2)
+		exit(127);
+	else if (ret == 3)
+		exit(126);
+	else if (ret == 4)
+		exit(1);
+	else
 	{
 		perror(PROMT_E);
 		exit(errno);
 	}
-	else if (ret == 2)
-		exit(127);
-	else if (ret == 3)
-		exit(126);
 }
 
 /**
@@ -78,13 +85,10 @@ void	free_fds(t_fd_lst *std_in, t_fd_lst *pids)
 		free(std_in);
 		std_in = temp;
 	}
-	if (pids)
+	while (pids)
 	{
-		while (pids)
-		{
-			temp = pids->next;
-			free(pids);
-			pids = temp;
-		}
+		temp = pids->next;
+		free(pids);
+		pids = temp;
 	}
 }

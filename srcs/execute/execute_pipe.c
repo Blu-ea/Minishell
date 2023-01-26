@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:37:33 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 17:58:11 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 19:06:14 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ char	handle_get_red(int index, t_pipe *pipe_lst, char ***pipes)
  */
 char	no_redirect(t_pipe **tpipe, char **pipe, int index)
 {
-	struct stat	buf;
-	char		*tmp;
-
 	if ((*tpipe)->fd[0] != 0 && (*tpipe)->fd[0] != -1)
 		close((*tpipe)->fd[0]);
 	if ((*tpipe)->fd[1] != 1 && (*tpipe)->fd[1] != -1)
@@ -68,18 +65,10 @@ char	no_redirect(t_pipe **tpipe, char **pipe, int index)
 	(*tpipe)->fd[0] = 0;
 	(*tpipe)->fd[1] = 1;
 	if (!access(pipe[index + 1] + 1, F_OK))
-	{
-		stat(pipe[index + 1] + 1, &buf);
-		if (S_ISDIR(buf.st_mode))
-			errno = EISDIR;
-		else
 			errno = EACCES;
-	}
 	else
 		errno = ENOENT;
-	tmp = ft_strjoin("Redirect: ", pipe[index + 1] + 1);
-	perror(tmp);
-	free(tmp);
+	ft_print_error(pipe[index + 1] + 1);
 	errno = 0;
 	return (disable_pipe(tpipe, pipe));
 }

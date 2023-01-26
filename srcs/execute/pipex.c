@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 16:55:47 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 21:29:52 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	wait_pids(t_fd_lst **pids)
 	lst = (*pids);
 	waitpid(lst->fd, &pid, 0);
 	lst = lst->next;
-	while (lst && lst->next)
+	while (lst)
 	{
 		waitpid(lst->fd, NULL, 0);
 		lst = lst->next;
@@ -47,7 +47,7 @@ int	wait_pids(t_fd_lst **pids)
  * @param std_ins: the list of standard input
  * @param pids: the list of pid
  * @return 1 if an error occured, 2 if the command was not found, 3 if it was a 
- * directory, 0 otherwise
+ * directory, 4 if HOME is not set and was needed, 0 otherwise
  */
 char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	t_fd_lst **pids)

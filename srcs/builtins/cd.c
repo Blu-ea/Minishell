@@ -6,16 +6,15 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/23 19:51:04 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/26 20:34:15 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-char	*found_path(char **path, char **env);
-char	*cd_get_home(char **env);
-char	*cd_transfo_path(char *path, char **env);
+char	*cd_get_home(char **env, char *name);
+char	*cd_transfo_path(char *path, char **env, char *name);
 
 /*
 	if Path empty -> go to $HOME
@@ -39,7 +38,7 @@ int	bin_cd(char **path, char **env)
 	char	*old_path;
 	int		ret;
 
-	new_path = found_path(path, env);
+	new_path = follow_home(*path, env, "cd");
 	if (new_path == NULL)
 		return (1);
 	old_path = getcwd(NULL, 0);
@@ -57,60 +56,67 @@ int	bin_cd(char **path, char **env)
 	return (ret);
 }
 
-char	*found_path(char **path, char **env)
+/**
+ * @brief follow ~ and ~/ and return the correct path
+ * 
+ * @param path: path to transform
+ * @param env: env to get $HOME
+ * @param name: name of the function or null
+ * @return The new path or NULL if error
+ */
+char	*follow_home(char *path, char **env, char *name)
 {
-	if (path[0] == 0 || !ft_strncmp(path[0], "~", 2) || \
-			!ft_strncmp(path[0], "~/", 3))
-		return (cd_get_home(env));
-	if (!ft_strncmp(path[0], "~/", 2))
-		return (cd_transfo_path(path[0], env));
-	return (ft_strdup(path[0]));
+	if (path == 0 || !ft_strncmp(path, "~", 2) || \
+			!ft_strncmp(path, "~/", 3))
+		return (cd_get_home(env, name));
+	if (!ft_strncmp(path, "~/", 2))
+		return (cd_transfo_path(path, env, name));
+	return (ft_strdup(path));
 }
 
-char	*cd_get_home(char **env)
+char	*cd_get_home(char **env, char *name)
 {
 	char	*temp;
 	char	*ret;
 
 	if (env_is_set(env, "HOME") == ENV_NOTSET)
-		return (cd_error(NO_HOME));
+		return (cd_error(NO_HOME, name));
 	if (env_is_set(env, "HOME") == ENV_UNDIFINED)
 		return (ft_strdup(""));
 	temp = env_get_value(env, "HOME");
-	ret = ft_strjoin("/", temp);
+	ret = ft_strdup(temp);
 	if (!temp || !ret)
-		return (cd_error(MALLOC_ERROR));
+		return (cd_error(MALLOC_ERROR, name));
 	free (temp);
 	return (ret);
 }
 
-char	*cd_transfo_path(char *path, char **env)
+char	*cd_transfo_path(char *path, char **env, char *name)
 {
 	char	*temp;
 	char	*ret;
 
 	if (env_is_set(env, "HOME") == ENV_NOTSET)
-		return (cd_error(NO_HOME));
+		return (cd_error(NO_HOME, name));
 	if (env_is_set(env, "HOME") == ENV_UNDIFINED)
 		return (ft_strdup(path));
 	temp = env_get_value(env, "HOME");
 	if (!temp)
-		return (cd_error(MALLOC_ERROR));
+		return (cd_error(MALLOC_ERROR, name));
 	ret = ft_strjoin(temp, path + 1);
 	free (temp);
 	if (!ret)
-		return (cd_error(MALLOC_ERROR));
+		return (cd_error(MALLOC_ERROR, name));
 	return (ret);
 }
 
-char	*cd_error(int err)
+char	*cd_error(int err, char *name)
 {
-	write(2, PROMT_E, ft_strlen(PROMT_E));
 	if (err == TO_MANY_ARGS)
-		write(2, ": cd: too many arguments\n", 25);
+		ft_print_error2(name, "too many arguments");
 	if (err == NO_HOME)
-		write(2, ": cd: HOME not set\n", 19);
+		ft_print_error2(name, "HOME not set");
 	if (err == MALLOC_ERROR)
-		write(2, ": cd: Something went wrong\n", 27);
+		ft_print_error2(name, "Something went wrong");
 	return (NULL);
 }

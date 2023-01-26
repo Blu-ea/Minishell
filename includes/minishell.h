@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 19:07:06 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 21:43:33 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,9 @@ int		g_error_sig;
 /********************************/
 
 int		bin_cd(char **path, char **env);
-char	*cd_error(int err);
+char	*cd_error(int err, char *name);
 int		cd_update_env(char *new_path, char *old_path, char **env);
+char	*follow_home(char *path, char **env, char *name);
 int		bin_pwd(char **env);
 int		bin_echo(char **args);
 int		bin_env(char **env);

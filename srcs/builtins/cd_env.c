@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 19:43:04 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/17 18:26:58 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/26 19:59:41 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	cd_update_env(char *new_path, char *old_path, char **env)
 	else if (i == 2)
 		free(env[pwd[0]]);
 	if (i != 0)
-		cd_error(MALLOC_ERROR);
+		cd_error(MALLOC_ERROR, "cd");
 	if (i != 0)
 		return (1);
 	return (0);
