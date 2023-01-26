@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:49:08 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 00:12:22 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:22:50 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ char	**update_ret(char **env, int ret)
 void	ft_print_error(char *str)
 {
 	ft_putstr_fd(PROMT_E, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(str, 2);
+	if (str)
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(str, 2);
+	}
 	if (errno)
 	{
 		ft_putstr_fd(": ", 2);

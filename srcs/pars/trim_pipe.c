@@ -6,11 +6,12 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 12:18:10 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 00:04:01 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 00:23:08 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+#include "minishell.h"
 
 char	*ft_newjoin(char *s1, const char *s2)
 {
@@ -98,9 +99,9 @@ char	error_pipe(void)
 {
 	if (errno)
 	{
-		perror("Error");
+		ft_print_error(NULL);
 		return (1);
 	}
-	printf("parse: syntax error near unexpected token `|'\n");
+	ft_print_error("syntax error near unexpected token `|'");
 	return (1);
 }
