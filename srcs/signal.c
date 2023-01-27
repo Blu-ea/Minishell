@@ -48,7 +48,7 @@ void	sigquit_handler(int sig)
 	}
 	else if (g_error_sig == LAUNCHED_HEREDOC)
 		return ;
-	else if (g_error_sig == IN_READLINE)
+	else if (g_error_sig == IN_READLINE || g_error_sig == C_C_CALL)
 	{
 		rl_on_new_line();
 		rl_redisplay();
