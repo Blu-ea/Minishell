@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 08:07:13 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 10:51:37 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 12:03:03 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 		return (0);
 	close(pipefd[1]);
 	if (fd_lst_add_front(std_ins, fd_lst_new(pipefd[0])))
-		return (-256);
+	{
+		free(pipe->args[0]);
+		pipe->args[0] = 0;
+		return (0);
+	}
 	return (pid);
 }
