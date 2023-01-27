@@ -6,40 +6,11 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 13:42:53 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 00:08:10 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 02:01:56 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	quote_error(char *str)
-{
-	while (*str)
-	{
-		if (*str == '\'')
-		{
-			str++;
-			while (*str != '\'')
-			{
-				if (*str == '\0')
-					return (1);
-				str++;
-			}
-		}
-		if (*str == '\"')
-		{
-			str++;
-			while (*str != '\"')
-			{
-				if (*str == '\0')
-					return (1);
-				str++;
-			}
-		}
-		str++;
-	}
-	return (0);
-}
 
 int	number_of_pipes(char **str)
 {
@@ -85,11 +56,8 @@ char	***parse(char *str, char **env)
 	char	**cmd;
 	int		i;
 
-	if (quote_error(str))
-	{
-		ft_print_error("Error quotes not closed");
+	if (precheck(str))
 		return (NULL);
-	}
 	cmd = handle_single_quotes(str);
 	if (!cmd)
 		return (NULL);
@@ -100,7 +68,7 @@ char	***parse(char *str, char **env)
 	tmp = split_pipes(cmd);
 	i = -1;
 	while (tmp && tmp[++i])
-		if (trim_pipe(tmp + i) && tmp && clear_pipes(tmp) && error_pipe())
+		if (trim_pipe(tmp + i) && tmp && clear_pipes(tmp))
 			return (NULL);
 	return (tmp);
 }

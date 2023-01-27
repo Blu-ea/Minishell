@@ -48,6 +48,7 @@ PARSING		:=	dollar_variable.c\
 				split_pipes.c\
 				trim_pipe.c\
 				get_index.c\
+				precheck.c\
 				handlers.c\
 				cut_cmd.c\
 				utils2.c\
@@ -103,19 +104,11 @@ UNDER	:=	\033[4m
 SUR		:=	\033[7m
 END		:=	\033[0m
 # **************************************************************************** #
-NORMITEST	=
-NORMINETTE	= $(shell norminette $(SRCS) | grep -i 'Error!')
-# **************************************************************************** #
 # ############################################################################ #
 all : $(NAME)
 
 $(NAME) : $(OBJS) Makefile $(INCS) | $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -lreadline -L$(shell brew --prefix readline)/lib -o $@ $(FSANITIZE)
-ifeq ($(NORMINETTE),$(NORMITEST))
-	printf "$(GREEN)Everything is ok\n$(END)"
-else
-	printf "$(RED)$(SUR)NORMINETTE ERROR IN MINISHELL FILES !!\n $(NORMINETTE)$(END)\n"
-endif
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c $(INCS) Makefile | $(DIR_OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(DIR_INCS) -I$(shell brew --prefix readline)/include -MMD $(FSANITIZE)
@@ -127,8 +120,6 @@ $(DIR_OBJS) :
 	mkdir -p $(DIR_OBJS)/$(DIR_EXECUTE)
 
 $(LIBFT) :
-	# git submodule update --remote --rebase $(DIR_LIBFT)
-	# printf "$(YELLOW)LIBFT IS UP TO DATE!\n$(END)$(RED)"
 	make -sC $(DIR_LIBFT)
 
 clean :

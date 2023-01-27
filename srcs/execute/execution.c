@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 21:41:45 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 01:32:48 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,16 @@ char	is_path(char **str, char **env)
 
 	if (!*str[0])
 		return (1);
-	tmp = ft_strtrim(*str, " \t\n\r");
-	if (tmp && (tmp[0] == '/' || tmp[0] == '.' || tmp[0] == '~'))
+	if (*str && (*str[0] == '/' || *str[0] == '.' || *str[0] == '~'))
 	{
-		if (tmp[0] == '~')
+		if (*str[0] == '~')
 		{
-			free(*str);
-			*str = follow_home(tmp, env, NULL);
+			tmp = *str;
+			*str = follow_home(*str, env, NULL);
+			free(tmp);
 		}
-		free(tmp);
 		return (1);
 	}
-	if (tmp)
-		free(tmp);
 	return (0);
 }
 
