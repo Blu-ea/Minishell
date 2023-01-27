@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:03:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 18:34:38 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 09:59:10 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	rebin_export(char **args, char ***envp)
 {
 	int		ret;
 
+	ret = 0;
 	*envp = bin_export(args, envp, &ret);
 	return (ret);
 }
