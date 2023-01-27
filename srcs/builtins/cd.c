@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 07:48:22 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 08:06:09 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*follow_home(char *path, char **env, char *name)
 		if (i == ENV_SET)
 			path = env_get_value(env, "OLDPWD");
 		else
-			return (cd_error(NO_OLDPWD, "cd") ,NULL);
+			return (cd_error(NO_OLDPWD, "cd"), NULL);
 		return (path);
 	}
 	return (ft_strdup(path));

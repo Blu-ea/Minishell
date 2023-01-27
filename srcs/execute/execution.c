@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 01:32:48 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 08:07:09 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 #include "minishell.h"
+
+int	ft_execve(char *path, t_pipe *pipe, char **envp);
 
 /**
  * @brief Check if the command a path (begining with / or .)
@@ -79,7 +81,6 @@ char	check_access(char *str, char **cmd)
  */
 char	get_path(char **path, char **cmd, char **env)
 {
-	char	*tmp;
 	char	*new_cmd;
 	char	**paths;
 	int		i;
@@ -99,19 +100,12 @@ char	get_path(char **path, char **cmd, char **env)
 		if (new_cmd)
 			free(new_cmd);
 		if (paths && paths[++i])
-		{
-			new_cmd = ft_strjoin(paths[i], "/");
-			tmp = new_cmd;
-			new_cmd = ft_strjoin(new_cmd, *cmd);
-			if (tmp)
-				free(tmp);
-		}
+			new_cmd = ft_strjoin_free(ft_strjoin(paths[i], "/"), *cmd, FREE_S1);
 		else if (paths)
 			return (clear_split(paths));
 	}
-	clear_split(paths);
 	*path = new_cmd;
-	return (1);
+	return (clear_split(paths), 1);
 }
 
 /**
@@ -127,8 +121,7 @@ char	get_path(char **path, char **cmd, char **env)
  */
 int	execute(char *path, t_pipe *pipe, char **envp)
 {
-	struct stat	path_stat;
-	int			i;
+	int	i;
 
 	i = is_built_in(pipe->args[0]);
 	if (i)
@@ -141,23 +134,7 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 		exit(i);
 	}
 	if (path && path != (char *)-1)
-	{
-		stat(path, &path_stat);
-		if (!S_ISREG(path_stat.st_mode))
-		{
-			errno = EISDIR;
-			ft_print_error(pipe->args[0]);
-			i = -126;
-		}
-		else
-		{
-			// g_error_sig = CHILD;
-			i = execve(path, pipe->args, envp);
-			clear_split(envp);
-		}
-		free(path);
-		return (i);
-	}
+		return (ft_execve(path, pipe, envp));
 	if (!path)
 		clear_split(envp);
 	else if (path != (char *)-1)
@@ -166,72 +143,23 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 	return (i);
 }
 
-/**
- * @brief Duplicate the appropriate fd to the stdin and stdout and execute the
- * command
- * 
- * @param pipefd[2]: stdin and stdout of the pipe
- * @param pipe: the pipe to execute
- * @param envp: the envp
- * @param std_ins: the list of the stdin to get the output of the previous pipe
- * @return the error code of the execve or 0 if the command doesn't exist or
- * -256 if there was a malloc error
- */
-int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
+int	ft_execve(char *path, t_pipe *pipe, char **envp)
 {
-	char	*path;
-	int		ret;
+	struct stat	path_stat;
+	int			i;
 
-	ret = 0;
-	close(pipefd[0]);
-	if (pipe->fd[0] != 0)
-		dup2(pipe->fd[0], STDIN_FILENO);
-	else if (*std_ins)
-		dup2((*std_ins)->fd, STDIN_FILENO);
-	if (pipe->fd[1] != 1)
-		dup2(pipe->fd[1], STDOUT_FILENO);
-	else if (pipe->next->next)
-		dup2(pipefd[1], STDOUT_FILENO);
-	path = env_get_value(envp, "PATH");
-	if (get_path(&path, pipe->args, envp) == 1)
-		ret = execute(path, pipe, envp);
+	stat(path, &path_stat);
+	if (!S_ISREG(path_stat.st_mode))
+	{
+		errno = EISDIR;
+		ft_print_error(pipe->args[0]);
+		i = -126;
+	}
 	else
+	{
+		i = execve(path, pipe->args, envp);
 		clear_split(envp);
-	if (!pipe->args[0])
-	{
-		pipe->args[0] = ft_strdup("");
-		ret = -2;
 	}
-	close(pipefd[1]);
-	return (ret);
-}
-
-/**
- * @brief Launch the program and add the stdin of the pipe to the list of stdin
- *  
- * @param pipe: the pipe to execute 
- * @param envp: the envp
- * @param std_ins: the list of the stdin to get the output of the previous pipe
- * and add the stdin of the current pipe
- * @return the pid of the child or 0 if the command doesn't exist or -256 if
- * there was a malloc error or a negative number if there was an error and the
- * absolute value is the error code of the execve
- */
-int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins)
-{
-	pid_t	pid;
-	int		pipefd[2];
-
-	pid = open_fork(pipefd, pipe);
-	if (pid == 0)
-	{
-		envp = unset_del(envp, "?");
-		return (handle_child(pipefd, pipe, envp, std_ins));
-	}
-	else if (pid == -1)
-		return (0);
-	close(pipefd[1]);
-	if (fd_lst_add_front(std_ins, fd_lst_new(pipefd[0])))
-		return (-256);
-	return (pid);
+	free(path);
+	return (i);
 }

@@ -67,6 +67,7 @@ EXECUTE		:=	execute_pipe.c\
 				pipe_utils.c\
 				open_fork.c\
 				execution.c\
+				exec_2.c\
 				error1.c\
 				pipex.c\
 				utils.c\
