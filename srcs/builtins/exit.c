@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 08:07:09 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 13:24:55 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:52:12 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	exit_alpha(char *temp, char **arg, int pipe)
 	write (2, ": Numeric argument required\nexit\n", 34);
 	if (pipe != IN_PIPE)
 		ft_clear_line(NULL, IN_EXIT);
-	return (2);
+	return (255);
 }
 
 int	post_exit(char **env, int ret, int arg)

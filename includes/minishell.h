@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 01:08:38 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:27:58 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h>
 # include <unistd.h>
 
-# define PROMT "$minishell>"
+# define PROMT "$minishell> "
 # define PROMT_E "minishell"
 # define ENV_NOTSET 0	//Don t exist in env
 # define ENV_UNDIFINED 1//Is in env but don t have a variable(No '=' next to it)
