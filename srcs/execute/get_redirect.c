@@ -143,7 +143,7 @@ int	get_redirect(char **p, int *fds, char ***pipes, t_pipe *pipe_lst)
 			{
 				g_error_sig = LAUNCHED_HEREDOC;
 				if (heredoc(p + i + 1, fds, pipes, pipe_lst))
-					return (-1);
+					return (-2);
 			}
 			else if (get_fds(p, fds, i, p[i][2]))
 				return (i);

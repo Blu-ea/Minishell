@@ -67,7 +67,7 @@ int	exit_alpha(char *temp, char **arg, int pipe)
 	write (2, PROMT_E, ft_strlen(PROMT_E));
 	write (2, ": exit: ", 8);
 	write (2, *arg, ft_strlen(*arg));
-	write (2, ": Numeric argument requiredC\n", 30);
+	write (2, ": numeric argument required\n", 30);
 	if (pipe != IN_PIPE)
 	{
 		write(2, "exit\n", 5);

@@ -43,8 +43,12 @@ char	convert_to_t_pipe(t_pipe *pipe_lst, t_pipe **pipe, char ***pipes, int i)
  */
 char	handle_get_red(int index, t_pipe *pipe_lst, char ***pipes)
 {
-	if (index == -1)
+	if (index == -1 || index == -2)
+	{
+		if (index == -1)
+			ft_print_error("Syntax error");
 		return (clear_error_pipe(pipe_lst, pipes));
+	}
 	return (0);
 }
 
@@ -98,7 +102,6 @@ int	execute_pipes(char ***pipes, char ***envp)
 		index = get_redirect(pipes[i], pipe->fd, pipes, pipe_lst);
 		if (index && handle_get_red(index, pipe_lst, pipes))
 		{
-			ft_print_error("Syntax error");
 			return (2);
 		}
 		else if (index && no_redirect(&pipe, pipes[i], index))
