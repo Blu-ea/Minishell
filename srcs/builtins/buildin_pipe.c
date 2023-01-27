@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:00:20 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 11:30:32 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 11:46:34 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	bin_pipe_exit(char **arg)
 		ft_print_error2("exit", "too many arguments");
 		return (1);
 	}
+	while (ret <= 0)
+		ret += 256;
 	return (ret % 256);
 }
 
