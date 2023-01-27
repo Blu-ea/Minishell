@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 08:07:09 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:52:40 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,13 @@ char	get_path(char **path, char **cmd, char **env)
  * @brief Check if the command is a built in and execute it or execute the
  * command
  * 
- * @param path: the path to the command or 0 if it doesn't exist or -1 if there
- * was a malloc error
+ * @param path: the path to the command or 0 if it doesn't exist or if there was
+ * an error
  * @param pipe: the pipe to execute
  * @param envp: the environment
- * @return -1 if execve failed or 0 if the command doesn't exist or -256 if
- * there was a malloc error
+ * @return 0 if the command doesn't exist or if there was a malloc error or the
+ * negative of the return value -1 of the command if it's a built in or -257 if
+ * the execve failed or -258 if the command is a directory
  */
 int	execute(char *path, t_pipe *pipe, char **envp)
 {
@@ -127,39 +128,35 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 	if (i)
 	{
 		i = run_built_in(i, &pipe, &envp, 0);
-		if (path && path != (char *)-1)
+		if (path)
 			free(path);
 		clear_split(envp);
-		ft_clear_line(NULL, IN_EXIT);
-		exit(i);
+		return (-i - 1);
 	}
-	if (path && path != (char *)-1)
+	if (path)
 		return (ft_execve(path, pipe, envp));
-	if (!path)
+	else
 		clear_split(envp);
-	else if (path != (char *)-1)
-		free(path);
-	i = -((path == (char *)-1) * 256);
-	return (i);
+	return (0);
 }
 
 int	ft_execve(char *path, t_pipe *pipe, char **envp)
 {
 	struct stat	path_stat;
-	int			i;
+	int			ret;
 
 	stat(path, &path_stat);
 	if (!S_ISREG(path_stat.st_mode))
 	{
 		errno = EISDIR;
 		ft_print_error(pipe->args[0]);
-		i = -126;
+		ret = -258;
 	}
 	else
 	{
-		i = execve(path, pipe->args, envp);
+		ret = execve(path, pipe->args, envp) * 257;
 		clear_split(envp);
 	}
 	free(path);
-	return (i);
+	return (ret);
 }

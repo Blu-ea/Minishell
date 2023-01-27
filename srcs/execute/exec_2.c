@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 08:07:13 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/27 08:11:41 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:51:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int		execute(char *path, t_pipe *pipe, char **envp);
  * @param pipe: the pipe to execute
  * @param envp: the envp
  * @param std_ins: the list of the stdin to get the output of the previous pipe
- * @return the error code of the execve or 0 if the command doesn't exist or
- * -256 if there was a malloc error
+ * @return 0 if the command doesn't exist or if there was a malloc error or the
+ * negative value of the return value of the bulitin -1 or -257 if there was a
+ * execve error
  */
 int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {
@@ -50,7 +51,7 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 	if (!pipe->args[0])
 	{
 		pipe->args[0] = ft_strdup("");
-		ret = -2;
+		ret = -259;
 	}
 	close(pipefd[1]);
 	return (ret);
@@ -63,9 +64,10 @@ int	handle_child(int *pipefd, t_pipe *pipe, char **envp, t_fd_lst **std_ins)
  * @param envp: the envp
  * @param std_ins: the list of the stdin to get the output of the previous pipe
  * and add the stdin of the current pipe
- * @return the pid of the child or 0 if the command doesn't exist or -256 if
- * there was a malloc error or a negative number if there was an error and the
- * absolute value is the error code of the execve
+ * @return the pid of the child or 0 if the command doesn't exist or if there
+ * was a malloc error or a negative number if there was an error and the
+ * absolute value is the error code of the bultin -1 or -257 if there was a
+ * execve error
  */
 int	launch_prog(t_pipe *pipe, char **envp, t_fd_lst **std_ins)
 {

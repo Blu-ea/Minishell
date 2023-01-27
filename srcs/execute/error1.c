@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/26 21:32:37 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 10:53:12 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,26 @@
  * @param cmd: The command that was not found
  * @return 1 if it is a execve error, 2 if the command was not found, 3 if it is
  * a directory, 4 if HOME is not set and was needed, 0 if the command didn't
- * execute
+ * execute or a positive number if the bultin exited
  */
 char	cmd_not_found(char *cmd, int exit_code)
 {
-	if (cmd && exit_code == -1)
-		return (1);
+	if (cmd && exit_code == -257)
+		return (-1);
 	else if (cmd && exit_code == 0)
 	{
 		ft_putstr_fd(PROMT_E, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return (2);
+		return (-2);
 	}
-	else if (cmd && (exit_code == -126))
-		return (3);
-	else if (cmd && exit_code == -2)
-		return (4);
+	else if (cmd && (exit_code == -258))
+		return (-3);
+	else if (cmd && exit_code == -259)
+		return (-4);
+	else if (cmd)
+		return (-exit_code);
 	return (0);
 }
 
@@ -54,17 +56,18 @@ void	error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins, t_fd_lst *pids)
 	clear_pipe_lst(pipe, 1);
 	free_fds(std_ins, pids);
 	ft_clear_line(NULL, IN_EXIT);
-	if (ret == 2)
-		exit(127);
-	else if (ret == 3)
-		exit(126);
-	else if (ret == 4)
-		exit(1);
-	else
+	if (ret == -1)
 	{
 		perror(PROMT_E);
 		exit(errno);
 	}
+	else if (ret == -2)
+		exit(127);
+	else if (ret == -3)
+		exit(126);
+	else if (ret == -4)
+		exit(1);
+	exit(ret + 1);
 }
 
 /**

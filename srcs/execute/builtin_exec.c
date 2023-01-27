@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 17:03:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 09:59:10 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:52:21 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	run_built_in(int ret, t_pipe **pipe_lst, char ***envp, char pre_pipe)
 		ret = rebin_export((*pipe_lst)->args + 1, envp);
 	else if (ret == 4)
 		ret = bin_unset((*pipe_lst)->args + 1, envp);
-	clear_pipe_lst(*pipe_lst, 1);
+	if (pre_pipe)
+		clear_pipe_lst(*pipe_lst, 1);
 	return (ret);
 }
 
