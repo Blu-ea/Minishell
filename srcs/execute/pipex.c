@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 14:50:32 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 15:02:32 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,23 @@
  * @param pids: List of pid
  * @return The status code of the last command
  */
-int	wait_pids(t_fd_lst **pids)
+int	wait_pids(t_fd_lst *pids)
 {
-	t_fd_lst	*lst;
+	t_fd_lst	*tmp;
 	int			pid;
 
-	if (!(*pids) || !(*pids)->fd)
+	if (!pids || !pids->fd)
 		return (0);
-	lst = (*pids);
-	waitpid(lst->fd, &pid, 0);
-	lst = lst->next;
-	while (lst)
+	tmp = pids->next;
+	waitpid(pids->fd, &pid, 0);
+	free(pids);
+	pids = tmp;
+	while (pids)
 	{
-		waitpid(lst->fd, NULL, 0);
-		lst = lst->next;
+		tmp = pids->next;
+		waitpid(pids->fd, NULL, 0);
+		free(pids);
+		pids = tmp;
 	}
 	return (WEXITSTATUS(pid));
 }
@@ -100,8 +103,8 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 			error_execve(tmp, *pipe_lst, std_ins, pids);
 		pipe = pipe->next;
 	}
-	ret = wait_pids(&pids);
+	free_fds(std_ins, 0);
+	ret = wait_pids(pids);
 	clear_pipe_lst(*pipe_lst, 1);
-	free_fds(std_ins, pids);
 	return (ret);
 }
