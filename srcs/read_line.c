@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 18:38:16 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 19:54:31 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 10:07:19 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ char	*ft_read_line(char **env)
 	char		*line;
 	static char	*history;
 
-	if (g_error_sig == C_C_HEREDOC)
+	if (g_error_sig == CHILD)
 		env = exp_update (env, "?=130");
 	if (g_error_sig == C_BACK)
 		env = exp_update (env, "?=131");
+	if (g_error_sig == C_C_HEREDOC)
+		env = exp_update (env, "?=1");
 	g_error_sig = IN_READLINE;
 	line = readline(PROMT);
 	if (line && *line && (ft_strncmp(line, history, ft_strlen(line)) \
@@ -37,8 +39,7 @@ char	*ft_read_line(char **env)
 		add_history(line);
 	else if (!line)
 		return (NULL);
-	if (history)
-		free(history);
+	free(history);
 	history = ft_strdup(line);
 	ft_clear_line(history, NOT_IN_EXIT);
 	if (g_error_sig == C_C_CALL)

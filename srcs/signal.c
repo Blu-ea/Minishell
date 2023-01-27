@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 20:00:51 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 20:16:09 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 09:48:34 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	sigint_handler(int sig)
 	(void)sig;
 	if (g_error_sig == IN_HEREDOC)
 		exit(1);
-	else if (g_error_sig == CHILD)
-		return ;
 	else if (g_error_sig == IN_READLINE || g_error_sig == C_C_CALL)
 	{
 		rl_redisplay();
@@ -31,6 +29,7 @@ void	sigint_handler(int sig)
 	}
 	else
 	{
+		g_error_sig = CHILD;
 		rl_replace_line("", 0);
 		ft_putstr_fd("  \b\b", 2);
 		rl_on_new_line();
