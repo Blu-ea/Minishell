@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 17:54:56 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 00:03:14 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 14:40:32 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char		fd_lst_add_front(t_fd_lst **lst, t_fd_lst *new_lst);
 t_fd_lst	*fd_lst_del_one(t_fd_lst *lst);
 
 /* ***********************************EXIT*********************************** */
-char		cmd_not_found(char *cmd, int exit_code);
+int			cmd_not_found(char *cmd, int exit_code);
 void		error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins,
 				t_fd_lst *pids);
 void		free_fds(t_fd_lst *std_in, t_fd_lst *pids);

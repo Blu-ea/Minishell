@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:55:22 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 10:53:12 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 14:49:37 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * a directory, 4 if HOME is not set and was needed, 0 if the command didn't
  * execute or a positive number if the bultin exited
  */
-char	cmd_not_found(char *cmd, int exit_code)
+int	cmd_not_found(char *cmd, int exit_code)
 {
 	if (cmd && exit_code == -257)
 		return (-1);
@@ -67,7 +67,7 @@ void	error_execve(char ret, t_pipe *pipe, t_fd_lst *std_ins, t_fd_lst *pids)
 		exit(126);
 	else if (ret == -4)
 		exit(1);
-	exit(ret + 1);
+	exit(ret - 1);
 }
 
 /**

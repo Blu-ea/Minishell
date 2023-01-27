@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 16:47:17 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 13:26:34 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 14:09:29 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,6 @@ int	execute(char *path, t_pipe *pipe, char **envp)
 	if (i)
 	{
 		i = run_built_in(i, &pipe, &envp, 0);
-		free(pipe->args[0]);
-		pipe->args[0] = NULL;
 		if (path)
 			free(path);
 		clear_split(envp);

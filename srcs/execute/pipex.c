@@ -6,7 +6,7 @@
 /*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 01:28:24 by jcollon           #+#    #+#             */
-/*   Updated: 2023/01/27 13:55:47 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 14:50:32 by jcollon          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	wait_pids(t_fd_lst **pids)
  * @return 1 if an error occured, 2 if the command was not found, 3 if it was a 
  * directory, 4 if HOME is not set and was needed, 0 otherwise
  */
-char	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
+int	launch_pipe(t_pipe *pipe, char **envp, t_fd_lst **std_ins,
 	t_fd_lst **pids)
 {
 	int	tmp;
@@ -84,7 +84,7 @@ int	pipex(t_pipe **pipe_lst, char ***envp)
 	t_fd_lst	*std_ins;
 	t_fd_lst	*pids;
 	t_pipe		*pipe;
-	char		tmp;
+	int			tmp;
 	int			ret;
 
 	ret = is_built_in((*pipe_lst)->args[0]);
