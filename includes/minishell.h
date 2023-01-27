@@ -6,7 +6,7 @@
 /*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 09:53:47 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 23:06:21 by amiguez          ###   ########.fr       */
+/*   Updated: 2023/01/27 01:08:38 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define TO_MANY_ARGS 1
 # define WRONG_PATH 2
 # define NO_HOME 3
+# define NO_OLDPWD 4
 # define MALLOC_ERROR 10
 
 # define C_C_CALL 1

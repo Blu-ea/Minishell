@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 06:20:54 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 20:34:15 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 07:48:22 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	bin_cd(char **path, char **env)
 	int		ret;
 
 	new_path = follow_home(*path, env, "cd");
-	if (new_path == NULL)
+	if (new_path == NULL && !ft_strncmp("-", *path, 2))
 		return (1);
 	old_path = getcwd(NULL, 0);
-	if (chdir(new_path) == -1)
+	if (ft_strncmp(new_path, "", 1) && chdir(new_path) == -1)
 	{
 		ft_print_error2("cd", new_path);
 		errno = 0;
@@ -50,9 +50,12 @@ int	bin_cd(char **path, char **env)
 		free(old_path);
 		return (1);
 	}
+	if (!ft_strncmp("-", *path, 2))
+		printf("%s\n", new_path);
 	free(new_path);
 	ret = cd_update_env(getcwd(NULL, 0), old_path, env);
-	free(old_path);
+	if (old_path)
+		free(old_path);
 	return (ret);
 }
 
@@ -66,11 +69,22 @@ int	bin_cd(char **path, char **env)
  */
 char	*follow_home(char *path, char **env, char *name)
 {
+	int	i;
+
 	if (path == 0 || !ft_strncmp(path, "~", 2) || \
 			!ft_strncmp(path, "~/", 3))
 		return (cd_get_home(env, name));
 	if (!ft_strncmp(path, "~/", 2))
 		return (cd_transfo_path(path, env, name));
+	if (!ft_strncmp("-", path, 2) && !ft_strncmp("cd", name, 2))
+	{
+		i = env_is_set(env, "OLDPWD");
+		if (i == ENV_SET)
+			path = env_get_value(env, "OLDPWD");
+		else
+			return (cd_error(NO_OLDPWD, "cd") ,NULL);
+		return (path);
+	}
 	return (ft_strdup(path));
 }
 
@@ -116,6 +130,8 @@ char	*cd_error(int err, char *name)
 		ft_print_error2(name, "too many arguments");
 	if (err == NO_HOME)
 		ft_print_error2(name, "HOME not set");
+	if (err == NO_OLDPWD)
+		ft_print_error2(name, "OLDPWD not set");
 	if (err == MALLOC_ERROR)
 		ft_print_error2(name, "Something went wrong");
 	return (NULL);
