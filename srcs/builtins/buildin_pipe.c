@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcollon <jcollon@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: amiguez <amiguez@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:00:20 by amiguez           #+#    #+#             */
-/*   Updated: 2023/01/26 20:04:20 by jcollon          ###   ########lyon.fr   */
+/*   Updated: 2023/01/27 11:30:32 by amiguez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	bin_pipe_export(char **args, char ***env)
 	int		i;
 	int		ret;
 
+	ret = 0;
 	i = 0;
 	if (!*args)
 		print_t_export(*env);
